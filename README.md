@@ -4,6 +4,8 @@ This game is baed on **djkaktus**'s SCP-1730 [SCP-1730](http://www.scp-wiki.net/
 
 This repo is a clean refresh repo of *What Happened to Site-13*, original repo which is hosted on AzureDev contains some files larger than 100MB, so I cannot directly import codes from the original repo. Besides, this repo has nearly reached 7GB that will reach the repo limitation of AzureDev, so it have to be transferred to GitHub.
 
+Old history can be found [here](https://dev.azure.com/extGOC/_git/What%20Happened%20to%20Site-13), on AzureDev.
+
 ## About This Branch
 
 Main development activity of Site-13 is on this branch.
@@ -37,3 +39,4 @@ It was replaced by FPS-All-In-One and I modified it. The original FPS controller
 ## Copyright
 
 CC BY-SA 3.0
+![CC BY-SA](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg)
