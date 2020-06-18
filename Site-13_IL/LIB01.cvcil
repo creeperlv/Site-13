@@ -1,0 +1,50 @@
++#COMMENT:
+This library is written mannually, it may contains many errors.
+It cannot use CVCILCompiler, because it used the feature 'INTERACT' which is not a standard of C#.
+Site-13 Extension Library Part01 Version: 1.00
+License: LGPL
+-#COMMENT
+ILBLOCK: 
+  ATTRIBUTE:
+    GUID:FFB724E4-9B64-4578-A90D-D851F39D80E7
+    ILVER: 1
+    FILEVER: 1
+    COMPILER: GENERIC
+    AUTHOR: Creeper Lv
+    ILTYPE: LIBRARY
+  :ENDATTR
+  REF:
+    System=GLOBAL_IL
+    CVCSystem=GLOBAL_IL
+  :ENDREF
+ILDOC:
+#COMMENT: Reserved for future use.
+	NAMESPACE:Site13
+		CLASS:Subtitle
+		  ATTRIBUTE: PUBLIC
+		  METHOD: ShowSubtitle
+		 	ATTRIBUTE: PUBLIC STATIC
+			RETURN:System:Void
+			PARAMETER:(FIELD:System:String text)
+			STARTMETHOD:
+			  STATEMENTBLOCK:
+				INTERACT: "S-13--0001" texts
+			  :ENDBLOCK
+		  :ENDMETHOD
+		:ENDCLASS
+	:ENDNAMESPACE
+	NAMESPACE:Site13:Diagnostics
+		CLASS:Debugger
+		  ATTRIBUTE: PUBLIC
+		  METHOD: Log
+			ATTRIBUTE:PUBLIC STATIC
+			RETURN:System:Void
+			PARAMETER:(FIELD:System:String Msg)
+			STARTMETHOD:
+			  STATEMENTBLOCK:
+				INTERACT: "S-13--0002" Msg
+			  :ENDBLOCK
+		  :ENDMETHOD
+		:ENDCLASS
+	:ENDNAMESPACE
+:ENDILDOC

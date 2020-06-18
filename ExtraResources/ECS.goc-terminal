@@ -1,0 +1,24 @@
+<ExternalCommands>
+    <!--Parameter:
+    DataType(=Input Scope);DataType(=Input Scope);
+    DataTypes:
+    string
+    bool usage:bool=Text1|Text2
+    -->
+    <!--
+    Operation:
+        FindAndPrintFromXML:
+            Description: Find an element by first parameter and print it.
+            Usage:FindAndPrintFromXML:<file name>=<file type>
+                file types:
+                    dataV1
+        Variable:
+            Description:Changes an inner variable.
+            Usage:Variable:<Variable name>=<A certain value or parameter>
+        Out:
+            Description:Print a message;
+            Usage:Out:<message you want to print>
+    -->
+    <ExternalCommand Command="Logs" Parameters="string" Operation="FindAndPrintFromXML:Logs.goc-data=DataV1" Description="View Local Logs"/>
+    <ExternalCommand Command="SOSSignal" Parameters="bool=on|off" Operation="Variable:SOSSignalEnabled=Parameter[1]" Description="View Local Logs"/>
+</ExternalCommands>
