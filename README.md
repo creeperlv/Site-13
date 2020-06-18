@@ -39,3 +39,4 @@ It was replaced by FPS-All-In-One and I modified it. The original FPS controller
 ## Copyright
 
 CC BY-SA 3.0
+![CC BY-SA](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg)
