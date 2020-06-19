@@ -52,6 +52,7 @@ namespace Site13Kernel.UI
         public GameObject AchievementsPresenter;
         public GameObject AchievementButton;
         public Slider FullscreenSwitch;
+        public Animator CentralAnimator;
         #endregion
 
         void SetLanguage()
@@ -92,11 +93,17 @@ namespace Site13Kernel.UI
             }
 
         }
+        IEnumerator ExitProgress()
+        {
+            yield return new WaitForSeconds(1.55f);
+            Application.Quit();
+        }
         void Start()
         {
             ExitButton.onClick.AddListener(delegate ()
             {
-                Application.Quit();
+                CentralAnimator.SetTrigger("Exit");
+                StartCoroutine(ExitProgress());
             });
             LangEFI.Run();
             SetLanguage();
