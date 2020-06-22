@@ -18,7 +18,6 @@ namespace Site13Kernel.MTF
             {
             }
         }
-        [HideInInspector]
         public bool PlayWalkSound = false;
         float timed = 0.0f;
         void Update()

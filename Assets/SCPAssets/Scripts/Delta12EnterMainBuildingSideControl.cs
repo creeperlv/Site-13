@@ -33,16 +33,16 @@ namespace Site13Kernel.Stories.Delta12
             Delta12Team[0].transform.GetChild(0).GetComponent<Animator>().enabled = true;
             PlayerCam.enabled = false;
             Delta12Team[0].transform.GetChild(0).GetComponent<Animator>().SetTrigger("WalkWithRiffle");
-            for (int i = 1; i < 5; i++)
-            {
-                Delta12Team[i].transform.GetChild(0).GetComponent<Animator>().SetTrigger("WalkWithRiffle");
-            }
-            Delta12Team[0].GetComponent<Delta12Teammate>().PlayWalkSound = true;
+            //for (int i = 1; i < 5; i++)
+            //{
+            //    Delta12Team[i].transform.GetChild(0).GetComponent<Animator>().SetTrigger("WalkWithRiffle");
+            //}
+            //Delta12Team[0].GetComponent<Delta12Teammate>().PlayWalkSound = true;
             yield return new WaitForSeconds(1f);
-            for (int i = 1; i < 5; i++)
-            {
-                Delta12Team[i].transform.GetChild(0).GetComponent<Animator>().enabled = false;
-            }
+            //for (int i = 1; i < 5; i++)
+            //{
+            //    Delta12Team[i].transform.GetChild(0).GetComponent<Animator>().enabled = false;
+            //}
             //Delta12Team[0].transform.GetChild(0).GetComponent<Animator>().enabled = true;
             //Delta12Team[0].transform.GetChild(0).GetComponent<Animator>().SetTrigger("Walk");
             yield return new WaitForSeconds(3f);
