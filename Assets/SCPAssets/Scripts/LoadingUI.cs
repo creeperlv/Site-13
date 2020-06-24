@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 namespace Site13Kernel
@@ -15,10 +17,19 @@ namespace Site13Kernel
 
         public Slider ProgressBar;
 
+        public Image Background;
+        public List<Sprite> Backgrounds;
         // Start is called before the first frame update
         void Start()
         {
-
+            try
+            {
+                var i=Random.Range(0, Backgrounds.Count);
+                Background.sprite = Backgrounds[i];
+            }
+            catch (System.Exception)
+            {
+            }
             try
             {
                 GameInfo.CurrentGame.isCurrentArrived = false;
