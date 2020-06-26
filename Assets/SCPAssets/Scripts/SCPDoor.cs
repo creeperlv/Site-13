@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Site13Kernel
@@ -6,6 +7,25 @@ namespace Site13Kernel
     public enum SecurityCredential
     {
         None, Level3, Level4, Level5
+    }
+    public enum DoorType { 
+    Old_Flat,
+    V2_Animated,
+    }
+    [Serializable]
+    public class AnimatedDoorData
+    {
+        public List<Animator> DoorAnimators;
+        public string OpenAnimatorTrigger;
+        public float OpenAnimatorTime;
+        public string OpenErrorAnimatorTrigger;
+        public float OpenErrorAnimatorTime;
+        public string CloseAnimatorTrigger;
+        public float CloseAnimatorTime;
+        public string ClosedTrigger;
+        public float CloseTime;
+        public string OpenTrigger;
+        public float OpenTime;
     }
     public class SCPDoor : SCPInteractive
     {
@@ -84,6 +104,8 @@ namespace Site13Kernel
                 }
             }
         }
+        public DoorType DoorType = DoorType.Old_Flat;
+        public AnimatedDoorData AnimationData;
         MeshRenderer disp;
         private void Start()
         {
@@ -99,9 +121,13 @@ namespace Site13Kernel
 
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
             }
+        }
+        public virtual void ApplyState(bool isOpen)
+        {
+                
         }
         public virtual IEnumerator OnOpen01()
         {
@@ -352,7 +378,7 @@ namespace Site13Kernel
                     else
                     {
                         {
-                            var probablility = Random.Range(0f, 1f);
+                            var probablility = UnityEngine.Random.Range(0f, 1f);
                             if (probablility > ErrorProbability)
                             {
                                 StartCoroutine(Open());
