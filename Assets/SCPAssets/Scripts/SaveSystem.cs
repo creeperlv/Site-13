@@ -9,7 +9,7 @@ namespace Site13Kernel
 {
     public class SaveSystem : MonoBehaviour
     {
-
+        public static int DoorSaveMethod = 1;
         public GameObject Player;
         public float[] LiftSpawnPosition = { 0, 0, 0 };
         public float[] LiftSpawnRotation = { 0, 0, 0 };
@@ -88,7 +88,6 @@ namespace Site13Kernel
                 for (int i = 0; i < DoorsCollection.childCount; i++)
                 {
                     var d = DoorsCollection.GetChild(i);
-                    
                     SCPDoorCollection[i * 2] = (d.Find("Buttons").GetChild(0).GetComponent<SCPDoor>());
                     SCPDoorCollection[i * 2 + 1] = (d.Find("Buttons").GetChild(1).GetComponent<SCPDoor>());
                 }
@@ -153,14 +152,27 @@ namespace Site13Kernel
                     try
                     {
                         //Doors
-                        List<GameObject> gameObjects = new List<GameObject>();
-                        var c = DoorsCollection.childCount;
-                        for (int i = 0; i < c; i++)
+                        if (DoorSaveMethod == 0)
                         {
-                            gameObjects.Add( DoorsCollection.GetChild(i).Find("Door1").gameObject);
-                            gameObjects.Add( DoorsCollection.GetChild(i).Find("Door2").gameObject);
+                            //Old fashion way
+                            List<GameObject> gameObjects = new List<GameObject>();
+                            var c = DoorsCollection.childCount;
+                            for (int i = 0; i < c; i++)
+                            {
+                                gameObjects.Add(DoorsCollection.GetChild(i).Find("Door1").gameObject);
+                                gameObjects.Add(DoorsCollection.GetChild(i).Find("Door2").gameObject);
+                            }
+                            SaveControlProtocol.Deserialize(gameObjects.ToArray(), TotalData, SaveControlProtocol.DataType.SCPDoor_OpenState);
+                        }else if (DoorSaveMethod == 1)
+                        {
+                            List<GameObject> gameObjects = new List<GameObject>();
+                            var c = DoorsCollection.childCount;
+                            for (int i = 0; i < c; i++)
+                            {
+                                gameObjects.Add(DoorsCollection.GetChild(i).gameObject);
+                            }
+                            SaveControlProtocol.Deserialize(gameObjects.ToArray(), TotalData, SaveControlProtocol.DataType.SCPDoor_OpenState);
                         }
-                        SaveControlProtocol.Deserialize(gameObjects.ToArray(), TotalData, SaveControlProtocol.DataType.SCPDoor_OpenState);
                     }
                     catch (System.Exception)
                     {
@@ -303,32 +315,45 @@ namespace Site13Kernel
                 TotalData = SaveControlProtocol.Merge(TotalData, temp);
             }
             {
-                List<GameObject> gameObjects = new List<GameObject>();
-                var c = DoorsCollection.childCount;
-                for (int i = 0; i < c; i++)
+                if (DoorSaveMethod == 0)
                 {
-                    gameObjects.Add(DoorsCollection.GetChild(i).Find("Door1").gameObject);
-                    gameObjects.Add(DoorsCollection.GetChild(i).Find("Door2").gameObject);
-                    //try
-                    //{
-                    //    var d1 = cd.GetChild(0);
-                    //    gameObjects.Add(d1.gameObject);
-                    //}
-                    //catch (System.Exception)
-                    //{
-                    //}
-                    //try
-                    //{
-                    //    var d2 = cd.GetChild(1);
-                    //    gameObjects.Add(d2.gameObject);
+                    List<GameObject> gameObjects = new List<GameObject>();
+                    var c = DoorsCollection.childCount;
+                    for (int i = 0; i < c; i++)
+                    {
+                        gameObjects.Add(DoorsCollection.GetChild(i).Find("Door1").gameObject);
+                        gameObjects.Add(DoorsCollection.GetChild(i).Find("Door2").gameObject);
+                        //try
+                        //{
+                        //    var d1 = cd.GetChild(0);
+                        //    gameObjects.Add(d1.gameObject);
+                        //}
+                        //catch (System.Exception)
+                        //{
+                        //}
+                        //try
+                        //{
+                        //    var d2 = cd.GetChild(1);
+                        //    gameObjects.Add(d2.gameObject);
 
-                    //}
-                    //catch (System.Exception)
-                    //{
-                    //}
+                        //}
+                        //catch (System.Exception)
+                        //{
+                        //}
+                    }
+                    var temp = SaveControlProtocol.Serialize(gameObjects.ToArray(), SaveControlProtocol.DataType.SCPDoor_OpenState);
+                    TotalData = SaveControlProtocol.Merge(TotalData, temp);
                 }
-                var temp = SaveControlProtocol.Serialize(gameObjects.ToArray(), SaveControlProtocol.DataType.SCPDoor_OpenState);
-                TotalData = SaveControlProtocol.Merge(TotalData, temp);
+                else if(DoorSaveMethod==1)
+                {
+                    List<GameObject> gameObjects = new List<GameObject>();
+                    var c = DoorsCollection.childCount;
+                    for (int i = 0; i < c; i++)
+                    {
+                        gameObjects.Add(DoorsCollection.GetChild(i).gameObject);
+                    }
+                    SaveControlProtocol.Merge(TotalData,SaveControlProtocol.Serialize(gameObjects.ToArray(), SaveControlProtocol.DataType.SCPDoor_OpenState));
+                }
             }
             {
                 //GameInfo.CurrentGame.PlayerLocation

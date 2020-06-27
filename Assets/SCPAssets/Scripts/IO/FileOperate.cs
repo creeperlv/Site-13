@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System;
 using System.Text;
+using DigitalRuby.PyroParticles;
 
 namespace Site13Kernel.IO
 {
@@ -216,10 +217,20 @@ namespace Site13Kernel.IO
                     }
                     break;
                 case DataType.SCPDoor_OpenState:
-                    for (int i = 0; i < Source.Length; i++)
+                    if (SaveSystem.DoorSaveMethod == 0)
                     {
-                        var Casted = (GameObject)Source[i];
-                        data.Add($"DoorState-{i}", "" + Casted.activeInHierarchy);
+                        for (int i = 0; i < Source.Length; i++)
+                        {
+                            var Casted = (GameObject)Source[i];
+                            data.Add($"DoorState-{i}", "" + Casted.activeInHierarchy);
+                        }
+                    }else if (SaveSystem.DoorSaveMethod == 1)
+                    {
+                        for (int i = 0; i < Source.Length; i++)
+                        {
+                            var Casted = ((GameObject)Source[i]).GetComponent<SCPDoor>();
+                            data.Add($"DoorState-{i}", Casted.GetState().ToString());
+                        }
                     }
                     break;
                 default:
@@ -357,17 +368,25 @@ namespace Site13Kernel.IO
                         if (item.Key.StartsWith("DoorState"))
                         {
                             var id = int.Parse(item.Key.Substring("DoorState-".Length));
-                            (Target[id] as GameObject).SetActive(bool.Parse(item.Value));
-                            if (!(Target[id] as GameObject).activeInHierarchy)
+                            if (SaveSystem.DoorSaveMethod == 0)
                             {
-                                try
+
+                                (Target[id] as GameObject).SetActive(bool.Parse(item.Value));
+                                if (!(Target[id] as GameObject).activeInHierarchy)
                                 {
-                                    //(Target[id] as GameObject).GetComponent<SCPBaseScript>().Start();
+                                    try
+                                    {
+                                        //(Target[id] as GameObject).GetComponent<SCPBaseScript>().Start();
+                                    }
+                                    catch (Exception eeeeee)
+                                    {
+                                        Debug.LogError("Error on running disabled script" + eeeeee.Message);
+                                    }
                                 }
-                                catch (System.Exception eeeeee)
-                                {
-                                    Debug.LogError("Error on running disabled script" + eeeeee.Message);
-                                }
+                            }
+                            else
+                            {
+                                (Target[id] as GameObject).GetComponent<SCPDoor>().ApplyState(bool.Parse(item.Value));
                             }
                         }
                     }

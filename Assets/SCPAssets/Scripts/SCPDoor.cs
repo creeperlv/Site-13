@@ -8,14 +8,20 @@ namespace Site13Kernel
     {
         None, Level3, Level4, Level5
     }
-    public enum DoorType { 
-    Old_Flat,
-    V2_Animated,
+    public enum DoorType
+    {
+        Old_Flat,
+        V2_Animated,
+    }
+    public enum DoorState
+    {
+        Close, Closing, Open, Opening
     }
     [Serializable]
     public class AnimatedDoorData
     {
         public List<Animator> DoorAnimators;
+        public DoorState CurrentState = DoorState.Close;
         public string OpenAnimatorTrigger;
         public float OpenAnimatorTime;
         public string OpenErrorAnimatorTrigger;
@@ -127,7 +133,30 @@ namespace Site13Kernel
         }
         public virtual void ApplyState(bool isOpen)
         {
-                
+
+        }
+        public virtual bool GetState()
+        {
+            if (DoorType == DoorType.Old_Flat)
+            {
+                return Door1.activeInHierarchy;
+            }
+            else
+            {
+                switch (AnimationData.CurrentState)
+                {
+                    case DoorState.Close:
+                        return true;
+                    case DoorState.Closing:
+                        return true;
+                    case DoorState.Open:
+                        return false;
+                    case DoorState.Opening:
+                        return false;
+                    default:
+                        return false;
+                }
+            }
         }
         public virtual IEnumerator OnOpen01()
         {
@@ -312,6 +341,18 @@ namespace Site13Kernel
             }
             return true;
         }
+        public virtual IEnumerator AnimatedOpen()
+        {
+            yield break;
+        }
+        public virtual IEnumerator AnimatedClose()
+        {
+            yield break;
+        }
+        public virtual IEnumerator AnimatedError()
+        {
+            yield break;
+        }
         public override IEnumerator Move()
         {
             if (IsLocked == true)
@@ -326,7 +367,7 @@ namespace Site13Kernel
                     {
                         msg = Site_13ToolLib.Globalization.Language.Language_Plot[LockMessage];
                     }
-                    catch (System.Exception)
+                    catch (Exception)
                     {
                     }
                     GameInfo.CurrentGame.PublicSubtitle.ShowSubtitle(msg);
@@ -369,23 +410,46 @@ namespace Site13Kernel
                 }
                 if (willRun == true)
                 {
-
-                    if (JudgeWhetherOpen() == true)
+                    if (DoorType== DoorType.Old_Flat)
                     {
-                        StartCoroutine(Close());
-
-                    }
-                    else
-                    {
+                        if (JudgeWhetherOpen() == true)
                         {
-                            var probablility = UnityEngine.Random.Range(0f, 1f);
-                            if (probablility > ErrorProbability)
+                            StartCoroutine(Close());
+
+                        }
+                        else
+                        {
                             {
-                                StartCoroutine(Open());
+                                var probablility = UnityEngine.Random.Range(0f, 1f);
+                                if (probablility > ErrorProbability)
+                                {
+                                    StartCoroutine(Open());
+                                }
+                                else
+                                {
+                                    StartCoroutine(Error());
+                                }
                             }
-                            else
+                        }
+                    }else if(DoorType== DoorType.V2_Animated)
+                    {
+                        if (JudgeWhetherOpen() == true)
+                        {
+                            StartCoroutine(AnimatedClose());
+
+                        }
+                        else
+                        {
                             {
-                                StartCoroutine(Error());
+                                var probablility = UnityEngine.Random.Range(0f, 1f);
+                                if (probablility > ErrorProbability)
+                                {
+                                    StartCoroutine(AnimatedOpen());
+                                }
+                                else
+                                {
+                                    StartCoroutine(AnimatedError());
+                                }
                             }
                         }
                     }
