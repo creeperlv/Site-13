@@ -29,9 +29,7 @@ namespace Site13Kernel
         public string CloseAnimatorTrigger;
         public float CloseAnimatorTime;
         public string ClosedTrigger;
-        public float CloseTime;
         public string OpenTrigger;
-        public float OpenTime;
     }
     public class SCPDoor : SCPInteractive
     {
@@ -133,7 +131,36 @@ namespace Site13Kernel
         }
         public virtual void ApplyState(bool isOpen)
         {
+            if(DoorType== DoorType.Old_Flat)
+            {
+                if (isOpen == true)
+                {
+                    Door1.SetActive(false);
+                    Door2.SetActive(false);
+                }
+                else
+                {
+                    Door1.SetActive(true);
+                    Door2.SetActive(true);
+                }
+            }else if(DoorType== DoorType.V2_Animated)
+            {
 
+                if (isOpen == true)
+                {
+                    foreach (var item in AnimationData.DoorAnimators)
+                    {
+                        item.SetTrigger(AnimationData.OpenAnimatorTrigger);
+                    }
+                }
+                else
+                {
+                    foreach (var item in AnimationData.DoorAnimators)
+                    {
+                        item.SetTrigger(AnimationData.CloseAnimatorTrigger);
+                    }
+                }
+            }
         }
         public virtual bool GetState()
         {
@@ -261,7 +288,7 @@ namespace Site13Kernel
             {
                 StartCoroutine(OnClose02());
             }
-            catch (System.Exception)
+            catch (Exception)
             {
             }
             isOperating = false;
@@ -343,14 +370,52 @@ namespace Site13Kernel
         }
         public virtual IEnumerator AnimatedOpen()
         {
+            isOperating = true;
+            {
+                //To Open trigger.
+                foreach (var item in AnimationData.DoorAnimators)
+                {
+                    item.SetTrigger(AnimationData.OpenAnimatorTrigger);
+                }
+                yield return new WaitForSeconds(AnimationData.OpenAnimatorTime);
+                foreach (var item in AnimationData.DoorAnimators)
+                {
+                    item.SetTrigger(AnimationData.OpenTrigger);
+                }
+            }
+            isOperating = false;
             yield break;
         }
         public virtual IEnumerator AnimatedClose()
         {
+            isOperating = true;
+            {
+                //To Close trigger.
+                foreach (var item in AnimationData.DoorAnimators)
+                {
+                    item.SetTrigger(AnimationData.CloseAnimatorTrigger);
+                }
+                yield return new WaitForSeconds(AnimationData.CloseAnimatorTime);
+                foreach (var item in AnimationData.DoorAnimators)
+                {
+                    item.SetTrigger(AnimationData.ClosedTrigger);
+                }
+            }
+            isOperating = false;
             yield break;
         }
         public virtual IEnumerator AnimatedError()
         {
+            isOperating = true;
+            {
+                //To Close trigger.
+                foreach (var item in AnimationData.DoorAnimators)
+                {
+                    item.SetTrigger(AnimationData.OpenErrorAnimatorTrigger);
+                }
+                yield return new WaitForSeconds(AnimationData.OpenErrorAnimatorTime);
+            }
+            isOperating = false;
             yield break;
         }
         public override IEnumerator Move()
@@ -410,7 +475,7 @@ namespace Site13Kernel
                 }
                 if (willRun == true)
                 {
-                    if (DoorType== DoorType.Old_Flat)
+                    if (DoorType == DoorType.Old_Flat)
                     {
                         if (JudgeWhetherOpen() == true)
                         {
@@ -431,7 +496,8 @@ namespace Site13Kernel
                                 }
                             }
                         }
-                    }else if(DoorType== DoorType.V2_Animated)
+                    }
+                    else if (DoorType == DoorType.V2_Animated)
                     {
                         if (JudgeWhetherOpen() == true)
                         {
