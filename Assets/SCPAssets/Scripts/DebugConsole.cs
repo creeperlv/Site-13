@@ -10,6 +10,7 @@ namespace Site13Kernel
 
     public class DebugConsole : MonoBehaviour
     {
+        public static DebugConsole currentDebugger;
         public Button CloseBtn;
         public Button HealBtn;
         public Button MakeImmortalBtn;
@@ -37,6 +38,7 @@ namespace Site13Kernel
         // Start is called before the first frame update
         void Start()
         {
+            currentDebugger = this;
             ConsoleInput.onSubmit.AddListener(ResolveCommand);
             CloseBtn.onClick.AddListener(delegate ()
             {
@@ -89,6 +91,10 @@ namespace Site13Kernel
             });
 
         }
+        public void PrintLine(string str)
+        {
+            ConsoleOutput.text += Environment.NewLine + str;
+        }
         void ResolveCommand(string s)
         {
             string cmd = s;
@@ -104,7 +110,7 @@ namespace Site13Kernel
                 switch (UnityEngine.Random.Range(0, 3))
                 {
                     case 0:
-                        ConsoleOutput.text += Environment.NewLine + "<size=28>ドララララララ！</size>";
+                        PrintLine("<size=28>ドララララララ！</size>");
                         break;
                     case 1:
                         ConsoleOutput.text += Environment.NewLine + "<size=28>DORARARARARARA!</size>";
@@ -148,20 +154,22 @@ namespace Site13Kernel
                     default:
                         break;
                 }
-            }else if (s.ToUpper() == "HIDEUI")
+            }
+            else if (s.ToUpper() == "HIDEUI")
             {
                 foreach (var item in UIObjes)
                 {
                     item.SetActive(false);
                 }
-            }else if (s.ToUpper() == "SHOWUI")
+            }
+            else if (s.ToUpper() == "SHOWUI")
             {
                 foreach (var item in UIObjes)
                 {
                     item.SetActive(true);
                 }
             }
-            else if (s.ToUpper() == "HERMIT PURPLE"||s.ToUpper() == "隐者之紫")
+            else if (s.ToUpper() == "HERMIT PURPLE" || s.ToUpper() == "隐者之紫")
             {
                 ConsoleOutput.text += Environment.NewLine + "<color=#DF20DF>Scene IDs of maps:</size>";
                 ConsoleOutput.text += Environment.NewLine + "<size=20>Section B</size>";

@@ -255,7 +255,7 @@ namespace Site13Kernel
         {
 
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0F));
-            Debug.DrawRay(ray.origin, ray.direction, Color.green, 10f);
+            //Debug.DrawRay(ray.origin, ray.direction, Color.green, 10f);
             RaycastHit hit;
             Color c = new Color(1, 1, 1);
 
