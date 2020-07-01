@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +9,7 @@ namespace Site13Kernel.DynamicScene
         public int TargetSceneID = -1;
         public string TargetSceneName = "#";
         public bool AutoLoad=false;
-        Scene Scene;
+        object FinalLoadedSceneIdentifier;
         // Start is called before the first frame update
         void Start()
         {
@@ -27,28 +26,71 @@ namespace Site13Kernel.DynamicScene
                 try
                 {
                     SceneManager.LoadScene(TargetSceneName, LoadSceneMode.Additive);
+                    FinalLoadedSceneIdentifier = TargetSceneName;
                 }
                 catch (System.Exception)
+                {
+                    try
+                    {
+                        if (TargetSceneID != -1)
+                        {
+                            SceneManager.LoadScene(TargetSceneID, LoadSceneMode.Additive);
+                            FinalLoadedSceneIdentifier = TargetSceneID;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+            else
+            {
+                try
                 {
                     if (TargetSceneID != -1)
                     {
                         SceneManager.LoadScene(TargetSceneID, LoadSceneMode.Additive);
+                        FinalLoadedSceneIdentifier = TargetSceneID;
                     }
+                }
+                catch (Exception)
+                {
                 }
             }
         }
-        // Update is called once per frame
-        void Update()
+        void UnloadScene()
         {
-
+            try
+            {
+                if (FinalLoadedSceneIdentifier is string)
+                {
+                    SceneManager.UnloadSceneAsync((string)FinalLoadedSceneIdentifier);
+                }
+                else if (FinalLoadedSceneIdentifier is int)
+                {
+                    SceneManager.UnloadSceneAsync((int)FinalLoadedSceneIdentifier);
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
         private void OnTriggerEnter(Collider other)
         {
-            
+            if (other.gameObject.GetComponent<SCPFirstController>() != null)
+            {
+                if (FinalLoadedSceneIdentifier == null)
+                {
+                    LoadTargetScene();
+                }
+            }
         }
         private void OnTriggerExit(Collider other)
         {
-            
+            if (other.gameObject.GetComponent<SCPFirstController>() != null)
+            {
+                UnloadScene();
+            }
         }
     }
 
