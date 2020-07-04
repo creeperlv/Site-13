@@ -9,9 +9,9 @@ namespace Site13Kernel.Experimentals.OoD.V1
     {
         public static bool ContinueCheck = true;
         public static Task CheckTask;
-        static List<SCPOoDV1> OoDs = new List<SCPOoDV1>();
-        static List<Vector3> LOoDs = new List<Vector3>();
-        static List<bool> CheckedVisibility = new List<bool>();
+        static Dictionary<string, List<SCPOoDV1>> OoDs = new Dictionary<string, List<SCPOoDV1>>();
+        static Dictionary<string, List<Vector3>> LOoDs = new Dictionary<string, List<Vector3>>();
+        static Dictionary<string, List<bool>> CheckedVisibility = new Dictionary<string, List<bool>>();
         public float MinUpdateTime = 1f;
         static string TaskID = "";
         void Start()
@@ -19,13 +19,16 @@ namespace Site13Kernel.Experimentals.OoD.V1
             ContinueCheck = false;
             TaskID = System.Guid.NewGuid().ToString();
             GameInfo.CurrentGame.CurrentOoDManager = this;
-            OoDs = GameObject.FindObjectsOfType<SCPOoDV1>().ToList();
-            LOoDs = Site_13ToolLib.Data.CollectionTool.GenerateList<Vector3>(OoDs.Count, Vector3.zero);
-            for (int i = 0; i < OoDs.Count; i++)
+            OoDs.Add("MainScene", GameObject.FindObjectsOfType<SCPOoDV1>().ToList());
+            LOoDs.Add("MainScene", Site_13ToolLib.Data.CollectionTool.GenerateList<Vector3>(OoDs["MainScene"].Count, Vector3.zero));
+            foreach (var item in OoDs)
             {
-                LOoDs[i] = OoDs[i].transform.position;
+                for (int i = 0; i < item.Value.Count; i++)
+                {
+                    LOoDs["MainScene"][i] = OoDs["MainScene"][i].transform.position;
+                }
             }
-            CheckedVisibility = Site_13ToolLib.Data.CollectionTool.GenerateList<bool>(OoDs.Count, true);
+            CheckedVisibility.Add("MainScene", Site_13ToolLib.Data.CollectionTool.GenerateList<bool>(OoDs["MainScene"].Count, true));
             CheckTask = Task.Run(async () => await CheckMethod(TaskID));
             Player = GameInfo.CurrentGame.FirstPerson.transform.position;
         }
@@ -41,16 +44,19 @@ namespace Site13Kernel.Experimentals.OoD.V1
                     {
                         if (Player != Vector3.zero)
                         {
-                            for (int i = 0; i < OoDs.Count; i++)
+                            foreach (var item in OoDs)
                             {
+                                for (int i = 0; i < item.Value.Count; i++)
+                                {
 
-                                if (Vector3.Distance(LOoDs[i], Player) > OoDs[i].ViewDistance)
-                                {
-                                    CheckedVisibility[i] = false;
-                                }
-                                else
-                                {
-                                    CheckedVisibility[i] = true;
+                                    if (Vector3.Distance(LOoDs[item.Key][i], Player) > OoDs[item.Key][i].ViewDistance)
+                                    {
+                                        CheckedVisibility[item.Key][i] = false;
+                                    }
+                                    else
+                                    {
+                                        CheckedVisibility[item.Key][i] = true;
+                                    }
                                 }
                             }
                         }
@@ -74,15 +80,19 @@ namespace Site13Kernel.Experimentals.OoD.V1
         float deltaTime = 0.0f;
         void ApplyOoD()
         {
-            for (int i = 0; i < OoDs.Count; i++)
+            foreach (var item in OoDs)
             {
-                if (OoDs[i].gameObject.activeSelf != CheckedVisibility[i])
+
+                for (int i = 0; i < item.Value.Count; i++)
                 {
-                    OoDs[i].gameObject.SetActive(CheckedVisibility[i]);
+                    if (OoDs[item.Key][i].gameObject.activeSelf != CheckedVisibility[item.Key][i])
+                    {
+                        OoDs[item.Key][i].gameObject.SetActive(CheckedVisibility[item.Key][i]);
+                    }
                 }
             }
         }
-      
+
         void Update()
         {
             deltaTime += Time.unscaledDeltaTime;
