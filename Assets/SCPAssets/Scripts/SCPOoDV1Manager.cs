@@ -19,8 +19,8 @@ namespace Site13Kernel.Experimentals.OoD.V1
             ContinueCheck = false;
             TaskID = System.Guid.NewGuid().ToString();
             GameInfo.CurrentGame.CurrentOoDManager = this;
-            OoDs.Add("MainScene", GameObject.FindObjectsOfType<SCPOoDV1>().ToList());
-            LOoDs.Add("MainScene", Site_13ToolLib.Data.CollectionTool.GenerateList<Vector3>(OoDs["MainScene"].Count, Vector3.zero));
+            OoDs.Add("MainScene", FindObjectsOfType<SCPOoDV1>().ToList());
+            LOoDs.Add("MainScene", Site_13ToolLib.Data.CollectionTool.GenerateList(OoDs["MainScene"].Count, Vector3.zero));
             foreach (var item in OoDs)
             {
                 for (int i = 0; i < item.Value.Count; i++)
