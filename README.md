@@ -32,11 +32,12 @@ Then download the whole source code. You can start your own build.
 
 It's to hard to make an IL on my own, old one is back with much more powerful and new APIs.
 
-## Replaced original thrid-party FPS controller
+## Replaced old thrid-party FPS controller
 
-It was replaced by FPS-All-In-One and I modified it. The original FPS controller is to buggy and old.
+It was replaced by ~~FPS-All-In-One and I modified it~~ a self-made FPS controller, it is cleaner and more suitable for this game. The old FPS controller is to buggy and old, the one from FPS-All-In-One is also old and too heavy.
 
 ## Copyright
 
 CC BY-SA 3.0
+
 ![CC BY-SA](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg)
