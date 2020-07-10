@@ -6,6 +6,10 @@ This repo is a clean refresh repo of *What Happened to Site-13*, original repo w
 
 Old history can be found [here](https://dev.azure.com/extGOC/_git/What%20Happened%20to%20Site-13), on AzureDev.
 
+## ⚠Some assets are from internet
+
+Some assets are collected from some Third-party website, there must be some copyright problems, if it offend you, please contact me to delete it.
+
 ## About This Branch
 
 Main development activity of Site-13 is on this branch.
