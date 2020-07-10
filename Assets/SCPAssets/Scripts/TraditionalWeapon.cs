@@ -9,7 +9,7 @@ using UnityEngine.UI;
 namespace Site13Kernel.Weapon
 {
 
-    public class TraditionalWeapon : MonoBehaviour
+    public class TraditionalWeapon : MonoBehaviour, IHandItem
     {
         public bool isHoldingByPlayer = false;
         public GameObject PrimaryShell;
@@ -46,6 +46,7 @@ namespace Site13Kernel.Weapon
         public bool AmmoShowerPercentage = false;
         public AimingModeSettings AimingMode;
         public List<Text> SecondaryAmmoShower;
+        public SecondaryOperation secondaryOperation;
         [Serializable]
         public class AimingModeSettings
         {
@@ -56,6 +57,17 @@ namespace Site13Kernel.Weapon
             public Vector3 NormalMainObjectScale;
             public float AimSpeed = 1;
             public GameObject MainObject;
+        }
+
+        [Serializable]
+        public class FightWeaponSettings
+        {
+            public float Duration;
+            public string FightTrigger;
+        }
+        public enum SecondaryOperation
+        {
+            Aim,Fight
         }
         private void OnDisable()
         {
@@ -462,6 +474,26 @@ namespace Site13Kernel.Weapon
                 }
 
             }
+        }
+
+        public void Use(ref bool isHolding)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Primary(ref bool isHolding)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Secondary(ref bool isHolding)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reload(ref bool isHolding)
+        {
+            throw new NotImplementedException();
         }
     }
 
