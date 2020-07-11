@@ -44,6 +44,8 @@ namespace Site13Kernel.Weapon
         public float AimingModeFOV = 30;
         public int DefaultMags = 3;
         public bool AmmoShowerPercentage = false;
+        public bool AmmoShowerShowCap = true;
+        public bool AmmoShowerShowTotal = true;
         public AimingModeSettings AimingMode;
         public List<Text> SecondaryAmmoShower;
         public SecondaryOperation secondaryOperation;
@@ -171,7 +173,11 @@ namespace Site13Kernel.Weapon
                 {
                     if (!AmmoShowerPercentage)
                     {
-                        string ToShow = $"{GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID]}/{MaxCap}\r\n{GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]}";
+                        string ToShow = GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] ;
+                        if (AmmoShowerShowCap==true)
+                            ToShow+= $"/{MaxCap}";
+                        if(AmmoShowerShowTotal == true)
+                        ToShow+= $"\r\n{GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]}";
                         AmmoShower.text = ToShow;
                         foreach (var item in SecondaryAmmoShower)
                         {
@@ -476,10 +482,6 @@ namespace Site13Kernel.Weapon
             }
         }
 
-        public void Use(ref bool isHolding)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Primary(ref bool isHolding)
         {
@@ -492,6 +494,16 @@ namespace Site13Kernel.Weapon
         }
 
         public void Reload(ref bool isHolding)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Init(string data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetData()
         {
             throw new NotImplementedException();
         }

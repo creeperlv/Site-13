@@ -8,16 +8,12 @@ namespace Site13Kernel
     /// </summary>
     public interface IHandItem
     {
-        /// <summary>
-        /// Called when player pressed use key (usually 'e')
-        /// </summary>
-        /// <param name="isHolding"></param>
-        void Use(ref bool isHolding);
+        void Init(string data);//Data can be something like "MSG:PICKUP,(PickableParameter)"
+        string GetData();
         /// <summary>
         /// Called when play pressed primary operate key (usually 'Mouse 1'/'Left Click')
         /// </summary>
-        /// <param name="isHolding"></param>
-        
+        /// <param name="isHolding"></param>   
         void Primary(ref bool isHolding);
         /// <summary>
         /// Called when play pressed secondary operate key (usually 'Mouse 2'/'Right Click')
@@ -32,4 +28,10 @@ namespace Site13Kernel
 
         void Reload(ref bool isHolding);
     }
+    public interface IPickableItem
+    {
+        string GetPickUpMsg();
+        string Pickup();
+    }
+
 }
