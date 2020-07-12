@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Site_13ToolLib.Globalization;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
@@ -19,6 +20,11 @@ namespace Site13Kernel
 
         public Image Background;
         public List<Sprite> Backgrounds;
+
+        public Text MapTitleText;
+        public Text ChapterTitleText;
+        public Text MapDescriptionText;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -45,6 +51,21 @@ namespace Site13Kernel
 
             //ProgressIndicator=transform.Find("ProgressIndicator").GetComponent<Text>();
             StartCoroutine(Navigate());//玄学¯\_(ツ)_/¯
+            {
+                //New Design part.
+                try
+                {
+                    var MapTitle=Language.Language_UI[$"Scene.{GameInfo.CurrentGame.NextScene}.MT"];
+                    var ChapterTitle=Language.Language_UI[$"Scene.{GameInfo.CurrentGame.NextScene}.CT"];
+                    var MapDescription=Language.Language_UI[$"Scene.{GameInfo.CurrentGame.NextScene}.MD"];
+                    MapTitleText.text = MapTitle;
+                    ChapterTitleText.text= ChapterTitle;
+                    MapDescriptionText.text= MapDescription;
+                }
+                catch (System.Exception)
+                {
+                }
+            }
         }
 
         KeyValuePair<List<string>, List<string>> Load()
