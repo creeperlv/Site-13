@@ -1,4 +1,5 @@
 ﻿using Site13ExternalKernel.Difficulty;
+using Site13Kernel.FPSSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -483,17 +484,17 @@ namespace Site13Kernel.Weapon
         }
 
 
-        public void Primary(ref bool isHolding)
+        public void Primary()
         {
             throw new NotImplementedException();
         }
 
-        public void Secondary(ref bool isHolding)
+        public void Secondary()
         {
             throw new NotImplementedException();
         }
 
-        public void Reload(ref bool isHolding)
+        public void Reload()
         {
             throw new NotImplementedException();
         }
@@ -507,6 +508,33 @@ namespace Site13Kernel.Weapon
         {
             throw new NotImplementedException();
         }
+
+        public void Fight()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsPrimaryCompleted()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsSecondaryCompleted()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsFightCompleted()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsReloadCompleted()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsFPSSystemV3Enabled() => false;
     }
 
 }

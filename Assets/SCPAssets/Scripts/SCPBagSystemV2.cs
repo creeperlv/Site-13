@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Site13Kernel.FPSSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -182,8 +183,14 @@ namespace Site13Kernel
             catch (Exception)
             {
             }
+            if (isCurrentItemV3Enabled == true)
+            {
+                //Deal with keys...
+            }
         }
         string id1="";
+        IHandItem CurrentItem = null;
+        bool isCurrentItemV3Enabled = false;
         void SetItem()
         {
             foreach (var item in bagItems)
@@ -266,6 +273,9 @@ namespace Site13Kernel
                     isFetch = true;
                     //Debug.Log("Take out:"+id1);
                     GameInfo.CurrentGame.HandingItem = item.Item.GetComponent<HandableItem>();
+                    CurrentItem = item.Item.GetComponent<IHandItem>();
+                    if (CurrentItem == null) isCurrentItemV3Enabled = false;
+                    else isCurrentItemV3Enabled = CurrentItem.IsFPSSystemV3Enabled();
                     item.Item.SetActive(true);
                     break;
                 }

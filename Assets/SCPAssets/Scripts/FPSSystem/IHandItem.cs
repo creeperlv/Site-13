@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Site13Kernel
+namespace Site13Kernel.FPSSystem
 {
     /// <summary>
     /// An interface that describes behaviors of a hand item.
+    /// <br/>
+    /// This is base interface of FPSSystem V3
     /// </summary>
     public interface IHandItem
     {
@@ -13,20 +15,25 @@ namespace Site13Kernel
         /// <summary>
         /// Called when play pressed primary operate key (usually 'Mouse 1'/'Left Click')
         /// </summary>
-        /// <param name="isHolding"></param>   
-        void Primary(ref bool isHolding);
+        void Primary();
         /// <summary>
         /// Called when play pressed secondary operate key (usually 'Mouse 2'/'Right Click')
         /// </summary>
-        /// <param name="isHolding"></param>
 
-        void Secondary(ref bool isHolding);
+        void Secondary();
+        /// <summary>
+        /// Called when "Q" pressed.
+        /// </summary>
+        void Fight();
         /// <summary>
         /// Called when play pressed reload key (usually 'r')
         /// </summary>
-        /// <param name="isHolding"></param>
-
-        void Reload(ref bool isHolding);
+        void Reload();
+        bool IsPrimaryCompleted();
+        bool IsSecondaryCompleted();
+        bool IsFightCompleted();
+        bool IsReloadCompleted();
+        bool IsFPSSystemV3Enabled();
     }
     public interface IPickableItem
     {
