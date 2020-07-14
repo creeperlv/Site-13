@@ -4265,7 +4265,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 3567c4646d804cf4595e53de3270e5d9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 3
+  m_Pitch: 2
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -9297,7 +9297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3430337901127866575
 Transform:
   m_ObjectHideFlags: 0
@@ -9361,14 +9361,17 @@ MonoBehaviour:
   AmmoShowerShowTotal: 0
   AimingMode:
     isAdvancedAimingModeEnabled: 1
-    AimingMainObjectPosition: {x: -0.395, y: -0.07775, z: 0.0525}
+    AimingMainObjectPosition: {x: -0.39435, y: -0.07775, z: 0.065}
     NormalMainObjectPosition: {x: -0.15, y: 0, z: -0.27}
     AimingMainObjectScale: {x: 1, y: 1, z: 0.05}
     NormalMainObjectScale: {x: 1, y: 1, z: 1}
     AimSpeed: 0.25
     MainObject: {fileID: 5247588774639369445}
+  FightWeapon:
+    IsFightEnabled: 1
+    Duration: 0.65
+    FightTrigger: Fight
   SecondaryAmmoShower: []
-  secondaryOperation: 0
   BagAlias: 
   FireDelta: 0.075
   SecondaryRecoilRate: 0
@@ -13354,7 +13357,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5392103344096458036}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -22326,7 +22329,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8731640868711537296}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -26853,6 +26856,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1661764390969871121, guid: 2427fc2e441554b44b425d4b5644b16c,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3525560564507517769, guid: 2427fc2e441554b44b425d4b5644b16c,
         type: 3}
       propertyPath: m_Mesh
@@ -26888,6 +26896,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8636866423509517782, guid: 2427fc2e441554b44b425d4b5644b16c,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8636866423509517783, guid: 2427fc2e441554b44b425d4b5644b16c,
         type: 3}
       propertyPath: m_Mesh
@@ -26913,6 +26926,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8636866423958367311, guid: 2427fc2e441554b44b425d4b5644b16c,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8636866424381288548, guid: 2427fc2e441554b44b425d4b5644b16c,
         type: 3}
       propertyPath: m_Mesh
@@ -26922,6 +26940,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636866424381288550, guid: 2427fc2e441554b44b425d4b5644b16c,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8636866424381288551, guid: 2427fc2e441554b44b425d4b5644b16c,
         type: 3}
@@ -36608,7 +36631,7 @@ PrefabInstance:
     - target: {fileID: 312398611420980921, guid: 9ec197f998e08c04592c819e81398548,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3379903314974713910, guid: 9ec197f998e08c04592c819e81398548,
         type: 3}

@@ -6,7 +6,7 @@ namespace Site13Kernel.FPSSystem
 {
     public class NonWeaponItem : MonoBehaviour, IHandItem
     {
-        public void Fight()
+        public virtual void Fight()
         {
         }
 
@@ -24,7 +24,9 @@ namespace Site13Kernel.FPSSystem
 
         public bool IsFPSSystemV3Enabled() => true;
 
-        public bool IsPrimaryCompleted() => true;
+        public bool IsOnOperation() => false;
+
+        public virtual bool IsPrimaryCompleted() => true;
 
         public bool IsReloadCompleted() => true;
         public bool IsSecondaryCompleted() => true;
@@ -42,6 +44,14 @@ namespace Site13Kernel.FPSSystem
         {
         }
         public void Secondary()
+        {
+        }
+
+        public void UnPrimary()
+        {
+        }
+
+        public void UnSecondary()
         {
         }
     }

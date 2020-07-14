@@ -76,50 +76,68 @@ namespace Site13Kernel
             }
             SetItem();
         }
+        void CheckSwitchItem()
+        {
+
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+                NextItem();
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+                PreviousItem();
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                //Empty Hand
+                currentItem = 0;
+                SetItem();
+            }
+            else
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                //Primary
+                currentItem = 1;
+                SetItem();
+            }
+            else
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                //Secondary
+                currentItem = 2;
+                SetItem();
+            }
+            else
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                //Keycard
+                currentItem = 3;
+                SetItem();
+            }
+            else
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                //First Aid Kit
+                currentItem = 4;
+                SetItem();
+            }
+            else
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                //Mobile Phone
+                currentItem = 5;
+                SetItem();
+            }
+
+        }
         void Update()
         {
             if (GameInfo.CurrentGame.isPaused == false)
             {
-                if (Input.GetAxis("Mouse ScrollWheel") > 0)
-                    NextItem();
-                if (Input.GetAxis("Mouse ScrollWheel") < 0)
-                    PreviousItem();
-
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+                if (isCurrentItemV3Enabled == true)
                 {
-                    //Empty Hand
-                    currentItem = 0;
-                    SetItem();
-                }else
-                if (Input.GetKeyDown(KeyCode.Alpha2))
+                    if (CurrentItem.IsOnOperation() == false) CheckSwitchItem();
+                }
+                else
                 {
-                    //Primary
-                    currentItem = 1;
-                    SetItem();
-                }else
-                if (Input.GetKeyDown(KeyCode.Alpha3))
-                {
-                    //Secondary
-                    currentItem = 2;
-                    SetItem();
-                }else
-                if (Input.GetKeyDown(KeyCode.Alpha4))
-                {
-                    //Keycard
-                    currentItem = 3;
-                    SetItem();
-                }else
-                if (Input.GetKeyDown(KeyCode.Alpha5))
-                {
-                    //First Aid Kit
-                    currentItem = 4;
-                    SetItem();
-                }else
-                if (Input.GetKeyDown(KeyCode.Alpha6))
-                {
-                    //Mobile Phone
-                    currentItem = 5;
-                    SetItem();
+                    CheckSwitchItem();
                 }
             }
 
@@ -186,6 +204,18 @@ namespace Site13Kernel
             if (isCurrentItemV3Enabled == true)
             {
                 //Deal with keys...
+                
+                if (Input.GetButton("Fire1"))
+                {
+                    CurrentItem.Primary();
+                }else if (Input.GetButtonUp("Fire1"))
+                {
+                    CurrentItem.UnPrimary();
+                }
+                if (Input.GetButtonDown("Fight"))
+                {
+                    CurrentItem.Fight();
+                }
             }
         }
         string id1="";

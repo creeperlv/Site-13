@@ -16,11 +16,13 @@ namespace Site13Kernel.FPSSystem
         /// Called when play pressed primary operate key (usually 'Mouse 1'/'Left Click')
         /// </summary>
         void Primary();
+        void UnPrimary();
         /// <summary>
         /// Called when play pressed secondary operate key (usually 'Mouse 2'/'Right Click')
         /// </summary>
 
         void Secondary();
+        void UnSecondary();
         /// <summary>
         /// Called when "Q" pressed.
         /// </summary>
@@ -33,6 +35,7 @@ namespace Site13Kernel.FPSSystem
         bool IsSecondaryCompleted();
         bool IsFightCompleted();
         bool IsReloadCompleted();
+        bool IsOnOperation();
         bool IsFPSSystemV3Enabled();
     }
     public interface IPickableItem

@@ -48,8 +48,8 @@ namespace Site13Kernel.Weapon
         public bool AmmoShowerShowCap = true;
         public bool AmmoShowerShowTotal = true;
         public AimingModeSettings AimingMode;
+        public FightWeaponSettings FightWeapon = new FightWeaponSettings();
         public List<Text> SecondaryAmmoShower;
-        public SecondaryOperation secondaryOperation;
         [Serializable]
         public class AimingModeSettings
         {
@@ -65,13 +65,11 @@ namespace Site13Kernel.Weapon
         [Serializable]
         public class FightWeaponSettings
         {
+            public bool IsFightEnabled = false;
             public float Duration;
             public string FightTrigger;
         }
-        public enum SecondaryOperation
-        {
-            Aim,Fight
-        }
+        bool isFightOnProcess;
         private void OnDisable()
         {
             ReloadTimePass = 0.0f;
@@ -99,9 +97,9 @@ namespace Site13Kernel.Weapon
             }
             {
                 //Reading difficulty data.
-                DefaultMags = int.Parse(DifficultyManager.CurrentDefinition.Get("MAG:" + ID, 0, DefaultMags+ ""));
-                BaseDamage = int.Parse(DifficultyManager.CurrentDefinition.Get("DAM:" + ID+"_Base", 0, BaseDamage + ""));
-                CriticalDamage = int.Parse(DifficultyManager.CurrentDefinition.Get("DAM:" + ID+"_Critical", 0, CriticalDamage+ ""));
+                DefaultMags = int.Parse(DifficultyManager.CurrentDefinition.Get("MAG:" + ID, 0, DefaultMags + ""));
+                BaseDamage = int.Parse(DifficultyManager.CurrentDefinition.Get("DAM:" + ID + "_Base", 0, BaseDamage + ""));
+                CriticalDamage = int.Parse(DifficultyManager.CurrentDefinition.Get("DAM:" + ID + "_Critical", 0, CriticalDamage + ""));
             }
             if (GameInfo.CurrentGame.FlagsGroup.ContainsKey(BagAlias + ":" + ID))
             {
@@ -174,11 +172,11 @@ namespace Site13Kernel.Weapon
                 {
                     if (!AmmoShowerPercentage)
                     {
-                        string ToShow = GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] ;
-                        if (AmmoShowerShowCap==true)
-                            ToShow+= $"/{MaxCap}";
-                        if(AmmoShowerShowTotal == true)
-                        ToShow+= $"\r\n{GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]}";
+                        string ToShow = GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID];
+                        if (AmmoShowerShowCap == true)
+                            ToShow += $"/{MaxCap}";
+                        if (AmmoShowerShowTotal == true)
+                            ToShow += $"\r\n{GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]}";
                         AmmoShower.text = ToShow;
                         foreach (var item in SecondaryAmmoShower)
                         {
@@ -306,25 +304,35 @@ namespace Site13Kernel.Weapon
         }
         public virtual void SingleSecondaryOperate()
         {
-            GameInfo.CurrentGame.isAiming = true;
-            GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen / 10;
-            if (Camera.main.fieldOfView > AimingModeFOV)
             {
-                Camera.main.fieldOfView -= Time.deltaTime * (100f / 40f) * (60f - AimingModeFOV);
-            }
-            else
-                Camera.main.fieldOfView = AimingModeFOV;
-            {
-                if (AimingMode.MainObject.transform.localPosition.x <= AimingMode.AimingMainObjectPosition.x)
+                GameInfo.CurrentGame.isAiming = true;
+                GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen / 10;
+                if (Camera.main.fieldOfView > AimingModeFOV)
                 {
-                    AimingMode.MainObject.transform.localPosition = AimingMode.AimingMainObjectPosition;
+                    Camera.main.fieldOfView -= Time.deltaTime * (100f / 40f) * (60f - AimingModeFOV);
                 }
                 else
+                    Camera.main.fieldOfView = AimingModeFOV;
                 {
-                    AimingMode.MainObject.transform.localScale = AimingMode.AimingMainObjectScale;
-                    AimingMode.MainObject.transform.Translate(AimingDelta * Time.deltaTime);
+                    if (AimingMode.MainObject.transform.localPosition.x <= AimingMode.AimingMainObjectPosition.x)
+                    {
+                        AimingMode.MainObject.transform.localPosition = AimingMode.AimingMainObjectPosition;
+                    }
+                    else
+                    {
+                        AimingMode.MainObject.transform.localScale = AimingMode.AimingMainObjectScale;
+                        AimingMode.MainObject.transform.Translate(AimingDelta * Time.deltaTime);
+                    }
                 }
             }
+        }
+        IEnumerator RealFight()
+        {
+            isHolding = true;
+            CentralAnimator.SetTrigger(FightWeapon.FightTrigger);
+            yield return new WaitForSeconds(FightWeapon.Duration);
+            isHolding = false;
+            yield return null;
         }
         float ReloadTimePass = 0.0f;
         // Update is called once per frame
@@ -336,30 +344,7 @@ namespace Site13Kernel.Weapon
 
                 if (Input.GetButton("Fire1"))
                 {
-                    if (GameInfo.CurrentGame.isPaused == false && ReloadTimePass <= 0.0f)
-                    {
-                        if (timed >= FireDelta)
-                        {
-                            if (MaxCap == 0)
-                            {
-                                SinglePrimaryOperate();
-                            }
-                            else
-                            if (int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID]) != 0)
-                            {
-                                SinglePrimaryOperate();
-                            }
-                            timed = FireDelta - 0.1f;
-                        }
-                        else if (timed <= 0f)
-                        {
-                            timed = 1f;
-                            //var lp = transform.position;
-                            //lp.z = oriz;
-                            //transform.position = lp;
-                        }
-                        timed -= Time.deltaTime;
-                    }
+                    Primary();
                 }
                 else
                 {
@@ -455,22 +440,27 @@ namespace Site13Kernel.Weapon
                         {
                             ReloadTimePass = 0.0f;
                             {
+                                int Weapon_Total = int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]);
+                                int Weapon_Current = int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID]);
                                 //SetMag;
-                                if (int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]) > MaxCap)
+                                if (Weapon_Total > MaxCap)
                                 {
-                                    GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"] = (int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]) - MaxCap + int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID])) + "";
-                                    GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] = "" + MaxCap;
+                                    GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"] =
+                                        (Weapon_Total - MaxCap + Weapon_Current).ToString();
+                                    GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] = MaxCap.ToString();
                                 }
-                                else if (int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]) > 0)
+                                else if (Weapon_Total > 0)
                                 {
-                                    if (int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]) + int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID]) >= MaxCap)
+                                    if (Weapon_Total+Weapon_Current >= MaxCap)
                                     {
-                                        GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"] = int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]) + int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID]) - MaxCap + "";
-                                        GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] = "" + MaxCap;
+                                        GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"] =
+                                            (Weapon_Total + Weapon_Current - MaxCap).ToString();
+                                        GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] = MaxCap.ToString();
                                     }
                                     else
                                     {
-                                        GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] = "" + int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]) + int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID]);
+                                        GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] =
+                                            (Weapon_Total + Weapon_Current).ToString();
                                         GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"] = "0";
 
                                     }
@@ -486,12 +476,35 @@ namespace Site13Kernel.Weapon
 
         public void Primary()
         {
-            throw new NotImplementedException();
+            if (GameInfo.CurrentGame.isPaused == false && ReloadTimePass <= 0.0f)
+            {
+                if (timed >= FireDelta)
+                {
+                    if (MaxCap == 0)
+                    {
+                        SinglePrimaryOperate();
+                    }
+                    else
+                    if (int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID]) != 0)
+                    {
+                        SinglePrimaryOperate();
+                    }
+                    timed = FireDelta - 0.1f;
+                }
+                else if (timed <= 0f)
+                {
+                    timed = 1f;
+                    //var lp = transform.position;
+                    //lp.z = oriz;
+                    //transform.position = lp;
+                }
+                timed -= Time.deltaTime;
+            }
         }
 
         public void Secondary()
         {
-            throw new NotImplementedException();
+            //
         }
 
         public void Reload()
@@ -501,17 +514,17 @@ namespace Site13Kernel.Weapon
 
         public void Init(string data)
         {
-            throw new NotImplementedException();
         }
 
         public string GetData()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public void Fight()
         {
-            throw new NotImplementedException();
+            if(FightWeapon.IsFightEnabled==true)
+            StartCoroutine(RealFight());
         }
 
         public bool IsPrimaryCompleted()
@@ -525,16 +538,26 @@ namespace Site13Kernel.Weapon
         }
 
         public bool IsFightCompleted()
-        {
-            throw new NotImplementedException();
-        }
+        => isFightOnProcess;
+
 
         public bool IsReloadCompleted()
         {
             throw new NotImplementedException();
         }
 
-        public bool IsFPSSystemV3Enabled() => false;
+        public bool IsFPSSystemV3Enabled() => true;
+        bool isHolding = false;
+        public bool IsOnOperation() => isHolding;
+
+        public void UnPrimary()
+        {
+            timed = FireDelta + 1f;
+        }
+
+        public void UnSecondary()
+        {
+        }
     }
 
 }
