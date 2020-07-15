@@ -37,6 +37,7 @@ namespace Site13Kernel
         public bool OverrideMouseSensity = false;
         public float OverridenMouseSen = 5;
         public RotationRestrictionSettings RotationRestriction;
+        public Camera WeaponCam;
         #region ImprovedFalldown;
         private bool isImprovedFalldownEnabled;
         public bool isForceOldFalldown;
@@ -181,6 +182,10 @@ namespace Site13Kernel
                 var lp = cameraTransform.localPosition;
                 lp.y = baseHeadHeight - ((float)Math.Pow(walkCycle - 0.5, 2) - 1f) / 3f;
                 cameraTransform.localPosition = lp;
+                var v3Angle=WeaponCam.transform.localRotation.eulerAngles;
+                v3Angle.x = ((float)Math.Pow(walkCycle - 0.5, 2) - 1f)*3;
+                //v3Angle.y = -((float)Math.Pow(walkCycle - 0.5, 2) - 1f)*2;
+                WeaponCam.transform.localRotation=Quaternion.Euler(v3Angle);
                 if (walkCycle >= 1.0f)
                 {
                     if (footIndex > footStepSounds.Length)

@@ -415,65 +415,72 @@ namespace Site13Kernel.Weapon
                 //{
 
                 //}
-                if (Input.GetButton("Reload"))
+                //if (Input.GetButton("Reload"))
+                //{
+                //    if (GameInfo.CurrentGame.isPaused == false)
+                //    {
+                //        if (ReloadTimePass <= 0.0f)
+                //        {
+                //            if (int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]) > 0)
+                //            {
+                //                CentralAnimator.SetTrigger("Reload");
+                //                ReloadSound.Play();
+                //                ReloadTimePass = 0.1f;
+                //            }
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    if (
+                //       ReloadTimePass >= 0.05f)
+                //    {
+                //        ReloadTimePass += Time.deltaTime;
+                //        if (ReloadTimePass >= (ReloadingDelay + 0.1f) / 2)
+                //        {
+                //            ReloadTimePass = 0.0f;
+                //            {
+                //                SetBulletCount();
+                //            }
+                //        }
+                //    }
+                //}
+                if (Input.GetButtonDown("Reload"))
                 {
-                    if (GameInfo.CurrentGame.isPaused == false)
-                    {
-                        if (ReloadTimePass <= 0.0f)
-                        {
-                            if (int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]) > 0)
-                            {
-                                CentralAnimator.SetTrigger("Reload");
-                                ReloadSound.Play();
-                                ReloadTimePass = 0.1f;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (
-                       ReloadTimePass >= 0.05f)
-                    {
-                        ReloadTimePass += Time.deltaTime;
-                        if (ReloadTimePass >= (ReloadingDelay + 0.1f) / 2)
-                        {
-                            ReloadTimePass = 0.0f;
-                            {
-                                int Weapon_Total = int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]);
-                                int Weapon_Current = int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID]);
-                                //SetMag;
-                                if (Weapon_Total > MaxCap)
-                                {
-                                    GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"] =
-                                        (Weapon_Total - MaxCap + Weapon_Current).ToString();
-                                    GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] = MaxCap.ToString();
-                                }
-                                else if (Weapon_Total > 0)
-                                {
-                                    if (Weapon_Total+Weapon_Current >= MaxCap)
-                                    {
-                                        GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"] =
-                                            (Weapon_Total + Weapon_Current - MaxCap).ToString();
-                                        GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] = MaxCap.ToString();
-                                    }
-                                    else
-                                    {
-                                        GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] =
-                                            (Weapon_Total + Weapon_Current).ToString();
-                                        GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"] = "0";
-
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    Reload();
                 }
 
             }
         }
 
+        void SetBulletCount()
+        {
+            int Weapon_Total = int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]);
+            int Weapon_Current = int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID]);
+            //SetMag;
+            if (Weapon_Total > MaxCap)
+            {
+                GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"] =
+                    (Weapon_Total - MaxCap + Weapon_Current).ToString();
+                GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] = MaxCap.ToString();
+            }
+            else if (Weapon_Total > 0)
+            {
+                if (Weapon_Total + Weapon_Current >= MaxCap)
+                {
+                    GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"] =
+                        (Weapon_Total + Weapon_Current - MaxCap).ToString();
+                    GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] = MaxCap.ToString();
+                }
+                else
+                {
+                    GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID] =
+                        (Weapon_Total + Weapon_Current).ToString();
+                    GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"] = "0";
 
+                }
+            }
+        }
         public void Primary()
         {
             if (GameInfo.CurrentGame.isPaused == false && ReloadTimePass <= 0.0f)
@@ -509,9 +516,26 @@ namespace Site13Kernel.Weapon
 
         public void Reload()
         {
-            throw new NotImplementedException();
+            StartCoroutine(RealReload());
         }
-
+        IEnumerator RealReload()
+        {
+            isHolding = true;
+            if (GameInfo.CurrentGame.isPaused == false)
+            {
+                if (ReloadTimePass <= 0.0f)
+                {
+                    if (int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID + "_Total"]) > 0)
+                    {
+                        CentralAnimator.SetTrigger("Reload");
+                        ReloadSound.Play();
+                        yield return new WaitForSeconds(ReloadingDelay);
+                        SetBulletCount();
+                    }
+                }
+            }
+            isHolding = false;
+        }
         public void Init(string data)
         {
         }
