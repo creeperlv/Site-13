@@ -491,6 +491,7 @@ MonoBehaviour:
   footIndex: 0
   OriginHeadHeight: 0.5
   RunningFovDelta: 15
+  ViewportShakingIntensity: 5
   isWalkLogicEnabled: 1
   isRotationLogicEnabled: 1
   ForceMouseCapture: 0
@@ -510,6 +511,7 @@ MonoBehaviour:
   FalldownSpeedAccelerator: 6
   Crosshair: {fileID: 6005837254365037591}
   ColorizedCross: 1
+  DefaultCrosshair: {fileID: 21300000, guid: 816244011a26e0a4b9e451609b8c7d0e, type: 3}
 --- !u!143 &5286869198005765160
 CharacterController:
   m_ObjectHideFlags: 0
@@ -9337,7 +9339,7 @@ MonoBehaviour:
   AS: {fileID: 2821857619697977134}
   ReloadSound: {fileID: 6939811362238340044}
   ShellPresenter: {fileID: 0}
-  ID: D12SR
+  ID: FER5A
   OriPoint: {fileID: 0}
   CentralAnimator: {fileID: 4826577374540503324}
   MaxCap: 60
@@ -9372,6 +9374,9 @@ MonoBehaviour:
     IsFightEnabled: 1
     Duration: 0.65
     FightTrigger: Fight
+  crosshairSettings:
+    WillOverrideCrosshair: 1
+    CrosshairSprite: {fileID: 21300000, guid: a5a526d7d8f3f0e49b9ba42b905d4269, type: 3}
   SecondaryAmmoShower: []
   BagAlias: 
   FireDelta: 0.075
@@ -16931,7 +16936,7 @@ MonoBehaviour:
   DefaultItem: 0
   BAGOwner: D-12-3
   DefPri: FER5A
-  DefSec: D12SR
+  DefSec: MTF-S-P
   DefKeyCard: 
   DefPhone: 
   bagItems:
