@@ -61,5 +61,7 @@ namespace Site13Kernel.FPSSystem
         public void UnSecondary()
         {
         }
+
+        public Vector3 GetOverriddenViewportShakingIntensity() => Vector3.zero;
     }
 }

@@ -315,14 +315,19 @@ namespace Site13Kernel
                         if (isCurrentItemV3Enabled == false)
                         {
                             GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
-                        }
-                        else if (CurrentItem.IsCrosshairOverridden() == false)
-                        {
-                            GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
+                            GameInfo.CurrentGame.FirstPerson.ViewportShakingIntensity = new Vector3(3, 0, 0);
                         }
                         else
                         {
-                            GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = CurrentItem.GetOverriddenCrosshair();
+                            GameInfo.CurrentGame.FirstPerson.ViewportShakingIntensity = CurrentItem.GetOverriddenViewportShakingIntensity();
+                            if (CurrentItem.IsCrosshairOverridden() == false)
+                            {
+                                GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
+                            }
+                            else
+                            {
+                                GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = CurrentItem.GetOverriddenCrosshair();
+                            }
                         }
                     }
                     catch (Exception)

@@ -27,7 +27,6 @@ namespace Site13Kernel
         float baseHeadHeight = 0.3f;
         public float OriginHeadHeight = 0.8f;
         public float RunningFovDelta = 10;
-        public float ViewportShakingIntensity = 3f;
         float walkCycle = 0.0f;
         bool Crouch = false;
         bool jump = false;
@@ -37,6 +36,7 @@ namespace Site13Kernel
         public bool ForceMouseCapture = false;
         public bool OverrideMouseSensity = false;
         public float OverridenMouseSen = 5;
+        public Vector3 ViewportShakingIntensity = new Vector3(3, 0, 0);
         public RotationRestrictionSettings RotationRestriction;
         public Camera WeaponCam;
         #region ImprovedFalldown;
@@ -184,12 +184,15 @@ namespace Site13Kernel
                 ////////////////////////////////
                 //Viewport Shaking when moving//
                 ////////////////////////////////
-                
+
                 var lp = cameraTransform.localPosition;
                 lp.y = baseHeadHeight - ((float)Math.Pow(walkCycle - 0.5, 2) - 1f) / 3f;
                 cameraTransform.localPosition = lp;
                 var v3Angle = WeaponCam.transform.localRotation.eulerAngles;
-                v3Angle.x = ((float)Math.Pow(walkCycle - 0.5, 2) - 1f) * ViewportShakingIntensity;
+                float ShakeValue0= (Math.Abs(walkCycle - 0.5f)-0.25f)*4*(GameInfo.CurrentGame.isRunning?1.2f:1);
+                v3Angle.x = ShakeValue0 * ViewportShakingIntensity.x;
+                v3Angle.y = ShakeValue0 * ViewportShakingIntensity.y;
+                v3Angle.z = ShakeValue0 * ViewportShakingIntensity.z;
                 //v3Angle.y = -((float)Math.Pow(walkCycle - 0.5, 2) - 1f)*2;
                 WeaponCam.transform.localRotation = Quaternion.Euler(v3Angle);
                 if (walkCycle >= 1.0f)

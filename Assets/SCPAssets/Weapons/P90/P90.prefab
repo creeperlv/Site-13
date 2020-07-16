@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -219,6 +220,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1123,6 +1125,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6231,14 +6234,25 @@ MonoBehaviour:
   AimingModeFOV: 30
   DefaultMags: 3
   AmmoShowerPercentage: 0
+  AmmoShowerShowCap: 1
+  AmmoShowerShowTotal: 1
+  ViewportShakingIntensity: {x: 3, y: 0, z: 0}
   AimingMode:
     isAdvancedAimingModeEnabled: 1
     AimingMainObjectPosition: {x: -0.338, y: -0.14, z: -0.2}
-    NormalMainObjectPosition: {x: 0, y: 0, z: 0}
+    NormalMainObjectPosition: {x: 0, y: -0.07, z: 0}
     AimingMainObjectScale: {x: 1, y: 1, z: 1}
     NormalMainObjectScale: {x: 1, y: 1, z: 1}
     AimSpeed: 0.2
     MainObject: {fileID: 5103480516693383173}
+  FightWeapon:
+    IsFightEnabled: 0
+    Duration: 0
+    FightTrigger: 
+  crosshairSettings:
+    WillOverrideCrosshair: 0
+    CrosshairSprite: {fileID: 0}
+  SecondaryAmmoShower: []
   BagAlias: 
   FireDelta: 0.15
   SecondaryRecoilRate: 0

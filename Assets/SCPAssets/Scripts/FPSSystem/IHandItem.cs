@@ -39,6 +39,7 @@ namespace Site13Kernel.FPSSystem
         bool IsFPSSystemV3Enabled();
         bool IsCrosshairOverridden();
         Sprite GetOverriddenCrosshair();
+        Vector3 GetOverriddenViewportShakingIntensity();
     }
     public interface IPickableItem
     {

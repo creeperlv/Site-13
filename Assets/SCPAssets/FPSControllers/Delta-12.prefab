@@ -491,12 +491,12 @@ MonoBehaviour:
   footIndex: 0
   OriginHeadHeight: 0.5
   RunningFovDelta: 15
-  ViewportShakingIntensity: 5
   isWalkLogicEnabled: 1
   isRotationLogicEnabled: 1
   ForceMouseCapture: 0
   OverrideMouseSensity: 0
   OverridenMouseSen: 5
+  ViewportShakingIntensity: {x: 3, y: 0, z: 0}
   RotationRestriction:
     isEnabled: 0
     MaxY: 0
@@ -4265,10 +4265,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3567c4646d804cf4595e53de3270e5d9, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2254ff7e0794e9e4caca69e73c63c3e3, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 2
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -9345,16 +9345,16 @@ MonoBehaviour:
   MaxCap: 60
   timed: 0.5
   timed2: -1
-  RecoilAngle: 0.5
-  RecoilRecoverSpeed: 0.1
+  RecoilAngle: 2
+  RecoilRecoverSpeed: 0.075
   ShootRange: 100
   isCustomedAmmoShower: 0
   isRecoilEnabled: 1
   AmmoShower: {fileID: 5886917854799062969}
   Pocesser: {fileID: 8713426670576539655}
   ReloadingDelay: 2.5
-  BaseDamage: 500
-  CriticalDamage: 500
+  BaseDamage: 250
+  CriticalDamage: 250
   Spark: {fileID: 142317754265875315}
   Crosshair: {fileID: 1613383903208867227}
   AimingModeFOV: 35
@@ -9362,6 +9362,7 @@ MonoBehaviour:
   AmmoShowerPercentage: 0
   AmmoShowerShowCap: 0
   AmmoShowerShowTotal: 0
+  ViewportShakingIntensity: {x: 1, y: 0, z: 0}
   AimingMode:
     isAdvancedAimingModeEnabled: 1
     AimingMainObjectPosition: {x: -0.39435, y: -0.07775, z: 0.065}
@@ -9379,7 +9380,7 @@ MonoBehaviour:
     CrosshairSprite: {fileID: 21300000, guid: a5a526d7d8f3f0e49b9ba42b905d4269, type: 3}
   SecondaryAmmoShower: []
   BagAlias: 
-  FireDelta: 0.075
+  FireDelta: 0.125
   SecondaryRecoilRate: 0
   SparkCutDown: 0
 --- !u!114 &250428541463903633

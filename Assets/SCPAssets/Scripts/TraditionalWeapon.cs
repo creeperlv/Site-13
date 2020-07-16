@@ -47,6 +47,7 @@ namespace Site13Kernel.Weapon
         public bool AmmoShowerPercentage = false;
         public bool AmmoShowerShowCap = true;
         public bool AmmoShowerShowTotal = true;
+        public Vector3 ViewportShakingIntensity = new Vector3(3, 0, 0);
         public AimingModeSettings AimingMode;
         public FightWeaponSettings FightWeapon = new FightWeaponSettings();
         public CrosshairSettings crosshairSettings = new CrosshairSettings();
@@ -123,13 +124,14 @@ namespace Site13Kernel.Weapon
             if (timed2 >= 0)
             {
                 var ang = RecoiledObject.transform.localRotation.eulerAngles;
-                if (timed2 > 0.1f)
+                var speed = 1/FireDelta*2;
+                if (timed2 > FireDelta/2)
                 {
-                    ang.x = orix - (0.2f - timed2) * 10 * (GameInfo.CurrentGame.isAiming ? RecoilAngle / 3 : RecoilAngle);
+                    ang.x = orix - (FireDelta - timed2) * speed * (GameInfo.CurrentGame.isAiming ? RecoilAngle / 2 : RecoilAngle);
                 }
                 else
                 {
-                    ang.x = orix - timed2 * 10 * (GameInfo.CurrentGame.isAiming ? RecoilAngle / 3 : RecoilAngle);
+                    ang.x = orix - timed2 * speed * (GameInfo.CurrentGame.isAiming ? RecoilAngle / 2 : RecoilAngle);
                 }
                 {
 
@@ -202,7 +204,7 @@ namespace Site13Kernel.Weapon
                     }
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
             }
             if (isRecoilEnabled == true)
@@ -224,8 +226,8 @@ namespace Site13Kernel.Weapon
         public float DoubleSideRandom(float Limit) => UnityEngine.Random.Range(-Limit, Limit);
         public virtual void SinglePrimaryOperate()
         {
-
-            timed2 = 0.2f;
+            if (timed2 > FireDelta / 2) ;else
+            timed2 =FireDelta;
             try
             {
                 AS.Play();
@@ -242,7 +244,7 @@ namespace Site13Kernel.Weapon
             //}
             {
                 Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0F));
-                GameInfo.CurrentGame.FirstPerson.ShakeHeadRandomly(RecoilAngle / 6, -RecoilAngle / 6, RecoilAngle / 6, RecoilAngle / 10, RecoilRecoverSpeed);
+                GameInfo.CurrentGame.FirstPerson.ShakeHeadRandomly(RecoilAngle / 6, -RecoilAngle / 6, RecoilAngle / 12, RecoilAngle / 12, RecoilRecoverSpeed);
                 RaycastHit hit; // Variable reading information about the collider 
                                 // Cast ray from center of the screen towards where the player is looking
                 SparkCutDown = 0.1f;
@@ -594,6 +596,8 @@ namespace Site13Kernel.Weapon
         public bool IsCrosshairOverridden() => crosshairSettings.WillOverrideCrosshair;
 
         public Sprite GetOverriddenCrosshair() => crosshairSettings.CrosshairSprite;
+
+        public Vector3 GetOverriddenViewportShakingIntensity() => ViewportShakingIntensity;
     }
 
 }
