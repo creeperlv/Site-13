@@ -49,6 +49,7 @@ namespace Site13Kernel.Weapon
         public bool AmmoShowerShowTotal = true;
         public AimingModeSettings AimingMode;
         public FightWeaponSettings FightWeapon = new FightWeaponSettings();
+        public CrosshairSettings crosshairSettings = new CrosshairSettings();
         public List<Text> SecondaryAmmoShower;
         [Serializable]
         public class AimingModeSettings
@@ -69,6 +70,13 @@ namespace Site13Kernel.Weapon
             public float Duration;
             public string FightTrigger;
         }
+        [Serializable]
+        public class CrosshairSettings
+        {
+            public bool WillOverrideCrosshair = false;
+            public Sprite CrosshairSprite;
+        }
+
         bool isFightOnProcess;
         private void OnDisable()
         {
@@ -582,6 +590,10 @@ namespace Site13Kernel.Weapon
         public void UnSecondary()
         {
         }
+
+        public bool IsCrosshairOverridden() => crosshairSettings.WillOverrideCrosshair;
+
+        public Sprite GetOverriddenCrosshair() => crosshairSettings.CrosshairSprite;
     }
 
 }

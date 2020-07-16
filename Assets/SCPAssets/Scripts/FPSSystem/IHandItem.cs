@@ -37,6 +37,8 @@ namespace Site13Kernel.FPSSystem
         bool IsReloadCompleted();
         bool IsOnOperation();
         bool IsFPSSystemV3Enabled();
+        bool IsCrosshairOverridden();
+        Sprite GetOverriddenCrosshair();
     }
     public interface IPickableItem
     {

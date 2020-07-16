@@ -10,6 +10,11 @@ namespace Site13Kernel.FPSSystem
         {
         }
 
+        public virtual Sprite GetOverriddenCrosshair()
+        {
+            return null;
+        }
+
         public string GetData()
         {
             return "";
@@ -19,6 +24,8 @@ namespace Site13Kernel.FPSSystem
         {
 
         }
+
+        public bool IsCrosshairOverridden() => false;
 
         public bool IsFightCompleted() => true;
 

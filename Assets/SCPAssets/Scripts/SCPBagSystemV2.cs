@@ -30,7 +30,7 @@ namespace Site13Kernel
         {
             if (!GameInfo.CurrentGame.FlagsGroup.ContainsKey($"BAG.{BAGOwner}.1"))
             {
-                GameInfo.CurrentGame.FlagsGroup.Add($"BAG.{BAGOwner}.1",DefPri);
+                GameInfo.CurrentGame.FlagsGroup.Add($"BAG.{BAGOwner}.1", DefPri);
             }
             if (!GameInfo.CurrentGame.FlagsGroup.ContainsKey($"BAG.{BAGOwner}.2"))
             {
@@ -143,7 +143,7 @@ namespace Site13Kernel
 
             try
             {
-                string id2=id1;
+                string id2 = id1;
                 switch (currentItem)
                 {
                     case 0:
@@ -204,11 +204,12 @@ namespace Site13Kernel
             if (isCurrentItemV3Enabled == true)
             {
                 //Deal with keys...
-                
+
                 if (Input.GetButton("Fire1"))
                 {
                     CurrentItem.Primary();
-                }else if (Input.GetButtonUp("Fire1"))
+                }
+                else if (Input.GetButtonUp("Fire1"))
                 {
                     CurrentItem.UnPrimary();
                 }
@@ -218,7 +219,7 @@ namespace Site13Kernel
                 }
             }
         }
-        string id1="";
+        string id1 = "";
         IHandItem CurrentItem = null;
         bool isCurrentItemV3Enabled = false;
         void SetItem()
@@ -256,7 +257,8 @@ namespace Site13Kernel
                         catch (Exception)
                         {
                         }
-                    }break;
+                    }
+                    break;
                 case 3:
                     {
                         try
@@ -307,12 +309,31 @@ namespace Site13Kernel
                     if (CurrentItem == null) isCurrentItemV3Enabled = false;
                     else isCurrentItemV3Enabled = CurrentItem.IsFPSSystemV3Enabled();
                     item.Item.SetActive(true);
+                    try
+                    {
+
+                        if (isCurrentItemV3Enabled == false)
+                        {
+                            GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
+                        }
+                        else if (CurrentItem.IsCrosshairOverridden() == false)
+                        {
+                            GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
+                        }
+                        else
+                        {
+                            GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = CurrentItem.GetOverriddenCrosshair();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
                     break;
                 }
             }
             if (isFetch == false)
             {
-                GameInfo.CurrentGame.HandingItem = new HandableItem() { SecurityClearance = 0 ,ItemID="EMPTY"};
+                GameInfo.CurrentGame.HandingItem = new HandableItem() { SecurityClearance = 0, ItemID = "EMPTY" };
             }
         }
     }

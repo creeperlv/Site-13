@@ -27,6 +27,7 @@ namespace Site13Kernel
         float baseHeadHeight = 0.3f;
         public float OriginHeadHeight = 0.8f;
         public float RunningFovDelta = 10;
+        public float ViewportShakingIntensity = 3f;
         float walkCycle = 0.0f;
         bool Crouch = false;
         bool jump = false;
@@ -41,7 +42,7 @@ namespace Site13Kernel
         #region ImprovedFalldown;
         private bool isImprovedFalldownEnabled;
         public bool isForceOldFalldown;
-        public float FalldownSpeed=3f;
+        public float FalldownSpeed = 3f;
         public float FalldownSpeedAccelerator = 6f;
 
         private float AccumulativeFalldownSpeed;
@@ -51,6 +52,7 @@ namespace Site13Kernel
         #region Dynamic Crosshair
         public Image Crosshair;
         public bool ColorizedCross;
+        public Sprite DefaultCrosshair;
         #endregion
         [Serializable]
         public class RotationRestrictionSettings
@@ -179,13 +181,17 @@ namespace Site13Kernel
             }
             if (isWalkLogicEnabled)
             {
+                ////////////////////////////////
+                //Viewport Shaking when moving//
+                ////////////////////////////////
+                
                 var lp = cameraTransform.localPosition;
                 lp.y = baseHeadHeight - ((float)Math.Pow(walkCycle - 0.5, 2) - 1f) / 3f;
                 cameraTransform.localPosition = lp;
-                var v3Angle=WeaponCam.transform.localRotation.eulerAngles;
-                v3Angle.x = ((float)Math.Pow(walkCycle - 0.5, 2) - 1f)*3;
+                var v3Angle = WeaponCam.transform.localRotation.eulerAngles;
+                v3Angle.x = ((float)Math.Pow(walkCycle - 0.5, 2) - 1f) * ViewportShakingIntensity;
                 //v3Angle.y = -((float)Math.Pow(walkCycle - 0.5, 2) - 1f)*2;
-                WeaponCam.transform.localRotation=Quaternion.Euler(v3Angle);
+                WeaponCam.transform.localRotation = Quaternion.Euler(v3Angle);
                 if (walkCycle >= 1.0f)
                 {
                     if (footIndex > footStepSounds.Length)
@@ -393,7 +399,7 @@ namespace Site13Kernel
             }
             //Debug.Log($"H:{horizontal},V:{vertical}");
             moveDirection *= 6f;
-            moveDirection *= (GameInfo.CurrentGame.PlayerHealth.CurrentHealth/ GameInfo.CurrentGame.PlayerHealth.MaxHealth);
+            moveDirection *= (GameInfo.CurrentGame.PlayerHealth.CurrentHealth / GameInfo.CurrentGame.PlayerHealth.MaxHealth);
             if (jumpCutdown <= 0)
             {
                 if (isImprovedFalldownEnabled == false)
@@ -402,7 +408,7 @@ namespace Site13Kernel
                 }
                 else
                 {
-                    moveDirection.y = RetireRealFalldown()* FalldownSpeed;
+                    moveDirection.y = RetireRealFalldown() * FalldownSpeed;
                 }
             }
             else
