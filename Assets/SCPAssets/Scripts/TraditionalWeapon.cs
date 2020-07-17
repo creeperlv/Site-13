@@ -124,8 +124,8 @@ namespace Site13Kernel.Weapon
             if (timed2 >= 0)
             {
                 var ang = RecoiledObject.transform.localRotation.eulerAngles;
-                var speed = 1/FireDelta*2;
-                if (timed2 > FireDelta/2)
+                var speed = 1 / FireDelta * 2;
+                if (timed2 > FireDelta / 2)
                 {
                     ang.x = orix - (FireDelta - timed2) * speed * (GameInfo.CurrentGame.isAiming ? RecoilAngle / 2 : RecoilAngle);
                 }
@@ -226,8 +226,9 @@ namespace Site13Kernel.Weapon
         public float DoubleSideRandom(float Limit) => UnityEngine.Random.Range(-Limit, Limit);
         public virtual void SinglePrimaryOperate()
         {
-            if (timed2 > FireDelta / 2) ;else
-            timed2 =FireDelta;
+            if (timed2 > FireDelta / 2) ;
+            else
+                timed2 = FireDelta;
             try
             {
                 AS.Play();
@@ -341,6 +342,19 @@ namespace Site13Kernel.Weapon
             isHolding = true;
             CentralAnimator.SetTrigger(FightWeapon.FightTrigger);
             yield return new WaitForSeconds(FightWeapon.Duration);
+            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0F));
+            GameInfo.CurrentGame.FirstPerson.ShakeHeadRandomly(RecoilAngle / 6, -RecoilAngle / 6, RecoilAngle / 12, RecoilAngle / 12, RecoilRecoverSpeed);
+            RaycastHit hit; // Variable reading information about the collider 
+                            // Cast ray from center of the screen towards where the player is looking
+            SparkCutDown = 0.1f;
+            if (Physics.Raycast(ray, out hit, 2.5f, 1 << 0 | 1 << 13, QueryTriggerInteraction.Ignore))
+            {
+                var Entity = hit.collider.gameObject.GetComponent<SCPEntity>();
+                if (Entity != null)
+                {
+                    Entity.ChangeHealth(-1000);
+                }
+            }
             isHolding = false;
             yield return null;
         }
@@ -557,8 +571,8 @@ namespace Site13Kernel.Weapon
 
         public void Fight()
         {
-            if(FightWeapon.IsFightEnabled==true)
-            StartCoroutine(RealFight());
+            if (FightWeapon.IsFightEnabled == true)
+                StartCoroutine(RealFight());
         }
 
         public bool IsPrimaryCompleted()
