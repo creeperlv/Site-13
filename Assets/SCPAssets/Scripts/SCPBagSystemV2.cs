@@ -207,7 +207,8 @@ namespace Site13Kernel
 
                 if (Input.GetButton("Fire1"))
                 {
-                    CurrentItem.Primary();
+                    if (CurrentItem.IsOnOperation() == false)
+                        CurrentItem.Primary();
                 }
                 else if (Input.GetButtonUp("Fire1"))
                 {
@@ -215,7 +216,8 @@ namespace Site13Kernel
                 }
                 if (Input.GetButtonDown("Fight"))
                 {
-                    CurrentItem.Fight();
+                    if (CurrentItem.IsOnOperation() == false)
+                        CurrentItem.Fight();
                 }
             }
         }
