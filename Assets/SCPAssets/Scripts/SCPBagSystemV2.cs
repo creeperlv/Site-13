@@ -193,6 +193,7 @@ namespace Site13Kernel
                         if (item.ID == id1)
                         {
                             item.Item.SetActive(true);
+                            ApplyItem(item.Item);
                             break;
                         }
                     }
@@ -306,41 +307,74 @@ namespace Site13Kernel
                 {
                     isFetch = true;
                     //Debug.Log("Take out:"+id1);
-                    GameInfo.CurrentGame.HandingItem = item.Item.GetComponent<HandableItem>();
-                    CurrentItem = item.Item.GetComponent<IHandItem>();
-                    if (CurrentItem == null) isCurrentItemV3Enabled = false;
-                    else isCurrentItemV3Enabled = CurrentItem.IsFPSSystemV3Enabled();
-                    item.Item.SetActive(true);
-                    try
-                    {
+                    //GameInfo.CurrentGame.HandingItem = item.Item.GetComponent<HandableItem>();
+                    //CurrentItem = item.Item.GetComponent<IHandItem>();
+                    //if (CurrentItem == null) isCurrentItemV3Enabled = false;
+                    //else isCurrentItemV3Enabled = CurrentItem.IsFPSSystemV3Enabled();
+                    //item.Item.SetActive(true);
+                    //try
+                    //{
 
-                        if (isCurrentItemV3Enabled == false)
-                        {
-                            GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
-                            GameInfo.CurrentGame.FirstPerson.ViewportShakingIntensity = new Vector3(3, 0, 0);
-                        }
-                        else
-                        {
-                            GameInfo.CurrentGame.FirstPerson.ViewportShakingIntensity = CurrentItem.GetOverriddenViewportShakingIntensity();
-                            if (CurrentItem.IsCrosshairOverridden() == false)
-                            {
-                                GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
-                            }
-                            else
-                            {
-                                GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = CurrentItem.GetOverriddenCrosshair();
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-                    }
+                    //    if (isCurrentItemV3Enabled == false)
+                    //    {
+                    //        GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
+                    //        GameInfo.CurrentGame.FirstPerson.ViewportShakingIntensity = new Vector3(3, 0, 0);
+                    //    }
+                    //    else
+                    //    {
+                    //        GameInfo.CurrentGame.FirstPerson.ViewportShakingIntensity = CurrentItem.GetOverriddenViewportShakingIntensity();
+                    //        if (CurrentItem.IsCrosshairOverridden() == false)
+                    //        {
+                    //            GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
+                    //        }
+                    //        else
+                    //        {
+                    //            GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = CurrentItem.GetOverriddenCrosshair();
+                    //        }
+                    //    }
+                    //}
+                    //catch (Exception)
+                    //{
+                    //}
+                    ApplyItem(item.Item);
                     break;
                 }
             }
             if (isFetch == false)
             {
                 GameInfo.CurrentGame.HandingItem = new HandableItem() { SecurityClearance = 0, ItemID = "EMPTY" };
+            }
+        }
+        public void ApplyItem(GameObject item)
+        {
+            GameInfo.CurrentGame.HandingItem = item.GetComponent<HandableItem>();
+            CurrentItem = item.GetComponent<IHandItem>();
+            if (CurrentItem == null) isCurrentItemV3Enabled = false;
+            else isCurrentItemV3Enabled = CurrentItem.IsFPSSystemV3Enabled();
+            item.SetActive(true);
+            try
+            {
+
+                if (isCurrentItemV3Enabled == false)
+                {
+                    GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
+                    GameInfo.CurrentGame.FirstPerson.ViewportShakingIntensity = new Vector3(3, 0, 0);
+                }
+                else
+                {
+                    GameInfo.CurrentGame.FirstPerson.ViewportShakingIntensity = CurrentItem.GetOverriddenViewportShakingIntensity();
+                    if (CurrentItem.IsCrosshairOverridden() == false)
+                    {
+                        GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
+                    }
+                    else
+                    {
+                        GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = CurrentItem.GetOverriddenCrosshair();
+                    }
+                }
+            }
+            catch (Exception)
+            {
             }
         }
     }

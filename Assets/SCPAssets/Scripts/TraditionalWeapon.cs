@@ -368,7 +368,7 @@ namespace Site13Kernel.Weapon
 
                 if (Input.GetButton("Fire1"))
                 {
-                    Primary();
+                    //Primary();
                 }
                 else
                 {
