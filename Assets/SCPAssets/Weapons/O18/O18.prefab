@@ -471,6 +471,7 @@ MonoBehaviour:
   BulletCrater: {fileID: 8053272573690999192, guid: df7bf0d677d100d4e87e720b363d6d13,
     type: 3}
   RecoiledObject: {fileID: 6551038144592890550}
+  FlashLightObject: {fileID: 7038510122955131929}
   AS: {fileID: 7876735758346061923}
   ReloadSound: {fileID: 6174738155136502787}
   ShellPresenter: {fileID: 0}
@@ -495,6 +496,9 @@ MonoBehaviour:
   AimingModeFOV: 40
   DefaultMags: 4
   AmmoShowerPercentage: 0
+  AmmoShowerShowCap: 1
+  AmmoShowerShowTotal: 1
+  ViewportShakingIntensity: {x: 3, y: 0, z: 0}
   AimingMode:
     isAdvancedAimingModeEnabled: 1
     AimingMainObjectPosition: {x: -0.49, y: 0, z: -0.44}
@@ -503,6 +507,14 @@ MonoBehaviour:
     NormalMainObjectScale: {x: 1, y: 1, z: 1}
     AimSpeed: 0.2
     MainObject: {fileID: 6551038144592890550}
+  FightWeapon:
+    IsFightEnabled: 0
+    Duration: 0
+    FightTrigger: 
+  crosshairSettings:
+    WillOverrideCrosshair: 0
+    CrosshairSprite: {fileID: 0}
+  SecondaryAmmoShower: []
   BagAlias: 
   FireDelta: 0.3
   SecondaryRecoilRate: 0
@@ -6934,6 +6946,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f9bdb34eaeaeb54d92584c0817d0dbd, type: 3}
+--- !u!1 &7038510122955131929 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1772569039141261050, guid: 5f9bdb34eaeaeb54d92584c0817d0dbd,
+    type: 3}
+  m_PrefabInstance: {fileID: 8733783200169820899}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &857951343364001220 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8276683452097646375, guid: 5f9bdb34eaeaeb54d92584c0817d0dbd,
