@@ -31,6 +31,8 @@ namespace Site13Kernel.FPSSystem
         /// Called when play pressed reload key (usually 'r')
         /// </summary>
         void Reload();
+        void FlashLight();
+
         bool IsPrimaryCompleted();
         bool IsSecondaryCompleted();
         bool IsFightCompleted();

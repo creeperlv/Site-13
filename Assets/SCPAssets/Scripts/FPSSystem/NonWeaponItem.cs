@@ -63,5 +63,8 @@ namespace Site13Kernel.FPSSystem
         }
 
         public Vector3 GetOverriddenViewportShakingIntensity() => Vector3.zero;
+
+        public void FlashLight() { 
+        }
     }
 }

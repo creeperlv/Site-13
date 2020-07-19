@@ -16,6 +16,7 @@ namespace Site13Kernel.Weapon
         public GameObject PrimaryShell;
         public GameObject BulletCrater;
         public GameObject RecoiledObject;
+        public GameObject FlashLightObject;
         public AudioSource AS;
         public AudioSource ReloadSound;
         public GameObject ShellPresenter;
@@ -612,6 +613,12 @@ namespace Site13Kernel.Weapon
         public Sprite GetOverriddenCrosshair() => crosshairSettings.CrosshairSprite;
 
         public Vector3 GetOverriddenViewportShakingIntensity() => ViewportShakingIntensity;
+
+        public void FlashLight()
+        {
+            if(FlashLightObject!=null)
+            FlashLightObject.SetActive(!FlashLightObject.activeSelf);
+        }
     }
 
 }

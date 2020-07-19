@@ -220,6 +220,11 @@ namespace Site13Kernel
                     if (CurrentItem.IsOnOperation() == false)
                         CurrentItem.Fight();
                 }
+                if (Input.GetButtonDown("FlashLight"))
+                {
+                    if (CurrentItem.IsOnOperation() == false)
+                        CurrentItem.FlashLight();
+                }
             }
         }
         string id1 = "";
