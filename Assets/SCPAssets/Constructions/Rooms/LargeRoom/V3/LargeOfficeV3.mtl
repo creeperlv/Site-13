@@ -1,0 +1,33 @@
+newmtl SCP-OZ-Wall_2
+map_Kd -o 0 0 -s 0.5 0.5 CoarseConcrete_Albedo.png
+bump -o 0 0 -s 1 1 CoarseConcrete_normal.png
+disp -o 0 0 -s 1 1 CoarseConcrete_height.png
+map_d -o 0 0 -s 1 1 WhiteWall2-map.png
+Kd 0.6792453 0.6792453 0.6792453
+d 1
+
+newmtl SCP-OZ-Floor
+map_Kd -o 0 0 -s 0.5 0.5 ceiling-Backup.jpg
+bump -o 0 0 -s 1 1 ceiling-Map.jpg
+disp -o 0 0 -s 1 1 ceiling-Map.jpg
+map_d -o 0 0 -s 1 1 glassNormal_quarter.png
+Kd 1 1 1
+d 1
+
+newmtl SCP-M-Lamp-Light
+Kd 1 1 1
+d 1
+
+newmtl SCP-M-Black_2
+map_Kd -o 0 0 -s 1 1 Bottom.png
+bump -o 0 0 -s 1 1 Darkmetal_Map.png
+disp -o 0 0 -s 1 1 Darkmetal_Map.png
+Kd 0 0 0
+d 1
+
+newmtl Metal_pattern_20
+map_Kd -o 0 0 -s 3 3 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+Kd 1 1 1
+d 1
+
