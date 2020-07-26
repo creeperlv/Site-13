@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 namespace Site13Kernel.Experimentals.OoD.V1
 {
 
@@ -9,13 +11,25 @@ namespace Site13Kernel.Experimentals.OoD.V1
     {
         public static bool ContinueCheck = true;
         public static Task CheckTask;
-        static Dictionary<string, List<SCPOoDV1>> OoDs = new Dictionary<string, List<SCPOoDV1>>();
-        static Dictionary<string, List<Vector3>> LOoDs = new Dictionary<string, List<Vector3>>();
-        static Dictionary<string, List<bool>> CheckedVisibility = new Dictionary<string, List<bool>>();
+        public static Dictionary<string, List<SCPOoDV1>> OoDs = new Dictionary<string, List<SCPOoDV1>>();
+        public static Dictionary<string, List<Vector3>> LOoDs = new Dictionary<string, List<Vector3>>();
+        public static Dictionary<string, List<bool>> CheckedVisibility = new Dictionary<string, List<bool>>();
         public float MinUpdateTime = 1f;
+        public WorkMode workMode= WorkMode.MainManager;
+        public enum WorkMode
+        {
+            MainManager,SubManager
+        }
         static string TaskID = "";
         void Start()
         {
+            if(workMode== WorkMode.SubManager)
+            {
+                //Codes here...
+                //GameInfo.CurrentGame.CurrentOoDManager.OoDs.Add(SceneManager.GetActiveScene().name,FindObjectOfType<SCPOoDV1>())
+                //Codes here...
+                return;
+            }
             ContinueCheck = false;
             TaskID = System.Guid.NewGuid().ToString();
             GameInfo.CurrentGame.CurrentOoDManager = this;
@@ -95,6 +109,11 @@ namespace Site13Kernel.Experimentals.OoD.V1
 
         void Update()
         {
+            if(workMode == WorkMode.SubManager)
+            {
+                //SubManagers do not do any work, let main manager do it!
+                return;
+            }
             deltaTime += Time.unscaledDeltaTime;
             if (deltaTime >= MinUpdateTime)
             {
