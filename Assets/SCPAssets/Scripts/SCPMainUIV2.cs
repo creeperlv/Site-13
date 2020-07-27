@@ -8,6 +8,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEditor;
+using UnityEngine.Rendering;
 //using UnityEngine.UIElements;
 namespace Site13Kernel.UI
 {
@@ -57,6 +59,8 @@ namespace Site13Kernel.UI
 
         void SetLanguage()
         {
+            //Application.
+            //PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneWindows, new[] { GraphicsDeviceType.Direct3D12,GraphicsDeviceType.Vulkan});
             {
                 WarningText.text = Language.Language_UI["WarningText"];
             }
@@ -333,7 +337,7 @@ namespace Site13Kernel.UI
                     newBtn.transform.localPosition = orilp;
                 }
                 var s = SavesPresenter.GetComponent<RectTransform>().sizeDelta;
-                    s.y = saves.Count * 40; SavesPresenter.GetComponent<RectTransform>().sizeDelta=s;
+                s.y = saves.Count * 40; SavesPresenter.GetComponent<RectTransform>().sizeDelta = s;
             }
             catch (System.Exception)
             {
