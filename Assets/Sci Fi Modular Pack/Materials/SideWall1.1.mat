@@ -8,13 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SideWall1.1
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 34a47d205ffc45e47949b1581df454f1, type: 3}
   m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-  m_LightmapFlags: 0
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: MKGlow
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -74,4 +75,4 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 2, g: 2, b: 2, a: 1}
+    - _EmissionColor: {r: 2.670157, g: 2.670157, b: 2.670157, a: 1}
