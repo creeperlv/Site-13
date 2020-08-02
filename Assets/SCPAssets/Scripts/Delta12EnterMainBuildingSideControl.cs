@@ -189,7 +189,7 @@ namespace Site13Kernel.Stories.Delta12
                 {
 
                     item.GetComponent<Delta12Teammate>().PlayWalkSound = true;
-                    item.transform.GetChild(0).GetComponent<Animator>().SetTrigger("WalkWithRiggle");
+                    item.transform.GetChild(0).GetComponent<Animator>().SetTrigger("WalkWithRiffle");
                 }
                 //SubtitlesStage02
                 Delta12Team[0].transform.GetChild(0).GetComponent<Animator>().SetTrigger("GiveForwardOrder");
