@@ -142,12 +142,12 @@ namespace Site13Kernel.Stories.Delta12
             foreach (var item in Delta12Team)
             {
 
-                item.GetComponent<Delta12Teammate>().PlayWalkSound = true;
+                item.GetComponent<Delta12Teammate>().PlayWalkSound = false;
                 item.transform.GetChild(0).GetComponent<Animator>().SetTrigger("IdleAiming");
             }
             {
                 //SubtitlesStage01
-
+                PlayerCam.enabled = false;
                 foreach (var item in SubtitlesStage01)
                 {
                     if (item.LanguageAlia == "")
@@ -176,15 +176,16 @@ namespace Site13Kernel.Stories.Delta12
                     yield return new WaitForSeconds(item.WaitLength);
                 }
                 {
-                    foreach (var item in Lights)
-                    {
-                        item.SetActive(true);
+                    //foreach (var item in Lights)
+                    //{
+                    //    item.SetActive(true);
 
-                    }
+                    //}
                 }
             }
             {
                 yield return new WaitForSeconds(Wait01);
+                PlayerCam.enabled = true;
                 foreach (var item in Delta12Team)
                 {
 
