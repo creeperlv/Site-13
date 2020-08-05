@@ -43,8 +43,10 @@ namespace Site13Kernel
         private bool isImprovedFalldownEnabled;
         public bool isForceOldFalldown;
         public float FalldownSpeed = 3f;
+        [Tooltip("Smaller means falldown speed is slower.")]
         public float FalldownSpeedAccelerator = 6f;
-
+        [Tooltip("Smaller holds longer.(Original is 5 in code.)")]
+        public float JumpAirStickTime= 4f;
         private float AccumulativeFalldownSpeed;
 
         #endregion
@@ -435,7 +437,7 @@ namespace Site13Kernel
                     moveDirection.y = 4.5f * jumpCutdown;
 
                 }
-                jumpCutdown -= Time.deltaTime * 5;
+                jumpCutdown -= Time.deltaTime * JumpAirStickTime;
             }
             //Debug.Log(Vector3.Magnitude(moveDirection) + "");
 
