@@ -46,9 +46,11 @@ namespace Site13Kernel
         [Tooltip("Smaller means falldown speed is slower.")]
         public float FalldownSpeedAccelerator = 6f;
         [Tooltip("Smaller holds longer.(Original is 5 in code.)")]
-        public float JumpAirStickTime= 4f;
+        public float JumpAirStickTime = 4f;
         private float AccumulativeFalldownSpeed;
-
+        public float JumpNormal = 4.5f;
+        public float JumpRun = 6f;
+        public float JumpCrouch = 8f;
         #endregion
 
         #region Dynamic Crosshair
@@ -144,11 +146,26 @@ namespace Site13Kernel
             SHK_VRT += UnityEngine.Random.Range(VerticalMin, VerticalMax);
             SHK_TIME_LEFT = Duration;
         }
+
         void ControlLogic()
         {
             if (Input.GetButtonDown("Crouch"))
             {
                 Crouch = !Crouch;
+                if (controller.height == 1.8f)
+                {
+                    GetComponent<CapsuleCollider>().center = new Vector3(0, -.6f, 0);
+                    controller.center = new Vector3(0, -.6f, 0);
+                    GetComponent<CapsuleCollider>().height = 0.6f;
+                    controller.height = 0.6f;
+                }
+                else
+                {
+                    GetComponent<CapsuleCollider>().center = new Vector3(0, 0, 0);
+                    GetComponent<CapsuleCollider>().height = 1.8f;
+                    controller.center = new Vector3(0, 0, 0);
+                    controller.height = 1.8f;
+                }
             }
             if (Input.GetButtonDown("Jump"))
             {
@@ -161,12 +178,21 @@ namespace Site13Kernel
             }
             if (Crouch == true)
             {
-                if (baseHeadHeight > (OriginHeadHeight / 5) * 2)
+                //if (baseHeadHeight > (OriginHeadHeight / 20) * 1)
+                //{
+                //    baseHeadHeight -= Time.deltaTime * 0.7f;
+                //    if (baseHeadHeight <= (OriginHeadHeight / 20) * 1)
+                //    {
+                //        baseHeadHeight = (OriginHeadHeight / 20) * 1;
+                //    }
+                //}
+                float NF = -(OriginHeadHeight / 5f);
+                if (baseHeadHeight >NF)
                 {
-                    baseHeadHeight -= Time.deltaTime * 0.7f;
-                    if (baseHeadHeight <= (OriginHeadHeight / 5) * 2)
+                    baseHeadHeight -= Time.deltaTime * 1.2f;
+                    if (baseHeadHeight <= NF)
                     {
-                        baseHeadHeight = (OriginHeadHeight / 5) * 2;
+                        baseHeadHeight = NF;
                     }
                 }
             }
@@ -188,10 +214,15 @@ namespace Site13Kernel
                 ////////////////////////////////
 
                 var lp = cameraTransform.localPosition;
-                lp.y = baseHeadHeight - ((float)Math.Pow(walkCycle - 0.5, 2) - 1f) / 3f;
+
+                if (Crouch == false)
+                    lp.y = baseHeadHeight - ((float)Math.Pow(walkCycle - 0.5, 2) - 1f) / 3f;
+                else
+                    //lp.y = baseHeadHeight - ((float)Math.Pow(walkCycle - 0.5, 2) - .5f) / 8f;
+                    lp.y = baseHeadHeight - ((float)Math.Pow(walkCycle - 0.5, 2) - .5f) / 6f;
                 cameraTransform.localPosition = lp;
                 var v3Angle = WeaponCam.transform.localRotation.eulerAngles;
-                float ShakeValue0= (Math.Abs(walkCycle - 0.5f)-0.25f)*4*(GameInfo.CurrentGame.isRunning?1.2f:1);
+                float ShakeValue0 = (Math.Abs(walkCycle - 0.5f) - 0.25f) * 4 * (GameInfo.CurrentGame.isRunning ? 1.2f : 1);
                 v3Angle.x = ShakeValue0 * ViewportShakingIntensity.x;
                 v3Angle.y = ShakeValue0 * ViewportShakingIntensity.y;
                 v3Angle.z = ShakeValue0 * ViewportShakingIntensity.z;
@@ -422,19 +453,19 @@ namespace Site13Kernel
                 if (Crouch)
                 {
 
-                    moveDirection.y = 8f * jumpCutdown;
+                    moveDirection.y = JumpCrouch * jumpCutdown;
                 }
                 else
                 if (GameInfo.CurrentGame.isRunning)
                 {
 
-                    moveDirection.y = 6f * jumpCutdown;
+                    moveDirection.y = JumpRun * jumpCutdown;
 
                 }
                 else
                 {
 
-                    moveDirection.y = 4.5f * jumpCutdown;
+                    moveDirection.y = JumpNormal * jumpCutdown;
 
                 }
                 jumpCutdown -= Time.deltaTime * JumpAirStickTime;
@@ -454,7 +485,7 @@ namespace Site13Kernel
             if (jump)
             {
                 //AccumulativeFalldownSpeed = 1f;
-                jumpCutdown = 1.2f;
+                jumpCutdown = 1f;
                 jump = false;
             }
 
