@@ -23,6 +23,7 @@ namespace Site13Kernel
         public bool isPauseAllowed = true;
         public bool isUltraState= false;
         public bool isHealthSpeedDisabled= false;
+        public bool isWatching = false;
         public bool isAiming= false;
         public bool isAimingEnded= false;
         public bool isRunning = false;

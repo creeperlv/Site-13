@@ -18,6 +18,7 @@ namespace Site13Kernel
         public string DefSec = "S-CO-O-18";
         public string DefKeyCard = "L-3-K";
         public string DefPhone = "LUMIA950";
+        public float WatchModeFov = 25;
         [Serializable]
         public class BagItem
         {
@@ -141,6 +142,45 @@ namespace Site13Kernel
                 }
             }
 
+            if (Input.GetButton("Watch"))
+            {
+                if (
+                   GameInfo.CurrentGame.isWatching == false)
+                {
+                    if (Camera.main.fieldOfView > WatchModeFov)
+                    {
+                        Camera.main.fieldOfView -= Time.deltaTime * (100f / 40f) * (60f - WatchModeFov);
+                    }
+                    else
+                    {
+                        GameInfo.CurrentGame.isAiming = true;
+                        Camera.main.fieldOfView = WatchModeFov;
+                        foreach (var item in bagItems)
+                        {
+                            item.Item.SetActive(false);
+                        }
+                        GameInfo.CurrentGame.isWatching = true;
+                    }
+                }
+            }
+            else
+            {
+                if (
+                   GameInfo.CurrentGame.isWatching == true)
+                {
+                    if (Camera.main.fieldOfView < GameInfo.CurrentGame.UsingFOV)
+                    {
+                        Camera.main.fieldOfView += Time.deltaTime * 100;
+                    }
+                    else
+                    {
+
+                        GameInfo.CurrentGame.isWatching = false;
+                        GameInfo.CurrentGame.isAiming = false; SetItem();
+                        Camera.main.fieldOfView = GameInfo.CurrentGame.UsingFOV;
+                    }
+                }
+            }
             try
             {
                 string id2 = id1;
@@ -215,6 +255,15 @@ namespace Site13Kernel
                 {
                     CurrentItem.UnPrimary();
                 }
+                //if (Input.GetButton("Fire2"))
+                //{
+                //    if (CurrentItem.IsOnOperation() == false)
+                //        CurrentItem.Secondary();
+                //}
+                //else if (Input.GetButtonUp("Fire2"))
+                //{
+                //    CurrentItem.UnSecondary();
+                //}
                 if (Input.GetButtonDown("Fight"))
                 {
                     if (CurrentItem.IsOnOperation() == false)

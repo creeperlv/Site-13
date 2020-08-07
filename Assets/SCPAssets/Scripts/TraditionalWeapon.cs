@@ -377,63 +377,67 @@ namespace Site13Kernel.Weapon
                 }
                 //if ()
                 {
-
-                    if (Input.GetButton("Fire2") && ReloadTimePass == 0.0f && GameInfo.CurrentGame.isRunning == false)
+                    if (GameInfo.CurrentGame.isWatching == false)
                     {
-                        if (GameInfo.CurrentGame.isPaused == false)
-                        {
-                            GameInfo.CurrentGame.isAimingEnded = false;
-                            SingleSecondaryOperate();
-                        }
-                    }
-                    else
-                    {
-                        if (GameInfo.CurrentGame.isAiming == true && GameInfo.CurrentGame.isRunning == true)
-                        {
-                            GameInfo.CurrentGame.isAimingEnded = false;
-                            if (GameInfo.CurrentMouseSen != GameInfo.TargetMouseSen)
-                                GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen;
-                            if (Camera.main.fieldOfView < GameInfo.CurrentGame.UsingFOV)
-                            {
-                                Camera.main.fieldOfView += Time.deltaTime * 100;
-                            }
-                            else
-                            {
 
-                                Camera.main.fieldOfView = GameInfo.CurrentGame.UsingFOV;
+
+                        if (Input.GetButton("Fire2") && ReloadTimePass == 0.0f && GameInfo.CurrentGame.isRunning == false)
+                        {
+                            if (GameInfo.CurrentGame.isPaused == false)
+                            {
+                                GameInfo.CurrentGame.isAimingEnded = false;
+                                SingleSecondaryOperate();
                             }
                         }
-                        if (GameInfo.CurrentGame.isAiming == false && GameInfo.CurrentGame.isRunning == false && GameInfo.CurrentGame.isAimingEnded == false)
+                        else
                         {
-
-                            if (
-                            GameInfo.CurrentMouseSen != GameInfo.TargetMouseSen)
-                                GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen;
-
-                            if (Camera.main.fieldOfView < GameInfo.CurrentGame.UsingFOV)
+                            if (GameInfo.CurrentGame.isAiming == true && GameInfo.CurrentGame.isRunning == true)
                             {
-                                Camera.main.fieldOfView += Time.deltaTime * 100;
+                                GameInfo.CurrentGame.isAimingEnded = false;
+                                if (GameInfo.CurrentMouseSen != GameInfo.TargetMouseSen)
+                                    GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen;
+                                if (Camera.main.fieldOfView < GameInfo.CurrentGame.UsingFOV)
+                                {
+                                    Camera.main.fieldOfView += Time.deltaTime * 100;
+                                }
+                                else
+                                {
+
+                                    Camera.main.fieldOfView = GameInfo.CurrentGame.UsingFOV;
+                                }
                             }
-                            else
+                            if (GameInfo.CurrentGame.isAiming == false && GameInfo.CurrentGame.isRunning == false && GameInfo.CurrentGame.isAimingEnded == false)
                             {
 
-                                Camera.main.fieldOfView = GameInfo.CurrentGame.UsingFOV;
-                                GameInfo.CurrentGame.isAimingEnded = true;
+                                if (
+                                GameInfo.CurrentMouseSen != GameInfo.TargetMouseSen)
+                                    GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen;
+
+                                if (Camera.main.fieldOfView < GameInfo.CurrentGame.UsingFOV)
+                                {
+                                    Camera.main.fieldOfView += Time.deltaTime * 100;
+                                }
+                                else
+                                {
+
+                                    Camera.main.fieldOfView = GameInfo.CurrentGame.UsingFOV;
+                                    GameInfo.CurrentGame.isAimingEnded = true;
+                                }
+                                // GameInfo.CurrentGame.isAimingEnded = false;
                             }
-                            // GameInfo.CurrentGame.isAimingEnded = false;
+                            {
+                                if (AimingMode.MainObject.transform.localPosition.x >= AimingMode.NormalMainObjectPosition.x)
+                                {
+                                    AimingMode.MainObject.transform.localPosition = AimingMode.NormalMainObjectPosition;
+                                }
+                                else
+                                {
+                                    AimingMode.MainObject.transform.localScale = AimingMode.NormalMainObjectScale;
+                                    AimingMode.MainObject.transform.Translate(-AimingDelta * Time.deltaTime);
+                                }
+                            }
+                            GameInfo.CurrentGame.isAiming = false;
                         }
-                        {
-                            if (AimingMode.MainObject.transform.localPosition.x >= AimingMode.NormalMainObjectPosition.x)
-                            {
-                                AimingMode.MainObject.transform.localPosition = AimingMode.NormalMainObjectPosition;
-                            }
-                            else
-                            {
-                                AimingMode.MainObject.transform.localScale = AimingMode.NormalMainObjectScale;
-                                AimingMode.MainObject.transform.Translate(-AimingDelta * Time.deltaTime);
-                            }
-                        }
-                        GameInfo.CurrentGame.isAiming = false;
                     }
                 }
                 //else
@@ -616,8 +620,8 @@ namespace Site13Kernel.Weapon
 
         public void FlashLight()
         {
-            if(FlashLightObject!=null)
-            FlashLightObject.SetActive(!FlashLightObject.activeSelf);
+            if (FlashLightObject != null)
+                FlashLightObject.SetActive(!FlashLightObject.activeSelf);
         }
     }
 
