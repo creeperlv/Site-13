@@ -8,15 +8,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TeslaEffect
-  m_Shader: {fileID: 210, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 34a47d205ffc45e47949b1581df454f1, type: 3}
   m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 0
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses:
-  - ALWAYS
+  stringTagMap:
+    RenderType: MKGlow
+  disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -82,7 +82,7 @@ Material:
     - _InvFade: 3
     - _LightingEnabled: 1
     - _MKGlowPower: 0.38
-    - _MKGlowTexStrength: 2.78
+    - _MKGlowTexStrength: 10
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -97,8 +97,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _CameraFadeParams: {r: 1, g: 1, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 1.8196079, g: 5.2705884, b: 11.984314, a: 1}
+    - _Color: {r: 0, g: 0.33085203, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 1.3490196, b: 5.992157, a: 1}
     - _MKGlowColor: {r: 0, g: 0.7149544, b: 1, a: 1}
     - _MKGlowTexColor: {r: 0.4669811, g: 0.813966, b: 1, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 1, b: 0, a: 0}
