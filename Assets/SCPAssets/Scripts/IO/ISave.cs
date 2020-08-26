@@ -8,7 +8,7 @@ namespace Site13Kernel.IO
 {
     public interface ISave
     {
-        public void Save();
-        public void Load();
+        void Save();
+        void Load();
     }
 }

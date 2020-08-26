@@ -45,7 +45,7 @@ namespace Site13Kernel
         public Notification notification;
         public AchievementShower achievement;
         public float LoadedHP = 100.0f;
-        public SaveSystem CurrentSceneSaveSystem;
+        public ISave CurrentSceneSaveSystem;
         public Dictionary<string, string> EnemyStatusGroup = new Dictionary<string, string>();
         public Dictionary<string, string> FlagsGroup = new Dictionary<string, string>();
         public EnterSourceType EnterSource = EnterSourceType.Tunnel1;
