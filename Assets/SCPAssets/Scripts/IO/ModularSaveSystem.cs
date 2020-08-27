@@ -6,6 +6,7 @@ namespace Site13Kernel.IO
 
     public class ModularSaveSystem : MonoBehaviour, ISave
     {
+        public string SavePath { get { return "Undefined."; } }
         public Dictionary<string, ModularSaveSystemModule> Modules = new Dictionary<string, ModularSaveSystemModule>();
         public void Load()
         {
