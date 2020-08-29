@@ -26,7 +26,7 @@ public class DoorDetectionLite : MonoBehaviour
             if (Input.GetKey(Character))
             {
                 Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0F));
-                Debug.DrawRay(ray.origin, ray.direction, Color.green, 10f);
+                //Debug.DrawRay(ray.origin, ray.direction, Color.green, 10f);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Reach, 1 << 0, QueryTriggerInteraction.Ignore))
                 {

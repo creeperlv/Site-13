@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Site13Kernel.IO;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,7 +9,7 @@ namespace Site13Kernel.DynamicScene
     {
         public int TargetSceneID = -1;
         public string TargetSceneName = "#";
-        public bool AutoLoad=false;
+        public bool AutoLoad = false;
         object FinalLoadedSceneIdentifier;
         // Start is called before the first frame update
         void Start()
@@ -65,10 +66,44 @@ namespace Site13Kernel.DynamicScene
                 if (FinalLoadedSceneIdentifier is string)
                 {
                     SceneManager.UnloadSceneAsync((string)FinalLoadedSceneIdentifier);
+                    var gos = SceneManager.GetSceneByName(TargetSceneName).GetRootGameObjects();
+                    foreach (var item in gos)
+                    {
+                        if (item.name == "SaveSystemV3")
+                        {
+                            try
+                            {
+
+                                item.GetComponent<ModularSaveSystemModule>().Save();
+                                item.GetComponent<ModularSaveSystemModule>().Unregister();
+
+                            }
+                            catch
+                            {
+                            }
+                        }
+                    }
                 }
                 else if (FinalLoadedSceneIdentifier is int)
                 {
                     SceneManager.UnloadSceneAsync((int)FinalLoadedSceneIdentifier);
+                    var gos = SceneManager.GetSceneByBuildIndex((int)FinalLoadedSceneIdentifier).GetRootGameObjects();
+                    foreach (var item in gos)
+                    {
+                        if (item.name == "SaveSystemV3")
+                        {
+                            try
+                            {
+
+                                item.GetComponent<ModularSaveSystemModule>().Save();
+                                item.GetComponent<ModularSaveSystemModule>().Unregister();
+
+                            }
+                            catch
+                            {
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception)
