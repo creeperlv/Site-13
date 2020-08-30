@@ -494,7 +494,7 @@ namespace Site13Kernel
                 if (transform.position.y > MAX_Y)
                 {
                     MAX_Y = transform.position.y;
-                    Debug.Log("Up to: " + MAX_Y);
+                    //Debug.Log("Up to: " + MAX_Y);
                 }
             }
 
@@ -508,7 +508,7 @@ namespace Site13Kernel
                 moveDirection.y = 0f;
                 float DLT_Y = MAX_Y - transform.position.y;
                 float FALL_DMG = DLT_Y < 4f ? 0f : ((DLT_Y - 3) / 10f) * GameInfo.CurrentGame.PlayerHealth.MaxHealth;
-                Debug.Log("Fall From: " + MAX_Y + $" , Delta Height:{DLT_Y} , Suffer damage:" + FALL_DMG);
+                //Debug.Log("Fall From: " + MAX_Y + $" , Delta Height:{DLT_Y} , Suffer damage:" + FALL_DMG);
                 GameInfo.CurrentGame.PlayerHealth.ChangeHealth(-FALL_DMG);
                 MAX_Y = -120;
             }
