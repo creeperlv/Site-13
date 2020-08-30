@@ -37,6 +37,22 @@ namespace Site13Kernel.DynamicScene
                         {
                             SceneManager.LoadScene(TargetSceneID, LoadSceneMode.Additive);
                             FinalLoadedSceneIdentifier = TargetSceneID;
+                            var gos = SceneManager.GetSceneByName(TargetSceneName).GetRootGameObjects();
+                            foreach (var item in gos)
+                            {
+                                if (item.name == "ModularScenePrefab")
+                                {
+                                    try
+                                    {
+                                        var Objects = item.GetComponent<ModularSceneObjects>();
+                                        Objects.SaveModule.Register();
+                                        Objects.SaveModule.Load();
+                                    }
+                                    catch
+                                    {
+                                    }
+                                }
+                            }
                         }
                     }
                     catch (Exception)
@@ -52,6 +68,23 @@ namespace Site13Kernel.DynamicScene
                     {
                         SceneManager.LoadScene(TargetSceneID, LoadSceneMode.Additive);
                         FinalLoadedSceneIdentifier = TargetSceneID;
+                        var gos = SceneManager.GetSceneByBuildIndex(TargetSceneID).GetRootGameObjects();
+                        foreach (var item in gos)
+                        {
+                            if (item.name == "ModularScenePrefab")
+                            {
+                                try
+                                {
+                                    var Objects = item.GetComponent<ModularSceneObjects>();
+                                    Objects.SaveModule.Register();
+                                    Objects.SaveModule.Load();
+
+                                }
+                                catch
+                                {
+                                }
+                            }
+                        }
                     }
                 }
                 catch (Exception)
@@ -69,13 +102,13 @@ namespace Site13Kernel.DynamicScene
                     var gos = SceneManager.GetSceneByName(TargetSceneName).GetRootGameObjects();
                     foreach (var item in gos)
                     {
-                        if (item.name == "SaveSystemV3")
+                        if (item.name == "ModularScenePrefab")
                         {
                             try
                             {
-
-                                item.GetComponent<ModularSaveSystemModule>().Save();
-                                item.GetComponent<ModularSaveSystemModule>().Unregister();
+                                var Objects = item.GetComponent<ModularSceneObjects>();
+                                Objects.SaveModule.Save();
+                                Objects.SaveModule.Unregister();
 
                             }
                             catch
@@ -90,13 +123,14 @@ namespace Site13Kernel.DynamicScene
                     var gos = SceneManager.GetSceneByBuildIndex((int)FinalLoadedSceneIdentifier).GetRootGameObjects();
                     foreach (var item in gos)
                     {
-                        if (item.name == "SaveSystemV3")
+                        if (item.name == "ModularScenePrefab")
                         {
                             try
                             {
 
-                                item.GetComponent<ModularSaveSystemModule>().Save();
-                                item.GetComponent<ModularSaveSystemModule>().Unregister();
+                                var Objects = item.GetComponent<ModularSceneObjects>();
+                                Objects.SaveModule.Save();
+                                Objects.SaveModule.Unregister();
 
                             }
                             catch

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1675890613096461940}
+  - component: {fileID: 428638160279900094}
   m_Layer: 0
   m_Name: ModularScenePrefab
   m_TagString: Untagged
@@ -31,6 +32,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &428638160279900094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5168824133304660255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99cb0a7a2ae43a84096d3e6a7ff5847a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SaveModule: {fileID: 1248939994441875654}
 --- !u!1 &7385568818397519706
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,3 +88,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e9d47edeef2f4e88459eaab6d0e25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetSaveSystemID: -1
+  TargetRecursiveObject: []
+  TargetRecursiveObjectBytable: []
+  TargetNonRecursiveObject: []
+  TargetNonRecursiveObjectBytable: []
