@@ -45,6 +45,10 @@ namespace Site13Kernel.DynamicScene
                                     try
                                     {
                                         var Objects = item.GetComponent<ModularSceneObjects>();
+                                        foreach (var Component in Objects.Components)
+                                        {
+                                            Component.Init();
+                                        }
                                         Objects.SaveModule.Register();
                                         Objects.SaveModule.Load();
                                     }
@@ -76,6 +80,10 @@ namespace Site13Kernel.DynamicScene
                                 try
                                 {
                                     var Objects = item.GetComponent<ModularSceneObjects>();
+                                    foreach (var Component in Objects.Components)
+                                    {
+                                        Component.Init();
+                                    }
                                     Objects.SaveModule.Register();
                                     Objects.SaveModule.Load();
 
@@ -107,6 +115,10 @@ namespace Site13Kernel.DynamicScene
                             try
                             {
                                 var Objects = item.GetComponent<ModularSceneObjects>();
+                                foreach (var Component in Objects.Components)
+                                {
+                                    Component.OnDispose();
+                                }
                                 Objects.SaveModule.Save();
                                 Objects.SaveModule.Unregister();
 
@@ -129,6 +141,10 @@ namespace Site13Kernel.DynamicScene
                             {
 
                                 var Objects = item.GetComponent<ModularSceneObjects>();
+                                foreach (var Component in Objects.Components)
+                                {
+                                    Component.OnDispose();
+                                }
                                 Objects.SaveModule.Save();
                                 Objects.SaveModule.Unregister();
 

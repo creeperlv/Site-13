@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Site13Kernel.DynamicScene;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Site13Kernel.IO
 {
-    public class ModularSaveSystemModule : MonoBehaviour,ISave
+    public class ModularSaveSystemModule : MonoBehaviour,ISave,IModularSceneComponent
     {
         public int TargetSaveSystemID = -1;
         bool isRegistered = false;
@@ -36,6 +37,16 @@ namespace Site13Kernel.IO
         void Update()
         {
 
+        }
+
+        public void Init()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnDispose()
+        {
+            throw new System.NotImplementedException();
         }
     }
 
