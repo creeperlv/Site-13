@@ -7,7 +7,13 @@ namespace Site13Kernel.DynamicScene
     public class ModularSceneObjects : MonoBehaviour
     {
         public ModularSaveSystemModule SaveModule;
-        public List<IModularSceneComponent> Components;
+        public List<BaseModularSceneComponent> Components;
+    }
+    public abstract class BaseModularSceneComponent : MonoBehaviour, IModularSceneComponent
+    {
+        public abstract void Init();
+
+        public abstract void OnDispose();
     }
     public interface IModularSceneComponent
     {

@@ -96,7 +96,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1076477136241651769}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.236, y: -0.245, z: -1.537}
+  m_LocalPosition: {x: -0.236, y: 0.25, z: -1.537}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6257165076852636786}
@@ -151,6 +151,7 @@ MonoBehaviour:
   DoorType: 0
   AnimationData:
     DoorAnimators: []
+    CurrentState: 0
     OpenAnimatorTrigger: 
     OpenAnimatorTime: 0
     OpenErrorAnimatorTrigger: 
@@ -158,9 +159,7 @@ MonoBehaviour:
     CloseAnimatorTrigger: 
     CloseAnimatorTime: 0
     ClosedTrigger: 
-    CloseTime: 0
     OpenTrigger: 
-    OpenTime: 0
 --- !u!1 &1304105765806449142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1556,7 +1555,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5736691156409217056}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.29, y: -0.245, z: 1.438}
+  m_LocalPosition: {x: 0.29, y: 0.25, z: 1.438}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8248615889300673104}
@@ -1611,6 +1610,7 @@ MonoBehaviour:
   DoorType: 0
   AnimationData:
     DoorAnimators: []
+    CurrentState: 0
     OpenAnimatorTrigger: 
     OpenAnimatorTime: 0
     OpenErrorAnimatorTrigger: 
@@ -1618,9 +1618,7 @@ MonoBehaviour:
     CloseAnimatorTrigger: 
     CloseAnimatorTime: 0
     ClosedTrigger: 
-    CloseTime: 0
     OpenTrigger: 
-    OpenTime: 0
 --- !u!1 &5746009768060124421
 GameObject:
   m_ObjectHideFlags: 0
