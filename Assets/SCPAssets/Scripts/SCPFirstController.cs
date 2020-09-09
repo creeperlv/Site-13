@@ -39,8 +39,11 @@ namespace Site13Kernel
         public Vector3 ViewportShakingIntensity = new Vector3(3, 0, 0);
         public RotationRestrictionSettings RotationRestriction;
         public Camera WeaponCam;
+        public bool DisableJump = false;
         #region ImprovedFalldown;
         private bool isImprovedFalldownEnabled;
+        [Tooltip("Effect when old falldown enabled.")]
+        public float ConstantFalldownSpeed = -9.8f;
         public bool isForceOldFalldown;
         public float FalldownSpeed = 3f;
         [Tooltip("Smaller means falldown speed is slower.")]
@@ -167,6 +170,7 @@ namespace Site13Kernel
                     controller.height = 1.8f;
                 }
             }
+            if(DisableJump==false)
             if (Input.GetButtonDown("Jump"))
             {
                 if (prevGrounded)
@@ -440,7 +444,7 @@ namespace Site13Kernel
             {
                 if (isImprovedFalldownEnabled == false)
                 {
-                    moveDirection.y = -9.8f;
+                    moveDirection.y = ConstantFalldownSpeed;
                 }
                 else
                 {
