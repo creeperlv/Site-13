@@ -61,9 +61,11 @@ namespace Site13Kernel.UI
         {
             //Application.
             //PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneWindows, new[] { GraphicsDeviceType.Direct3D12,GraphicsDeviceType.Vulkan});
+            try
             {
                 WarningText.text = Language.Language_UI["WarningText"];
             }
+            catch { }
             {
                 NewGameText.text = Language.Language_UI["NewGame"];
             }
