@@ -17,10 +17,10 @@ namespace Site13Kernel.IO
         public List<GameObject> TargetNonRecursiveObject;
         [Header("Exclude Transform")]
         public List<GameObject> TargetNonRecursiveObjectBytable;
-        
+
         public void Load()
         {
-            
+
         }
         public void LoadRecursively(GameObject Father)
         {
@@ -28,18 +28,20 @@ namespace Site13Kernel.IO
         }
         public void Save()
         {
+            
             foreach (var item in TargetRecursiveObjectBytable)
             {
 
             }
         }
 
-        public ByteBuffer SaveRecursively(GameObject Father)
+        public ByteBuffer SaveRecursively(GameObject Father, ByteBuffer vs)
         {
-            ByteBuffer vs = new ByteBuffer();
+            if (vs == null) vs = new ByteBuffer();
             for (int i = 0; i < Father.transform.childCount; i++)
             {
                 Father.transform.GetChild(i);
+                SaveRecursively(Father, vs);
             }
             return vs;
         }
