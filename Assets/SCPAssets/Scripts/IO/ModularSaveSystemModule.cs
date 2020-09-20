@@ -28,16 +28,27 @@ namespace Site13Kernel.IO
         }
         public void Save()
         {
-            
+
+            ByteBuffer RecursiveObjectsData = new ByteBuffer();
             foreach (var item in TargetRecursiveObjectBytable)
             {
-
+                SaveRecursively(item, RecursiveObjectsData);
             }
         }
-
+        public void AnalyzeObject(GameObject obj, ref ByteBuffer Buffer)
+        {
+            var c = obj.GetComponents<BytableBehavior>();
+            ByteBuffer vs = new ByteBuffer();
+            foreach (var item in c)
+            {
+                vs = vs * item.Serialize();
+            }
+            Buffer = Buffer * vs;
+        }
         public ByteBuffer SaveRecursively(GameObject Father, ByteBuffer vs)
         {
             if (vs == null) vs = new ByteBuffer();
+            AnalyzeObject(Father, ref vs);
             for (int i = 0; i < Father.transform.childCount; i++)
             {
                 Father.transform.GetChild(i);

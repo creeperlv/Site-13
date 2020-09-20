@@ -10,11 +10,11 @@ public class BytableBehavior : MonoBehaviour
     {
         
     }
-    public virtual void Serialize(ByteBuffer Data)
+    public virtual void Deserialize(ByteBuffer Data)
     {
 
     }
-    public virtual ByteBuffer Deserialize() => null;
+    public virtual ByteBuffer Serialize() => null;
     // Update is called once per frame
     void Update()
     {
