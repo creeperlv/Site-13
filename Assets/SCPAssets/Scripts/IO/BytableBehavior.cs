@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Site13Kernel.IO
 {
+    /// <summary>
+    /// Base class for ModularSaveSystem.
+    /// </summary>
     public class BytableBehavior : MonoBehaviour
     {
         public virtual void Deserialize(ByteBuffer Data)
