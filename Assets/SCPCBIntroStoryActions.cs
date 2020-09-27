@@ -10,8 +10,13 @@ namespace Site13Kernel.Stories
         public bool Action0_ShowSubtitle00 = false;
         private bool Action0_ShowSubtitle00_ = false;
         public bool Action1_PlayCBAudio00 = false;
-        private bool Action1_PlayCBAudio00_= false;
+        private bool Action1_PlayCBAudio00_ = false;
+        public bool Action2_OpenDoor0 = false;
+        private bool Action2_OpenDoor0_ = false;
+        public bool Action3_CloseDoor0 = false;
+        private bool Action3_CloseDoor0_ = false;
 
+        public SCPDoor Door0;
         public AudioSource CBAudio00;
 
         void Update()
@@ -30,6 +35,22 @@ namespace Site13Kernel.Stories
                 {
                     Action1_PlayCBAudio00_ = true;
                     CBAudio00.Play();
+                }
+            }
+            if (Action2_OpenDoor0 == true)
+            {
+                if (Action2_OpenDoor0_ == false)
+                {
+                    Action2_OpenDoor0_ = true;
+                    StartCoroutine(Door0.Open());
+                }
+            }
+            if (Action3_CloseDoor0 == true)
+            {
+                if (Action3_CloseDoor0_ == false)
+                {
+                    Action3_CloseDoor0_ = true;
+                    StartCoroutine(Door0.Close());
                 }
             }
         }

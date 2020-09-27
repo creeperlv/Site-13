@@ -36,6 +36,12 @@ namespace Site13Kernel.IO
                 SaveRecursively(item, RecursiveObjectsData);
             }
         }
+        public void AnalyzeTransform(GameObject obj, ref ByteBuffer Buffer)
+        {
+            ByteBuffer vs = new ByteBuffer();
+            vs.AppendGroup(Utilities.FromTransform(obj.transform));
+            Buffer *= vs;
+        }
         public void AnalyzeObject(GameObject obj, ref ByteBuffer Buffer)
         {
             var c = obj.GetComponents<BytableBehavior>();
@@ -43,9 +49,9 @@ namespace Site13Kernel.IO
             vs.AppendGroup(Utilities.FromTransform(obj.transform));
             foreach (var item in c)
             {
-                vs = vs * item.Serialize();
+                vs *= item.Serialize();
             }
-            Buffer = Buffer * vs;
+            Buffer *= vs;
         }
         public ByteBuffer SaveRecursively(GameObject Father, ByteBuffer vs)
         {
@@ -93,14 +99,14 @@ namespace Site13Kernel.IO
             //Amount: 3*4+4*4+3*4.
             byte[] vs = new byte[40];
             {
-                var a=BitConverter.GetBytes(transform.position.x);
+                var a = BitConverter.GetBytes(transform.position.x);
                 vs[0] = a[0];
                 vs[1] = a[1];
                 vs[2] = a[2];
                 vs[3] = a[3];
             }
             {
-                var a=BitConverter.GetBytes(transform.position.y);
+                var a = BitConverter.GetBytes(transform.position.y);
                 vs[4] = a[0];
                 vs[5] = a[1];
                 vs[6] = a[2];
@@ -163,6 +169,23 @@ namespace Site13Kernel.IO
                 vs[39] = a[3];
             }
             return vs;
+        }
+        public static (Vector3, Quaternion, Vector3) FromBytes(byte[] vs)
+        {
+            Vector3 P = Vector3.zero;
+            {
+                byte[] a = { vs[0], vs[1], vs[2], vs[3] };
+                P.x = BitConverter.ToSingle(a, 0);
+            }
+            {
+                byte[] a = { vs[4], vs[5], vs[6], vs[7] };
+                P.y = BitConverter.ToSingle(a, 0);
+            }
+            {
+                byte[] a = { vs[8], vs[9], vs[10], vs[11] };
+                P.z = BitConverter.ToSingle(a, 0);
+            }
+            return (P, Quaternion.identity, Vector3.zero);
         }
     }
 }
