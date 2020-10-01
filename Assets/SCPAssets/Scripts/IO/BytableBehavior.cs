@@ -7,13 +7,10 @@ namespace Site13Kernel.IO
     /// <summary>
     /// Base class for ModularSaveSystem.
     /// </summary>
-    public class BytableBehavior : MonoBehaviour
+    public abstract class BytableBehavior : MonoBehaviour
     {
-        public virtual void Deserialize(ByteBuffer Data)
-        {
-
-        }
-        public virtual ByteBuffer Serialize() => null;
+        public abstract void Deserialize(ByteBuffer Data);
+        public abstract ByteBuffer Serialize();
     }
 
 }

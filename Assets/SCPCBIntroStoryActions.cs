@@ -58,6 +58,11 @@ namespace Site13Kernel.Stories
         {
 
         }
+
+        public override ByteBuffer Serialize()
+        {
+            return null;
+        }
     }
 
 }

@@ -31,9 +31,14 @@ namespace Site13Kernel.IO
         {
 
             ByteBuffer RecursiveObjectsData = new ByteBuffer();
+            ByteBuffer RecursiveTransformData = new ByteBuffer();
             foreach (var item in TargetRecursiveObjectBytable)
             {
-                SaveRecursively(item, RecursiveObjectsData);
+                RecursiveTransformData = SaveBytablesRecursively(item, RecursiveTransformData);
+            }
+            foreach (var item in TargetRecursiveObjectBytable)
+            {
+                RecursiveObjectsData=SaveBytablesRecursively(item, RecursiveObjectsData);
             }
         }
         public void AnalyzeTransform(GameObject obj, ref ByteBuffer Buffer)
@@ -53,32 +58,42 @@ namespace Site13Kernel.IO
             }
             Buffer *= vs;
         }
-        public ByteBuffer SaveRecursively(GameObject Father, ByteBuffer vs)
+        public ByteBuffer SaveBytablesRecursively(GameObject Father, ByteBuffer vs)
         {
             if (vs == null) vs = new ByteBuffer();
             AnalyzeObject(Father, ref vs);
             for (int i = 0; i < Father.transform.childCount; i++)
             {
                 Father.transform.GetChild(i);
-                SaveRecursively(Father, vs);
+                SaveBytablesRecursively(Father, vs);
             }
             return vs;
         }
-        // Start is called before the first frame update
-        void Start()
+        public ByteBuffer TraverseTransform(ByteBuffer vs)
         {
-
+            if (vs == null) vs = new ByteBuffer();
+            foreach (var item in TargetNonRecursiveObject)
+            {
+                AnalyzeTransform(item, ref vs);
+            }
+            return vs;
+        }
+        public ByteBuffer SaveTransformRecursively(GameObject Father, ByteBuffer vs)
+        {
+            if (vs == null) vs = new ByteBuffer();
+            AnalyzeTransform(Father, ref vs);
+            for (int i = 0; i < Father.transform.childCount; i++)
+            {
+                Father.transform.GetChild(i);
+                SaveTransformRecursively(Father, vs);
+            }
+            return vs;
         }
         public void Unregister()
         {
 
         }
         public void Register()
-        {
-
-        }
-        // Update is called once per frame
-        void Update()
         {
 
         }
@@ -90,6 +105,15 @@ namespace Site13Kernel.IO
         public override void OnDispose()
         {
             Unregister();
+        }
+
+        public override void Deserialize(ByteBuffer Data)
+        {
+        }
+
+        public override ByteBuffer Serialize()
+        {
+            return new ByteBuffer();
         }
     }
     public partial class Utilities
