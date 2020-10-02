@@ -3,6 +3,7 @@ using Site13Kernel.DynamicScene;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 namespace Site13Kernel.IO
 {
@@ -32,6 +33,8 @@ namespace Site13Kernel.IO
 
             ByteBuffer RecursiveObjectsData = new ByteBuffer();
             ByteBuffer RecursiveTransformData = new ByteBuffer();
+            ByteBuffer TraverseTransformData = new ByteBuffer();
+            ByteBuffer TraverseBytableObjectData = new ByteBuffer();
             foreach (var item in TargetRecursiveObjectBytable)
             {
                 RecursiveTransformData = SaveBytablesRecursively(item, RecursiveTransformData);
@@ -40,6 +43,8 @@ namespace Site13Kernel.IO
             {
                 RecursiveObjectsData=SaveBytablesRecursively(item, RecursiveObjectsData);
             }
+            TraverseTransform(TraverseTransformData);
+            TraverseObjects(TraverseBytableObjectData);
         }
         public void AnalyzeTransform(GameObject obj, ref ByteBuffer Buffer)
         {
@@ -78,6 +83,15 @@ namespace Site13Kernel.IO
             }
             return vs;
         }
+        public ByteBuffer TraverseObjects(ByteBuffer vs)
+        {
+            if (vs == null) vs = new ByteBuffer();
+            foreach (var item in TargetNonRecursiveObjectBytable)
+            {
+                AnalyzeTransform(item, ref vs);
+            }
+            return vs;
+        }
         public ByteBuffer SaveTransformRecursively(GameObject Father, ByteBuffer vs)
         {
             if (vs == null) vs = new ByteBuffer();
@@ -109,6 +123,7 @@ namespace Site13Kernel.IO
 
         public override void Deserialize(ByteBuffer Data)
         {
+            //Remains Empty, Save Module should not be able to save. Avoid saving itself :P
         }
 
         public override ByteBuffer Serialize()
