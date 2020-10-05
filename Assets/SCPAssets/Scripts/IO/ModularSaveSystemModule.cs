@@ -1,8 +1,10 @@
 ﻿using CLUNL.Data.Layer0.Buffers;
+using CLUNL.DirectedIO;
 using Site13Kernel.DynamicScene;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
 namespace Site13Kernel.IO
@@ -19,18 +21,22 @@ namespace Site13Kernel.IO
         public List<GameObject> TargetNonRecursiveObject;
         [Header("Exclude Transform")]
         public List<GameObject> TargetNonRecursiveObjectBytable;
-
+        IBaseWR SaveFileWR;
         public void Load()
         {
-
+            ByteBuffer TotalBuffer=SaveFileWR.Read((int)SaveFileWR.Length, 0);
+            ByteBuffer[] Datas = TotalBuffer / 4;
         }
-        public void LoadRecursively(GameObject Father)
+        void Start()
+        {
+            SaveFileWR = new FileWR(new FileInfo(Path.Combine(((ModularSaveSystem)GameInfo.CurrentGame.CurrentSceneSaveSystem).SavePath, TargetSaveSystemID + ".bin")));
+        }
+        public void LoadByteableObjectRecursively(GameObject Father)
         {
             ByteBuffer vs = new ByteBuffer();
         }
         public void Save()
         {
-
             ByteBuffer RecursiveObjectsData = new ByteBuffer();
             ByteBuffer RecursiveTransformData = new ByteBuffer();
             ByteBuffer TraverseTransformData = new ByteBuffer();
@@ -45,6 +51,15 @@ namespace Site13Kernel.IO
             }
             TraverseTransform(TraverseTransformData);
             TraverseObjects(TraverseBytableObjectData);
+            ByteBuffer TotalBuffer = new ByteBuffer();
+            TotalBuffer *= RecursiveObjectsData;
+            TotalBuffer *= RecursiveTransformData;
+            TotalBuffer *= TraverseBytableObjectData;
+            TotalBuffer *= TraverseTransformData;
+            byte[] Data = TotalBuffer.GetTotalData();
+            SaveFileWR.SetLength(0);
+            SaveFileWR.Flush();
+            SaveFileWR.WriteBytes(Data,Data.Length,0);
         }
         public void AnalyzeTransform(GameObject obj, ref ByteBuffer Buffer)
         {

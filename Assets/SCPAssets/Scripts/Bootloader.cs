@@ -1,4 +1,5 @@
-﻿using Site13ExternalKernel.Difficulty;
+﻿using CLUNL;
+using Site13ExternalKernel.Difficulty;
 using Site13Kernel.EFI;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +18,10 @@ namespace Site13Kernel
         public List<GameObject> GameObjectsThatHoldsEFI;
         void Start()
         {
+            //Init Lib.
+            // Make FileWR automatically create a file when the file is missing.
+            LibraryInfo.SetFlag(FeatureFlags.FileWR_AutoCreateFile, 1);
+            //
             try
             {
                 var c=buildIndo.text;
