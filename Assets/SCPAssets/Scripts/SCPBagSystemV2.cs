@@ -130,6 +130,7 @@ namespace Site13Kernel
             }
 
         }
+        Sprite CurrentCrosshairSprite;
         void Update()
         {
             if (GameInfo.CurrentGame.isPaused == false)
@@ -153,6 +154,7 @@ namespace Site13Kernel
                 {
                     if (Camera.main.fieldOfView > WatchModeFov)
                     {
+                        CurrentCrosshairSprite=GameInfo.CurrentGame.FirstPerson.Crosshair.sprite;
                         if (WatchMode00 == false)
                             WatchMode00 = true;
                         if (ObserveModeOverlay != null)
@@ -169,6 +171,8 @@ namespace Site13Kernel
                         {
                             item.Item.SetActive(false);
                         }
+                        CurrentCrosshairSprite=GameInfo.CurrentGame.FirstPerson.Crosshair.sprite;
+                        GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
                         GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen / 20;
                         GameInfo.CurrentGame.isWatching = true;
                     }
@@ -192,6 +196,8 @@ namespace Site13Kernel
                         WatchMode00 = false;
                         GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen;
                         GameInfo.CurrentGame.isAiming = false; SetItem();
+                        if(CurrentCrosshairSprite!=null)
+                        GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = CurrentCrosshairSprite;
                         Camera.main.fieldOfView = GameInfo.CurrentGame.UsingFOV;
                     }
                 }
