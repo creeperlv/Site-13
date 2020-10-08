@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 namespace Site13Kernel.IO
 {
-    public class ModularSaveSystemModule : BaseModularSceneComponent, ISave
+    public partial class ModularSaveSystemModule : BaseModularSceneComponent, ISave
     {
         public int TargetSaveSystemID = -1;
         bool isRegistered = false;
@@ -24,9 +24,22 @@ namespace Site13Kernel.IO
         IBaseWR SaveFileWR;
         public void Load()
         {
-            ByteBuffer TotalBuffer=SaveFileWR.Read((int)SaveFileWR.Length, 0);
+            ByteBuffer TotalBuffer = SaveFileWR.Read((int)SaveFileWR.Length, 0);
             ByteBuffer[] Datas = TotalBuffer / 4;
+            foreach (var item in TargetRecursiveObjectBytable)
+            {
+
+            }
         }
+        public void ApplyTransformRecursively(Transform transform, ByteBuffer buffer)
+        {
+
+        }
+        public void ApplyBytablesRecursively(GameObject Object, ByteBuffer buffer)
+        {
+
+        }
+
         void Start()
         {
             SaveFileWR = new FileWR(new FileInfo(Path.Combine(((ModularSaveSystem)GameInfo.CurrentGame.CurrentSceneSaveSystem).SavePath, TargetSaveSystemID + ".bin")));
@@ -41,13 +54,13 @@ namespace Site13Kernel.IO
             ByteBuffer RecursiveTransformData = new ByteBuffer();
             ByteBuffer TraverseTransformData = new ByteBuffer();
             ByteBuffer TraverseBytableObjectData = new ByteBuffer();
-            foreach (var item in TargetRecursiveObjectBytable)
+            foreach (var item in TargetRecursiveObject)
             {
-                RecursiveTransformData = SaveBytablesRecursively(item, RecursiveTransformData);
+                RecursiveTransformData = SaveTransformRecursively(item, RecursiveTransformData);
             }
             foreach (var item in TargetRecursiveObjectBytable)
             {
-                RecursiveObjectsData=SaveBytablesRecursively(item, RecursiveObjectsData);
+                RecursiveObjectsData = SaveBytablesRecursively(item, RecursiveObjectsData);
             }
             TraverseTransform(TraverseTransformData);
             TraverseObjects(TraverseBytableObjectData);
@@ -59,7 +72,7 @@ namespace Site13Kernel.IO
             byte[] Data = TotalBuffer.GetTotalData();
             SaveFileWR.SetLength(0);
             SaveFileWR.Flush();
-            SaveFileWR.WriteBytes(Data,Data.Length,0);
+            SaveFileWR.WriteBytes(Data, Data.Length, 0);
         }
         public void AnalyzeTransform(GameObject obj, ref ByteBuffer Buffer)
         {
@@ -239,7 +252,42 @@ namespace Site13Kernel.IO
                 byte[] a = { vs[8], vs[9], vs[10], vs[11] };
                 P.z = BitConverter.ToSingle(a, 0);
             }
-            return (P, Quaternion.identity, Vector3.zero);
+            Quaternion R;
+            {
+                float a, b, c, d;
+                {
+                    byte[] e = { vs[12], vs[13], vs[14], vs[15] };
+                    a = BitConverter.ToSingle(e, 0);
+                }
+                {
+                    byte[] e = { vs[16], vs[17], vs[18], vs[19] };
+                    b = BitConverter.ToSingle(e, 0);
+                }
+                {
+                    byte[] e = { vs[20], vs[21], vs[22], vs[23] };
+                    c = BitConverter.ToSingle(e, 0);
+                }
+                {
+                    byte[] e = { vs[24], vs[25], vs[26], vs[27] };
+                    d = BitConverter.ToSingle(e, 0);
+                }
+                R = new Quaternion(a, b, c, d);
+            }
+
+            Vector3 S = Vector3.zero;
+            {
+                byte[] a = { vs[28], vs[29], vs[30], vs[31] };
+                P.x = BitConverter.ToSingle(a, 0);
+            }
+            {
+                byte[] a = { vs[32], vs[33], vs[34], vs[35] };
+                P.y = BitConverter.ToSingle(a, 0);
+            }
+            {
+                byte[] a = { vs[36], vs[37], vs[38], vs[39] };
+                P.z = BitConverter.ToSingle(a, 0);
+            }
+            return (P, R, S);
         }
     }
 }
