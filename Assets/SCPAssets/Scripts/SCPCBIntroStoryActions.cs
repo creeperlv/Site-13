@@ -15,10 +15,14 @@ namespace Site13Kernel.Stories
         private bool Action2_OpenDoor0_ = false;
         public bool Action3_CloseDoor0 = false;
         private bool Action3_CloseDoor0_ = false;
+        public bool Action2_OpenDoor1 = false;
+        private bool Action2_OpenDoor1_ = false;
+        public bool Action3_CloseDoor1 = false;
+        private bool Action3_CloseDoor1_ = false;
 
         public SCPDoor Door0;
+        public SCPDoor Door1;
         public AudioSource CBAudio00;
-
         void Update()
         {
             if (Action0_ShowSubtitle00 == true)

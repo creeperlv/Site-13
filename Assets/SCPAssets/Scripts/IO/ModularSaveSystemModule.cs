@@ -14,11 +14,11 @@ namespace Site13Kernel.IO
         public int TargetSaveSystemID = -1;
         bool isRegistered = false;
         [Header("Transform Info Only")]
-        public List<GameObject> TargetRecursiveObject;
+        public List<Transform> TargetRecursiveObject;
         [Header("Exclude Transform")]
         public List<GameObject> TargetRecursiveObjectBytable;
         [Header("Transform Info Only")]
-        public List<GameObject> TargetNonRecursiveObject;
+        public List<Transform> TargetNonRecursiveObject;
         [Header("Exclude Transform")]
         public List<GameObject> TargetNonRecursiveObjectBytable;
         IBaseWR SaveFileWR;
@@ -28,14 +28,18 @@ namespace Site13Kernel.IO
             ByteBuffer[] Datas = TotalBuffer / 4;
             foreach (var item in TargetRecursiveObjectBytable)
             {
-
+                ApplyBytablesRecursively(item, ref Datas[0]);
+            }
+            foreach (var item in TargetRecursiveObject)
+            {
+                ApplyTransformRecursively(item, ref Datas[1]);
             }
         }
-        public void ApplyTransformRecursively(Transform transform, ByteBuffer buffer)
+        public void ApplyTransformRecursively(Transform transform, ref ByteBuffer buffer)
         {
 
         }
-        public void ApplyBytablesRecursively(GameObject Object, ByteBuffer buffer)
+        public void ApplyBytablesRecursively(GameObject Object,ref ByteBuffer buffer)
         {
 
         }
@@ -74,10 +78,10 @@ namespace Site13Kernel.IO
             SaveFileWR.Flush();
             SaveFileWR.WriteBytes(Data, Data.Length, 0);
         }
-        public void AnalyzeTransform(GameObject obj, ref ByteBuffer Buffer)
+        public void AnalyzeTransform(Transform obj, ref ByteBuffer Buffer)
         {
             ByteBuffer vs = new ByteBuffer();
-            vs.AppendGroup(Utilities.FromTransform(obj.transform));
+            vs.AppendGroup(Utilities.FromTransform(obj));
             Buffer *= vs;
         }
         public void AnalyzeObject(GameObject obj, ref ByteBuffer Buffer)
@@ -116,11 +120,11 @@ namespace Site13Kernel.IO
             if (vs == null) vs = new ByteBuffer();
             foreach (var item in TargetNonRecursiveObjectBytable)
             {
-                AnalyzeTransform(item, ref vs);
+                AnalyzeObject(item, ref vs);
             }
             return vs;
         }
-        public ByteBuffer SaveTransformRecursively(GameObject Father, ByteBuffer vs)
+        public ByteBuffer SaveTransformRecursively(Transform Father, ByteBuffer vs)
         {
             if (vs == null) vs = new ByteBuffer();
             AnalyzeTransform(Father, ref vs);
