@@ -253,7 +253,7 @@ namespace Site13Kernel
             if (GameInfo.CurrentGame.isAiming == false)
             {
 
-                if (Input.GetKey(KeyCode.LeftShift))
+                if (Input.GetButton("Run"))
                 {
                     //GameInfo.
                     GameInfo.CurrentGame.isRunning = true;

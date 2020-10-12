@@ -86,7 +86,7 @@ namespace Site13Kernel
                 NextItem();
             if (Input.GetAxis("Mouse ScrollWheel") < 0)
                 PreviousItem();
-
+            if (Input.GetButtonDown("ControllerNextItem")) NextItem();
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 //Empty Hand
@@ -131,6 +131,8 @@ namespace Site13Kernel
 
         }
         Sprite CurrentCrosshairSprite;
+        bool Fire1JDown = false;
+        bool FlashLightJDown = false;
         void Update()
         {
             if (GameInfo.CurrentGame.isPaused == false)
@@ -281,16 +283,26 @@ namespace Site13Kernel
                     {
                         CurrentItem.UnPrimary();
                     }
-                    //if (Input.GetButton("Fire2"))
-                    //{
-                    //    if (CurrentItem.IsOnOperation() == false)
-                    //        CurrentItem.Secondary();
-                    //}
-                    //else if (Input.GetButtonUp("Fire2"))
-                    //{
-                    //    CurrentItem.UnSecondary();
-                    //}
-                    if (Input.GetButtonDown("Fight"))
+                    if (Input.GetAxis("Fire1J") > 0.7f)
+                    {
+                        Fire1JDown = true;
+                        if (CurrentItem.IsOnOperation() == false)
+                            CurrentItem.Primary();
+                    }
+                    else
+                    {
+                        if (Fire1JDown == true) { CurrentItem.UnPrimary(); Fire1JDown = false; }
+                    }
+                        //if (Input.GetButton("Fire2"))
+                        //{
+                        //    if (CurrentItem.IsOnOperation() == false)
+                        //        CurrentItem.Secondary();
+                        //}
+                        //else if (Input.GetButtonUp("Fire2"))
+                        //{
+                        //    CurrentItem.UnSecondary();
+                        //}
+                        if (Input.GetButtonDown("Fight"))
                     {
                         if (CurrentItem.IsOnOperation() == false)
                             CurrentItem.Fight();
@@ -299,6 +311,19 @@ namespace Site13Kernel
                     {
                         if (CurrentItem.IsOnOperation() == false)
                             CurrentItem.FlashLight();
+                    }
+                    if (Input.GetAxis("FlashLightJ") > 0.5f)
+                    {
+                        if (FlashLightJDown == false)
+                        {
+                            FlashLightJDown = true;
+                            if (CurrentItem.IsOnOperation() == false)
+                                CurrentItem.FlashLight();
+                        }
+                    }
+                    else
+                    {
+                        FlashLightJDown = false;
                     }
                 }
         }

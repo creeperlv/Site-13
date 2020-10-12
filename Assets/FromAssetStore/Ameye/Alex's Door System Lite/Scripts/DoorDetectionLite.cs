@@ -6,7 +6,6 @@ public class DoorDetectionLite : MonoBehaviour
 {
     public float Reach = 4.0F;
     [HideInInspector] public bool InReach;
-    public string Character = "e";
     public GameObject ReadingPanel;
     public Image Reading;
     public GameObject RealReading;
@@ -23,7 +22,7 @@ public class DoorDetectionLite : MonoBehaviour
     void Update()
     {
         if (IsTemporaryDisabled == false)
-            if (Input.GetKey(Character))
+            if (Input.GetButtonDown("Use"))
             {
                 Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0F));
                 //Debug.DrawRay(ray.origin, ray.direction, Color.green, 10f);

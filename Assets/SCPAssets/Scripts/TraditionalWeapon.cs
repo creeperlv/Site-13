@@ -252,6 +252,9 @@ namespace Site13Kernel.Weapon
                 SparkCutDown = 0.1f;
                 if (Physics.Raycast(ray, out hit, ShootRange, 1 << 0 | 1 << 13, QueryTriggerInteraction.Ignore))
                 {
+                    var rig = hit.collider.gameObject.GetComponent<Rigidbody>();
+                    if (rig != null)
+                        rig.AddForce((hit.point-GameInfo.CurrentGame.FirstPerson.transform.position).normalized * BaseDamage/25);
                     bool aa = true;
                     if (hit.collider.gameObject.GetComponent<SCPEntity>() != null)
                     {
@@ -265,6 +268,7 @@ namespace Site13Kernel.Weapon
                             {
                             }
                             var entity = hit.collider.gameObject.GetComponent<SCPEntity>();
+                            
                             try
                             {
 
@@ -545,6 +549,7 @@ namespace Site13Kernel.Weapon
 
         public void Reload()
         {
+            if (int.Parse(GameInfo.CurrentGame.FlagsGroup[BagAlias + ":" + ID]) >= MaxCap) return;
             StartCoroutine(RealReload());
         }
         IEnumerator RealReload()

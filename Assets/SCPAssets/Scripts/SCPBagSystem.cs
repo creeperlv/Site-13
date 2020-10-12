@@ -12,13 +12,17 @@ namespace Site13Kernel
             SetItem();
         }
         int currentItem = 0;
-        private void FixedUpdate()
+        private void Update()
         {
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            if (Input.GetButton("ControllerNextItem"))
+            {
                 NextItem();
-            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+                return;
+            }
+            if (Input.GetAxis("Mouse ScrollWheel") > .5f)
+                NextItem();
+            if (Input.GetAxis("Mouse ScrollWheel") < -.5f)
                 PreviousItem();
-
             {
                 if (Input.GetKey(KeyCode.Alpha1))
                 {

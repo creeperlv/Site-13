@@ -9,13 +9,12 @@ using UnityEditor;
 [CustomEditor(typeof(DoorDetectionLite)), CanEditMultipleObjects]
 public class DoorDetectionLiteEditor : Editor
 {
-    SerializedProperty isTemporaryDisabled, reachProp, characterProp;
+    SerializedProperty isTemporaryDisabled, reachProp;
     SerializedProperty ReadingPanel,Reading, RealReading;
 
     public void OnEnable() { 
         reachProp = serializedObject.FindProperty("Reach");
         isTemporaryDisabled = serializedObject.FindProperty("IsTemporaryDisabled");
-        characterProp = serializedObject.FindProperty("Character");
         ReadingPanel = serializedObject.FindProperty("ReadingPanel");
         Reading = serializedObject.FindProperty("Reading");
         RealReading = serializedObject.FindProperty("RealReading");
@@ -37,7 +36,7 @@ public class DoorDetectionLiteEditor : Editor
         EditorGUILayout.LabelField("<size=16>Operating</size>", style);
         EditorGUILayout.Space();
         EditorGUILayout.PropertyField(reachProp, new GUIContent("Reach", "How close the player has to be in order to be able to operate objects."));
-        EditorGUILayout.PropertyField(characterProp, new GUIContent("Character"));
+
         EditorGUILayout.PropertyField(isTemporaryDisabled, new GUIContent("Is Temporary Disabled"));
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("<size=16>Reading</size>", style);
