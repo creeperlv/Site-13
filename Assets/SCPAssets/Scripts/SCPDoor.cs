@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CLUNL.Data.Layer0.Buffers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,7 +32,7 @@ namespace Site13Kernel
         public string ClosedTrigger;
         public string OpenTrigger;
     }
-    public class SCPDoor : SCPInteractive
+    public class SCPDoor : SCPInteractive,IByteBufferable
     {
         [Tooltip("Side 1 of the door.")]
         public GameObject Door1;
@@ -530,6 +531,21 @@ namespace Site13Kernel
                 }
             }
             yield break;
+        }
+
+        public void Deserialize(ByteBuffer buffer)
+        {
+            DataBuffer dataBuffer = DataBuffer.FromByteBuffer(buffer);
+            ApplyState(dataBuffer.ReadBool());
+            IsLocked = dataBuffer.ReadBool();
+        }
+
+        public ByteBuffer Serialize()
+        {
+            DataBuffer dataBuffer = new DataBuffer();
+            dataBuffer.WriteBool(JudgeWhetherOpen());
+            dataBuffer.WriteBool(IsLocked);
+            return dataBuffer.ObtainByteArray();
         }
     }
 

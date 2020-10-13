@@ -86,7 +86,7 @@ namespace Site13Kernel.IO
         }
         public void AnalyzeObject(GameObject obj, ref ByteBuffer Buffer)
         {
-            var c = obj.GetComponents<BytableBehavior>();
+            var c = obj.GetComponents<IByteBufferable>();
             ByteBuffer vs = new ByteBuffer();
             vs.AppendGroup(Utilities.FromTransform(obj.transform));
             foreach (var item in c)

@@ -7,7 +7,7 @@ namespace Site13Kernel.IO
     /// <summary>
     /// Base class for ModularSaveSystem.
     /// </summary>
-    public abstract class BytableBehavior : MonoBehaviour
+    public abstract class BytableBehavior : MonoBehaviour,IByteBufferable
     {
         public abstract void Deserialize(ByteBuffer Data);
         public abstract ByteBuffer Serialize();
