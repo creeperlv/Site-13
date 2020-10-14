@@ -34,6 +34,8 @@ namespace Site13Kernel.IO
             {
                 ApplyTransformRecursively(item, ref Datas[1]);
             }
+            ApplyBytableTranverse(Datas[2]);
+            ApplyTransformTranverse(Datas[3]);
         }
         public void ApplyTransformRecursively(Transform trans, ref ByteBuffer buffer)
         {
@@ -71,6 +73,20 @@ namespace Site13Kernel.IO
                 ApplyBytablesRecursively(GObject.transform.GetChild(i).gameObject, ref buffer);
             }
         }
+        public void ApplyTransformTranverse(ByteBuffer buffer)
+        {
+            foreach (var item in TargetNonRecursiveObject)
+            {
+                ApplyTransform(item, ref buffer);
+            }
+        }
+        public void ApplyBytableTranverse(ByteBuffer buffer)
+        {
+            foreach (var item in TargetNonRecursiveObjectBytable)
+            {
+                ApplyBytable(item, ref buffer);
+            }
+        }
         void ApplyBytable(GameObject obj,ref ByteBuffer buffer)
         {
             var items=obj.GetComponents<IByteBufferable>();
@@ -88,10 +104,6 @@ namespace Site13Kernel.IO
         void Start()
         {
             SaveFileWR = new FileWR(new FileInfo(Path.Combine(((ModularSaveSystem)GameInfo.CurrentGame.CurrentSceneSaveSystem).SavePath, TargetSaveSystemID + ".bin")));
-        }
-        public void LoadByteableObjectRecursively(GameObject Father)
-        {
-            ByteBuffer vs = new ByteBuffer();
         }
         public void Save()
         {
@@ -129,7 +141,6 @@ namespace Site13Kernel.IO
         {
             var c = obj.GetComponents<IByteBufferable>();
             ByteBuffer vs = new ByteBuffer();
-            vs.AppendGroup(Utilities.FromTransform(obj.transform));
             foreach (var item in c)
             {
                 vs *= item.Serialize();

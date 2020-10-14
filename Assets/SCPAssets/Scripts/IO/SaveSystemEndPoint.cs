@@ -7,7 +7,7 @@ namespace Site13Kernel.IO
     /// <summary>
     /// EndPoint for new save system.
     /// </summary>
-    public class SaveSystemEndPoint : IByteBufferable
+    public class SaveSystemEndPoint : MonoBehaviour
     {
         public EndPointType EndPointType;
 
