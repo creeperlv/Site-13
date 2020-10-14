@@ -35,15 +35,56 @@ namespace Site13Kernel.IO
                 ApplyTransformRecursively(item, ref Datas[1]);
             }
         }
-        public void ApplyTransformRecursively(Transform transform, ref ByteBuffer buffer)
+        public void ApplyTransformRecursively(Transform trans, ref ByteBuffer buffer)
         {
 
+            var ep = trans.GetComponent<SaveSystemEndPoint>();
+            if (ep != null)
+            {
+                if (ep.EndPointType == EndPointType.Exclusive)
+                {
+                    return;
+                }
+            }
+            ApplyTransform(trans, ref buffer);
+            if (ep.EndPointType == EndPointType.Inclusive) return;
+            for (int i = 0; i < trans.childCount; i++)
+            {
+                ApplyTransformRecursively(trans.GetChild(i), ref buffer);
+            }
+
         }
-        public void ApplyBytablesRecursively(GameObject Object,ref ByteBuffer buffer)
+        public void ApplyBytablesRecursively(GameObject GObject,ref ByteBuffer buffer)
         {
-
+            var ep = GObject.transform.GetComponent<SaveSystemEndPoint>();
+            if (ep != null)
+            {
+                if (ep.EndPointType == EndPointType.Exclusive)
+                {
+                    return;
+                }
+            }
+            ApplyBytable(GObject, ref buffer);
+            if (ep.EndPointType == EndPointType.Inclusive) return;
+            for (int i = 0; i < GObject.transform.childCount; i++)
+            {
+                ApplyBytablesRecursively(GObject.transform.GetChild(i).gameObject, ref buffer);
+            }
         }
-
+        void ApplyBytable(GameObject obj,ref ByteBuffer buffer)
+        {
+            var items=obj.GetComponents<IByteBufferable>();
+            ByteBuffer b=buffer.GetGroup();
+            foreach (var item in items)
+            {
+                item.Deserialize(b.GetGroup());
+            }
+        }
+        void ApplyTransform(Transform trans,ref ByteBuffer buffer)
+        {
+            ByteBuffer vs = buffer.GetGroup();
+            ResolveTransform(ref trans, ref vs);
+        }
         void Start()
         {
             SaveFileWR = new FileWR(new FileInfo(Path.Combine(((ModularSaveSystem)GameInfo.CurrentGame.CurrentSceneSaveSystem).SavePath, TargetSaveSystemID + ".bin")));
@@ -97,8 +138,17 @@ namespace Site13Kernel.IO
         }
         public ByteBuffer SaveBytablesRecursively(GameObject Father, ByteBuffer vs)
         {
+            var ep = Father.GetComponent<SaveSystemEndPoint>();
+            if (ep != null)
+            {
+                if (ep.EndPointType == EndPointType.Exclusive)
+                {
+                    return vs;
+                }
+            }
             if (vs == null) vs = new ByteBuffer();
             AnalyzeObject(Father, ref vs);
+            if (ep.EndPointType == EndPointType.Inclusive) return vs;
             for (int i = 0; i < Father.transform.childCount; i++)
             {
                 Father.transform.GetChild(i);
@@ -126,12 +176,21 @@ namespace Site13Kernel.IO
         }
         public ByteBuffer SaveTransformRecursively(Transform Father, ByteBuffer vs)
         {
+            var ep = Father.GetComponent<SaveSystemEndPoint>();
+            if (ep != null)
+            {
+                if (ep.EndPointType == EndPointType.Exclusive)
+                {
+                    return vs;
+                }
+            }
             if (vs == null) vs = new ByteBuffer();
-            AnalyzeTransform(Father, ref vs);
+            AnalyzeTransform(Father, ref vs); 
+            if (ep.EndPointType == EndPointType.Inclusive) return vs;
             for (int i = 0; i < Father.transform.childCount; i++)
             {
-                Father.transform.GetChild(i);
-                SaveTransformRecursively(Father, vs);
+                var item=Father.transform.GetChild(i);
+                SaveTransformRecursively(item, vs);
             }
             return vs;
         }
