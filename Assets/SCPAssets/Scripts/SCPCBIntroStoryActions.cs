@@ -11,17 +11,30 @@ namespace Site13Kernel.Stories
         private bool Action0_ShowSubtitle00_ = false;
         public bool Action1_PlayCBAudio00 = false;
         private bool Action1_PlayCBAudio00_ = false;
+
         public bool Action2_OpenDoor0 = false;
         private bool Action2_OpenDoor0_ = false;
+
         public bool Action3_CloseDoor0 = false;
         private bool Action3_CloseDoor0_ = false;
-        public bool Action2_OpenDoor1 = false;
-        private bool Action2_OpenDoor1_ = false;
-        public bool Action3_CloseDoor1 = false;
-        private bool Action3_CloseDoor1_ = false;
+
+        public bool Action4_OpenDoor1 = false;
+        private bool Action4_OpenDoor1_ = false;
+
+        public bool Action5_CloseDoor1 = false;
+        private bool Action5_CloseDoor1_ = false;
+
+        public bool Action6_OpenDoor2 = false;
+        private bool Action6_OpenDoor2_ = false;
+
+        public bool Action7_CloseDoor2 = false;
+        private bool Action7_CloseDoor2_ = false;
+
 
         public SCPDoor Door0;
         public SCPDoor Door1;
+        public SCPDoor Door2;
+        public SCPDoor Door3;
         public AudioSource CBAudio00;
         void Update()
         {
@@ -55,6 +68,38 @@ namespace Site13Kernel.Stories
                 {
                     Action3_CloseDoor0_ = true;
                     StartCoroutine(Door0.Close());
+                }
+            }
+            if (Action4_OpenDoor1 == true)
+            {
+                if (Action4_OpenDoor1_ == false)
+                {
+                    Action4_OpenDoor1_ = true;
+                    StartCoroutine(Door1.Open());
+                }
+            }
+            if (Action5_CloseDoor1 == true)
+            {
+                if (Action5_CloseDoor1_ == false)
+                {
+                    Action5_CloseDoor1_ = true;
+                    StartCoroutine(Door1.Close());
+                }
+            }
+            if (Action6_OpenDoor2 == true)
+            {
+                if (Action6_OpenDoor2_ == false)
+                {
+                    Action6_OpenDoor2_ = true;
+                    StartCoroutine(Door2.Open());
+                }
+            }
+            if (Action7_CloseDoor2 == true)
+            {
+                if (Action7_CloseDoor2_ == false)
+                {
+                    Action7_CloseDoor2_ = true;
+                    StartCoroutine(Door2.Close());
                 }
             }
         }
