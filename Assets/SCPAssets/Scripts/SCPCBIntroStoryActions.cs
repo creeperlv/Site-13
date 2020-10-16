@@ -39,13 +39,14 @@ namespace Site13Kernel.Stories
         private bool Action9_CloseDoor3_ = false;
 
         public bool Action10_OpenDoor3 = false;
-        private bool Aciton10_OpenDoor3_ = false;
+        private bool Action10_OpenDoor3_ = false;
 
         public bool Action11_079InCharge = false;
         private bool Action11_079InCharge_ = false;
 
         public bool Action12_OutShelter = false;
         private bool Action12_OutShelter_ = false;
+
 
         public bool Action13_Explosion = false;
         private bool Action13_Explosion_ = false;
@@ -163,6 +164,30 @@ namespace Site13Kernel.Stories
                 {
                     Action7_CloseDoor2_ = true;
                     StartCoroutine(Door2.Close());
+                }
+            }
+            if (Action8_OpenDoor3==true)
+            {
+                if (Action8_OpenDoor3_ == false)
+                {
+                    Action8_OpenDoor3_ = true;
+                    StartCoroutine(Door3.Open());
+                }
+            }
+            if (Action9_CloseDoor3 == true)
+            {
+                if (Action9_CloseDoor3_ == false)
+                {
+                    Action9_CloseDoor3_ = true;
+                    StartCoroutine(Door3.Close());
+                }
+            }
+            if (Action10_OpenDoor3 == true)
+            {
+                if (Action10_OpenDoor3_ == false)
+                {
+                    Action10_OpenDoor3_ = true;
+                    StartCoroutine(Door3.Open());
                 }
             }
             if (Action11_079InCharge == true)
