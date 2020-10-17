@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Site13Kernel.IO;
 using UnityEngine.UI;
+using UnityEngine.Rendering.PostProcessing;
+using System.Linq;
 
 namespace Site13Kernel.Stories
 {
@@ -56,17 +58,39 @@ namespace Site13Kernel.Stories
         private float Blink_0_1 = 0;
         private float Blink_0_2 = 1;
 
+        public bool DoF_Controll = false;
+
         public SCPDoor Door0;
         public SCPDoor Door1;
         public SCPDoor Door2;
         public SCPDoor Door3;
         public AudioSource CBAudio00;
         public AudioClip _079InCharge;
-        public AudioClip OutShelter;
+        public AudioSource OutShelter;
         public Image BlackCover;
         public AudioSource Explosion;
+        public PostProcessProfile TargetProfile;
+        public float DoF_Length = 10;
+        DepthOfField Depth;
+        private void Start()
+        {
+            foreach (var item in
+            TargetProfile.settings)
+            {
+                if(item is DepthOfField)
+                {
+                    Depth = item as DepthOfField;
+                }
+            }
+        }
         void Update()
         {
+            if (DoF_Controll == true)
+            {
+                if (Depth.enabled.value == false) Depth.enabled.value= true;
+                Depth.focusDistance.value= DoF_Length;
+            }else
+                if (Depth.enabled.value == true) Depth.enabled.value= false;
             if (Constant_Action0_Blink == true)
             {
                 if (Blink_0_0 == false)
@@ -199,7 +223,24 @@ namespace Site13Kernel.Stories
                     CBAudio00.Play();
                 }
             }
+            if (Action12_OutShelter == true)
+            {
+                if (Action12_OutShelter_ == false)
+                {
+                    Action12_OutShelter_ = true;
+                    OutShelter.Play();
+                }
+            }
+            if (Action13_Explosion == true)
+            {
+                if (Action13_Explosion_ == false)
+                {
+                    Action13_Explosion_ = true;
+                    Explosion.Play();
+                }
+            }
         }
+       
         public override void Deserialize(ByteBuffer buffer)
         {
 
