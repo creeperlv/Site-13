@@ -6,6 +6,7 @@ using Site13Kernel.IO;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 namespace Site13Kernel.Stories
 {
@@ -53,6 +54,9 @@ namespace Site13Kernel.Stories
         public bool Action13_Explosion = false;
         private bool Action13_Explosion_ = false;
 
+        public bool Action14_Jump_Scene = false;
+        private bool Action14_Jump_Scene_ = false;
+
         public bool Constant_Action0_Blink = false;
         private bool Blink_0_0 = false;
         private float Blink_0_1 = 0;
@@ -71,6 +75,7 @@ namespace Site13Kernel.Stories
         public AudioSource Explosion;
         public PostProcessProfile TargetProfile;
         public float DoF_Length = 10;
+        public int TargetScene = 27;
         DepthOfField Depth;
         private void Start()
         {
@@ -237,6 +242,14 @@ namespace Site13Kernel.Stories
                 {
                     Action13_Explosion_ = true;
                     Explosion.Play();
+                }
+            }
+            if (Action14_Jump_Scene == true)
+            {
+                if (Action14_Jump_Scene_ == false)
+                {
+                    Action14_Jump_Scene_ = true;
+                    SceneManager.LoadScene(TargetScene);
                 }
             }
         }
