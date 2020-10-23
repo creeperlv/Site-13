@@ -103,7 +103,6 @@ namespace Site13Kernel.IO
         }
         void Start()
         {
-            SaveFileWR = new FileWR(new FileInfo(Path.Combine(((ModularSaveSystem)GameInfo.CurrentGame.CurrentSceneSaveSystem).SavePath, TargetSaveSystemID + ".bin")));
         }
         public void Save()
         {
@@ -211,7 +210,7 @@ namespace Site13Kernel.IO
         }
         public void Register()
         {
-
+            SaveFileWR = new FileWR(new FileInfo(Path.Combine(((ModularSaveSystem)GameInfo.CurrentGame.CurrentSceneSaveSystem).SavePath, TargetSaveSystemID + ".bin")));
         }
         public override void Init()
         {

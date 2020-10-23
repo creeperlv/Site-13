@@ -402,7 +402,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Reach: 5
   InReach: 0
-  Character: e
   ReadingPanel: {fileID: 3584504138522863}
   Reading: {fileID: 236982829808301033}
   RealReading: {fileID: 6407549235251432262}
@@ -504,6 +503,8 @@ MonoBehaviour:
     MaxX: 0
     MinX: 0
   WeaponCam: {fileID: 7216869958127525881}
+  DisableJump: 0
+  ConstantFalldownSpeed: -9.8
   isForceOldFalldown: 0
   FalldownSpeed: 4
   FalldownSpeedAccelerator: 3.5
@@ -9347,7 +9348,7 @@ MonoBehaviour:
   DefSec: S-CO-O-18
   DefKeyCard: L-3-K
   DefPhone: LUMIA950
-  WatchModeFov: 25
+  WatchModeFov: 10
   ObserveModeOverlay: {fileID: 6279739121190952938}
   bagItems:
   - type: 0
