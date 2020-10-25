@@ -106,7 +106,6 @@ namespace Site13Kernel.DynamicScene
             {
                 if (FinalLoadedSceneIdentifier is string)
                 {
-                    SceneManager.UnloadSceneAsync((string)FinalLoadedSceneIdentifier);
                     var gos = SceneManager.GetSceneByName(TargetSceneName).GetRootGameObjects();
                     foreach (var item in gos)
                     {
@@ -128,10 +127,10 @@ namespace Site13Kernel.DynamicScene
                             }
                         }
                     }
+                    SceneManager.UnloadSceneAsync((string)FinalLoadedSceneIdentifier);
                 }
                 else if (FinalLoadedSceneIdentifier is int)
                 {
-                    SceneManager.UnloadSceneAsync((int)FinalLoadedSceneIdentifier);
                     var gos = SceneManager.GetSceneByBuildIndex((int)FinalLoadedSceneIdentifier).GetRootGameObjects();
                     foreach (var item in gos)
                     {
@@ -154,11 +153,13 @@ namespace Site13Kernel.DynamicScene
                             }
                         }
                     }
+                    SceneManager.UnloadSceneAsync((int)FinalLoadedSceneIdentifier);
                 }
             }
             catch (Exception)
             {
             }
+            FinalLoadedSceneIdentifier = null;//Reset Identifier to allow reload of the scene.
         }
         private void OnTriggerEnter(Collider other)
         {
