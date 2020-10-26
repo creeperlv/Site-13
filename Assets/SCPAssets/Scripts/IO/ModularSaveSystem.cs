@@ -32,11 +32,15 @@ namespace Site13Kernel.IO
         {
             if(Application.platform == RuntimePlatform.WindowsPlayer)
             {
-                SavePath = ".";
+                SavePath = "./Saves/MSS/";
             }
             else if (Application.platform == RuntimePlatform.WSAPlayerX64 || Application.platform == RuntimePlatform.WSAPlayerX64 || Application.platform == RuntimePlatform.LinuxPlayer || Application.platform == RuntimePlatform.OSXPlayer)
             {
-                SavePath = Application.dataPath;
+                SavePath =Path.Combine( Application.dataPath,"MSS");
+            }
+            else
+            {
+                SavePath = "./Saves/Editor/MSS/";
             }
             SavePath = Path.Combine(SavePath, SaveSystemID);
             GameInfo.CurrentGame.CurrentSceneSaveSystem = this;
