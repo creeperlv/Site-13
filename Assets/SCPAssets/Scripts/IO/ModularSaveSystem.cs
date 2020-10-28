@@ -43,6 +43,7 @@ namespace Site13Kernel.IO
                 SavePath = "./Saves/Editor/MSS/";
             }
             SavePath = Path.Combine(SavePath, SaveSystemID);
+            if (!Directory.Exists(SavePath)) Directory.CreateDirectory(SavePath);
             GameInfo.CurrentGame.CurrentSceneSaveSystem = this;
         }
 

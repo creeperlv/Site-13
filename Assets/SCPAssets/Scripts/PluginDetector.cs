@@ -29,11 +29,11 @@ namespace Site13Kernel.Plugin
         private void OnTriggerEnter(Collider other)
         {
 
-            Debug.Log("Collision entered.");
+            //Debug.Log("Collision entered.");
             if (other.gameObject.GetComponent<SCPFirstController>() != null)
             {
                 isEntered = true;
-                Debug.Log("Player entered.");
+                //Debug.Log("Player entered.");
                 if (Enter)
                 {
                     var RealID = ID + ".OnEntered";
@@ -42,8 +42,8 @@ namespace Site13Kernel.Plugin
                         var functions = PluginPool.functionsCollection.Data[RealID];
                         foreach (var func in functions)
                         {
-                            Debug.Log("Hit:" + func.GetType().Name);
-                            Debug.Log("Try to run:" + func.PluginID);
+                            //Debug.Log("Hit:" + func.GetType().Name);
+                            //Debug.Log("Try to run:" + func.PluginID);
                             func.Run();
                         }
                     }
@@ -67,7 +67,7 @@ namespace Site13Kernel.Plugin
                         var functions = PluginPool.functionsCollection.Data[RealID];
                         foreach (var func in functions)
                         {
-                            Debug.Log("Try to run:" + func.PluginID);
+                            //Debug.Log("Try to run:" + func.PluginID);
                             func.Run();
                         }
                     }
