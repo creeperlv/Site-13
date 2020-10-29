@@ -31,27 +31,6 @@ namespace Site13Kernel.DynamicScene
                         var async = SceneManager.LoadSceneAsync(TargetSceneName, new LoadSceneParameters(LoadSceneMode.Additive));
                         async.completed += Async_completed;
                         FinalLoadedSceneIdentifier = TargetSceneName;
-                        //var gos = LoadedScene.GetRootGameObjects();
-                        //foreach (var item in gos)
-                        //{
-                        //    if (item.name == "ModularScenePrefab")
-                        //    {
-                        //        try
-                        //        {
-                        //            var Objects = item.GetComponent<ModularSceneObjects>();
-                        //            foreach (var Component in Objects.Components)
-                        //            {
-                        //                Component.Init();
-                        //            }
-                        //            Objects.SaveModule.Register();
-                        //            Objects.SaveModule.Load();
-                        //        }
-                        //        catch (Exception e)
-                        //        {
-                        //            if (Application.isEditor) Debug.LogError(e);
-                        //        }
-                        //    }
-                        //}
                     }
                 }
                 catch (System.Exception ee)
@@ -64,27 +43,6 @@ namespace Site13Kernel.DynamicScene
                             var async = SceneManager.LoadSceneAsync(TargetSceneID, new LoadSceneParameters(LoadSceneMode.Additive));
                             async.completed += Async_completed;
                             FinalLoadedSceneIdentifier = TargetSceneID;
-                            //var gos = LoadedScene.GetRootGameObjects();
-                            //foreach (var item in gos)
-                            //{
-                            //    if (item.name == "ModularScenePrefab")
-                            //    {
-                            //        try
-                            //        {
-                            //            var Objects = item.GetComponent<ModularSceneObjects>();
-                            //            foreach (var Component in Objects.Components)
-                            //            {
-                            //                Component.Init();
-                            //            }
-                            //            Objects.SaveModule.Register();
-                            //            Objects.SaveModule.Load();
-                            //        }
-                            //        catch (Exception e)
-                            //        {
-                            //            if (Application.isEditor) Debug.LogError(e);
-                            //        }
-                            //    }
-                            //}
                         }
                     }
                     catch (Exception e)
@@ -104,31 +62,6 @@ namespace Site13Kernel.DynamicScene
 
                         async.completed += Async_completed;
                         FinalLoadedSceneIdentifier = TargetSceneID;
-                        //var gos = LoadedScene.GetRootGameObjects();
-                        //    Debug.Log("Root Objs:"+gos.Length);
-                        //    Debug.Log("Is scene loaded?"+LoadedScene.isLoaded);
-                        //foreach (var item in gos)
-                        //{
-                        //    Debug.Log("Is it target:"+item.name);
-                        //    if (item.name == "ModularScenePrefab")
-                        //    {
-                        //        try
-                        //        {
-                        //            var Objects = item.GetComponent<ModularSceneObjects>();
-                        //            foreach (var Component in Objects.Components)
-                        //            {
-                        //                Component.Init();
-                        //            }
-                        //            Objects.SaveModule.Register();
-                        //            Objects.SaveModule.Load();
-
-                        //        }
-                        //        catch (Exception e)
-                        //        {
-                        //            if (Application.isEditor) Debug.LogError(e);
-                        //        }
-                        //    }
-                        //}
                     }
                 }
                 catch (Exception e)
@@ -200,6 +133,7 @@ namespace Site13Kernel.DynamicScene
                         }
                     }
                 }
+
                 SceneManager.UnloadSceneAsync(LoadedScene);
             }
             catch (Exception)

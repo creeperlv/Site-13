@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using CLUNL.Data.Layer0.Buffers;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Site13Kernel.IO
         /// Parent path.
         /// </summary>
         public string SavePath { get; private set; }
+        public string OriginalSavePath { get; private set; }
         public Dictionary<string, ModularSaveSystemModule> Modules = new Dictionary<string, ModularSaveSystemModule>();
         public void Load()
         {
@@ -28,23 +30,50 @@ namespace Site13Kernel.IO
                 item.Value.Save();
             }
         }
+        public void LoadGI()
+        {
+
+        }
+        public void SaveGI()
+        {
+            DataBuffer dataBuffer = new DataBuffer();
+            dataBuffer.WriteInt(GameInfo.CurrentGame.FlagsGroup.Count);
+            foreach (var item in GameInfo.CurrentGame.FlagsGroup)
+            {
+                dataBuffer.WriteString(item.Key);
+                dataBuffer.WriteString(item.Value);
+            }
+            dataBuffer.WriteInt(GameInfo.CurrentGame.EnemyStatusGroup.Count);
+            foreach (var item in GameInfo.CurrentGame.EnemyStatusGroup)
+            {
+                dataBuffer.WriteString(item.Key);
+                dataBuffer.WriteString(item.Value);
+            }
+        }
+        public string GeneralInfoPath;
         void Start()
         {
             if(Application.platform == RuntimePlatform.WindowsPlayer)
             {
-                SavePath = "./Saves/MSS/";
+                OriginalSavePath = $"./Saves/{GameInfo.CurrentGame.SaveName}/MSS/";
             }
             else if (Application.platform == RuntimePlatform.WSAPlayerX64 || Application.platform == RuntimePlatform.WSAPlayerX64 || Application.platform == RuntimePlatform.LinuxPlayer || Application.platform == RuntimePlatform.OSXPlayer)
             {
-                SavePath =Path.Combine( Application.dataPath,"MSS");
+                OriginalSavePath = Path.Combine( Application.dataPath,"Saves",GameInfo.CurrentGame.SaveName,"MSS");
             }
             else
             {
-                SavePath = "./Saves/Editor/MSS/";
+                OriginalSavePath = $"./Saves/{GameInfo.CurrentGame.SaveName}/Editor/MSS/";
             }
-            SavePath = Path.Combine(SavePath, SaveSystemID);
+            SavePath = Path.Combine(OriginalSavePath, SaveSystemID);
+            if (!Directory.Exists(OriginalSavePath)) Directory.CreateDirectory(OriginalSavePath);
             if (!Directory.Exists(SavePath)) Directory.CreateDirectory(SavePath);
             GameInfo.CurrentGame.CurrentSceneSaveSystem = this;
+            GeneralInfoPath = Path.Combine(OriginalSavePath, "GenInfo.bin");
+            if (!File.Exists(GeneralInfoPath))
+            {
+                File.Create(GeneralInfoPath).Close();
+            }
         }
 
     }
