@@ -154,6 +154,7 @@ namespace Site13Kernel.IO
                 var b = item.Serialize();
                 if (b != null)
                     vs.AppendGroup(b);
+                else vs.AppendGroup(new byte[] { 0,0,0,0});
             }
             Buffer.AppendGroup(vs);
         }
