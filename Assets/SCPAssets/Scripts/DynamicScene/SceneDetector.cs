@@ -111,6 +111,7 @@ namespace Site13Kernel.DynamicScene
         {
             try
             {
+                ((ModularSaveSystem)GameInfo.CurrentGame.CurrentSceneSaveSystem).SaveGI();
                 var gos = LoadedScene.GetRootGameObjects();
                 foreach (var item in gos)
                 {

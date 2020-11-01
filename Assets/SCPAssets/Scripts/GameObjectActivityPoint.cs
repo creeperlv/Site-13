@@ -13,16 +13,15 @@ namespace Site13Kernel.IO
         }
         public void Deserialize(ByteBuffer buffer)
         {
-            var b = buffer.GetGroup();
-            gameObject.SetActive(BitConverter.ToBoolean(b, 0));
+            DataBuffer dataBuffer = DataBuffer.FromByteBuffer(buffer);
+            this.gameObject.SetActive(dataBuffer.ReadBool());
         }
 
         public ByteBuffer Serialize()
         {
-            ByteBuffer vs = new ByteBuffer();
-            byte[] b = BitConverter.GetBytes(this.gameObject.activeSelf);
-            vs.AppendGroup(vs);
-            return vs;
+            DataBuffer dataBuffer = new DataBuffer();
+            dataBuffer.WriteBool(this.gameObject.activeSelf);
+            return dataBuffer.ObtainByteArray();
         }
     }
 

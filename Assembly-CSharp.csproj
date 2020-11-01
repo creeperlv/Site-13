@@ -129,8 +129,6 @@
     <Compile Include="Assets\Aura\Structs\VolumeInjectionShape.cs" />
     <Compile Include="Assets\Aura\Structs\VolumeLevelsData.cs" />
     <Compile Include="Assets\Aura\Structs\VolumeTextureData.cs" />
-    <Compile Include="Assets\AutoDeactivateObject.cs" />
-    <Compile Include="Assets\BGWeapon_AD1.cs" />
     <Compile Include="Assets\CrepuscularRays\Crepuscular.cs" />
     <Compile Include="Assets\FPS All-In-One\DemoScene\MiscScripts\Doors.cs" />
     <Compile Include="Assets\FPS All-In-One\FirstPersonAIO\FirstPersonAIO.cs" />
@@ -164,8 +162,6 @@
     <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Scripts\RenderTargetContext.cs" />
     <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Scripts\Resources.cs" />
     <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Scripts\Settings.cs" />
-    <Compile Include="Assets\GameObjectActivityPoint.cs" />
-    <Compile Include="Assets\MaterialOnAmmo.cs" />
     <Compile Include="Assets\NVJOB\Example Scene\Scripts\Rotation.cs" />
     <Compile Include="Assets\NVJOB\Example Scene\Scripts\WaterAndSky.cs" />
     <Compile Include="Assets\OBJImport\CharWordReader.cs" />
@@ -186,13 +182,11 @@
     <Compile Include="Assets\OBJImport\TextureLoader\TGALoader.cs" />
     <Compile Include="Assets\OSK\Assets\Scripts\KeyboardDragHandler.cs" />
     <Compile Include="Assets\OSK\Assets\Scripts\KeyboardScript.cs" />
-    <Compile Include="Assets\ObjectMovement.cs" />
     <Compile Include="Assets\Particle Attractor by Moonflower Carnivore\Scripts\particleAttractorLinear.cs" />
     <Compile Include="Assets\Particle Attractor by Moonflower Carnivore\Scripts\particleAttractorMove.cs" />
     <Compile Include="Assets\Particle Attractor by Moonflower Carnivore\Scripts\particleAttractorSelf.cs" />
     <Compile Include="Assets\Particle Attractor by Moonflower Carnivore\Scripts\particleAttractorSpherical.cs" />
     <Compile Include="Assets\Particle Attractor by Moonflower Carnivore\Scripts\rotation.cs" />
-    <Compile Include="Assets\PrimarySceneController.cs" />
     <Compile Include="Assets\PyroParticles\Demo\DemoScript.cs" />
     <Compile Include="Assets\PyroParticles\Demo\DemoScriptEditor.cs" />
     <Compile Include="Assets\PyroParticles\Prefab\Script\FireBaseScript.cs" />
@@ -203,6 +197,7 @@
     <Compile Include="Assets\PyroParticles\Prefab\Script\MeteorSwarmScript.cs" />
     <Compile Include="Assets\PyroParticles\Prefab\Script\SingleLineAttribute.cs" />
     <Compile Include="Assets\RDL\Security_Pack\Scripts\scr_camera.cs" />
+    <Compile Include="Assets\SBL1Prt0WakeUpAniController.cs" />
     <Compile Include="Assets\SCPAssets\HUDNavi\CompassBar.cs" />
     <Compile Include="Assets\SCPAssets\HUDNavi\NavigationCore.cs" />
     <Compile Include="Assets\SCPAssets\HUDNavi\NavigationPoint.cs" />
@@ -215,7 +210,9 @@
     <Compile Include="Assets\SCPAssets\Scripts\AreaBGMChanger.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\AreaSFXPlayer.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\AutoBackManimenu.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\AutoDeactivateObject.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\AutomatedConversationStory.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\BGWeapon_AD1.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\BackMainMenu.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\BagItemChanger.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\BatteryPrenster.cs" />
@@ -258,6 +255,7 @@
     <Compile Include="Assets\SCPAssets\Scripts\FirstAidKit.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\GameFlagModifier.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\GameInfo.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\GameObjectActivityPoint.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\GenericWeapon.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\GetUp.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\HandableItem.cs" />
@@ -282,15 +280,18 @@
     <Compile Include="Assets\SCPAssets\Scripts\LoadingUI.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\LoopSounds.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\MaterialHolder.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\MaterialOnAmmo.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\MeetMohammadScott.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\MobilePhone.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\Notification.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\OOBEFinal.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\ObjectMovement.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\OpeningScreen.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\PickableFirstAidKit.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\Plugin\PluginPool.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\PluginDetector.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\PluginExecutor.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\PrimarySceneController.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\RandomRoomProp.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\ReadingPanelExitButton.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCP173Detector.cs" />
@@ -307,6 +308,7 @@
     <Compile Include="Assets\SCPAssets\Scripts\SCPBagSystemV2.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPBaseScript.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPCBIntroStoryActions.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\SCPCamWalkShakeSimluate.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPCamera.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPCameraShake.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPD12StandardRiffle.cs" />
@@ -331,6 +333,7 @@
     <Compile Include="Assets\SCPAssets\Scripts\SCPMainUI.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPMainUIV2.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPMobileHID.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\SCPNavipointTarget.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPOoDV1.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPOoDV1Manager.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPOoDV2.cs" />
@@ -377,8 +380,6 @@
     <Compile Include="Assets\SCPAssets\Scripts\TraditionalWeapon.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\TriggerBroadcast.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\WarheadScreen.cs" />
-    <Compile Include="Assets\SCPCamWalkShakeSimluate.cs" />
-    <Compile Include="Assets\SCPNavipointTarget.cs" />
     <Compile Include="Assets\Samples\Unity Recorder\2.2.0-preview.4\Multiple Recordings Sample\MultipleRecordingsExample.cs" />
     <Compile Include="Assets\Sci-fi-Holographic-Screens\AnimatedTextures.cs" />
     <Compile Include="Assets\SciFi_Door\Script\door.cs" />
