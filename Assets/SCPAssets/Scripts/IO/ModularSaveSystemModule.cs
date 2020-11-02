@@ -387,15 +387,15 @@ namespace Site13Kernel.IO
             Vector3 S = Vector3.zero;
             {
                 byte[] a = { vs[28], vs[29], vs[30], vs[31] };
-                P.x = BitConverter.ToSingle(a, 0);
+                S.x = BitConverter.ToSingle(a, 0);
             }
             {
                 byte[] a = { vs[32], vs[33], vs[34], vs[35] };
-                P.y = BitConverter.ToSingle(a, 0);
+                S.y = BitConverter.ToSingle(a, 0);
             }
             {
                 byte[] a = { vs[36], vs[37], vs[38], vs[39] };
-                P.z = BitConverter.ToSingle(a, 0);
+                S.z = BitConverter.ToSingle(a, 0);
             }
             return (P, R, S);
         }

@@ -1,36 +1,38 @@
-﻿using Site13Kernel.IO;
+﻿using CLUNL.Data.Layer0.Buffers;
+using Site13Kernel.IO;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Site13Kernel.DynamicScene
 {
-    public class SceneDetector : MonoBehaviour
+    public class SceneDetector : MonoBehaviour, IByteBufferable
     {
         public int TargetSceneID = -1;
         public string TargetSceneName = "#";
         public bool AutoLoad = false;
+        bool loaded = false;
         object FinalLoadedSceneIdentifier;
         Scene LoadedScene;
         // Start is called before the first frame update
         void Start()
         {
-            if (AutoLoad == true)
-            {
-                LoadTargetScene();
-            }
         }
         void LoadTargetScene()
         {
-
+            loaded = true;
             if (TargetSceneName != "#")
             {
                 try
                 {
                     {
-                        var async = SceneManager.LoadSceneAsync(TargetSceneName, new LoadSceneParameters(LoadSceneMode.Additive));
-                        async.completed += Async_completed;
                         FinalLoadedSceneIdentifier = TargetSceneName;
+                        LoadedScene = SceneManager.GetSceneByName(TargetSceneName);
+                        var async = SceneManager.LoadSceneAsync(TargetSceneName, new LoadSceneParameters(LoadSceneMode.Additive));
+                        async.allowSceneActivation = false;
+                        //async.allowSceneActivation = false;
+                        async.completed += Async_completed;
                     }
                 }
                 catch (System.Exception ee)
@@ -40,9 +42,13 @@ namespace Site13Kernel.DynamicScene
                     {
                         if (TargetSceneID != -1)
                         {
-                            var async = SceneManager.LoadSceneAsync(TargetSceneID, new LoadSceneParameters(LoadSceneMode.Additive));
-                            async.completed += Async_completed;
                             FinalLoadedSceneIdentifier = TargetSceneID;
+                            LoadedScene = SceneManager.GetSceneByBuildIndex(TargetSceneID);
+
+                            var async = SceneManager.LoadSceneAsync(TargetSceneID, new LoadSceneParameters(LoadSceneMode.Additive));
+                            async.allowSceneActivation = false;
+                            //async.allowSceneActivation = false;
+                            async.completed += Async_completed;
                         }
                     }
                     catch (Exception e)
@@ -58,10 +64,13 @@ namespace Site13Kernel.DynamicScene
                     if (TargetSceneID != -1)
                     {
 
-                        var async = SceneManager.LoadSceneAsync(TargetSceneID, new LoadSceneParameters(LoadSceneMode.Additive));
-
-                        async.completed += Async_completed;
                         FinalLoadedSceneIdentifier = TargetSceneID;
+                        Debug.Log(FinalLoadedSceneIdentifier);
+                        LoadedScene = SceneManager.GetSceneByBuildIndex(TargetSceneID);
+                        var async = SceneManager.LoadSceneAsync(TargetSceneID, new LoadSceneParameters(LoadSceneMode.Additive));
+                        async.allowSceneActivation = false;
+                        //async.allowSceneActivation = false;
+                        async.completed += Async_completed;
                     }
                 }
                 catch (Exception e)
@@ -70,19 +79,41 @@ namespace Site13Kernel.DynamicScene
                 }
             }
         }
-
-        private void Async_completed(AsyncOperation obj)
+        IEnumerator StartCompleted(AsyncOperation obj)
         {
-            if (FinalLoadedSceneIdentifier is int)
+            while (LoadedScene.IsValid() == false)
             {
+                for (int i = 0; i < SceneManager.sceneCount; i++)
+                {
+                    var scene = SceneManager.GetSceneAt(i);
+                    Debug.Log("S:" + scene.buildIndex);
+                    if (FinalLoadedSceneIdentifier is int)
+                    {
+                        if (scene.buildIndex == (int)FinalLoadedSceneIdentifier)
+                        {
+                            LoadedScene = scene;
+                            Debug.Log("S-V:" + scene.IsValid());
+                            Debug.Log("S-V2:" + LoadedScene.IsValid());
+                        }
 
-                LoadedScene = SceneManager.GetSceneByBuildIndex((int)FinalLoadedSceneIdentifier);
+                    }
+                    else
+                    {
+                        if (scene.name == (string)FinalLoadedSceneIdentifier) LoadedScene = scene;
+                    }
+                }
+                //if (FinalLoadedSceneIdentifier is int)
+                //{
+                //    LoadedScene = SceneManager.GetSceneByBuildIndex((int)FinalLoadedSceneIdentifier);
+                //}
+                //else
+                //{
+                //    LoadedScene = SceneManager.GetSceneByName((string)FinalLoadedSceneIdentifier);
+                //}
+                yield return null;
             }
-            else
-            {
-                LoadedScene = SceneManager.GetSceneByName((string)FinalLoadedSceneIdentifier);
-
-            }
+            Debug.Log(FinalLoadedSceneIdentifier + ":" + LoadedScene.name);
+            obj.allowSceneActivation = true;
             var gos = LoadedScene.GetRootGameObjects();
             foreach (var item in gos)
             {
@@ -106,9 +137,15 @@ namespace Site13Kernel.DynamicScene
                 }
             }
         }
+        private void Async_completed(AsyncOperation obj)
+        {
+
+            StartCoroutine(StartCompleted(obj));
+        }
 
         void UnloadScene()
         {
+            loaded = false;
             try
             {
                 ((ModularSaveSystem)GameInfo.CurrentGame.CurrentSceneSaveSystem).SaveGI();
@@ -148,7 +185,11 @@ namespace Site13Kernel.DynamicScene
             {
                 if (FinalLoadedSceneIdentifier == null)
                 {
-                    LoadTargetScene();
+                    if (loaded == false)
+                    {
+                        Debug.Log("Load from enterance:" + TargetSceneID);
+                        LoadTargetScene();
+                    }
                 }
             }
         }
@@ -158,6 +199,32 @@ namespace Site13Kernel.DynamicScene
             {
                 UnloadScene();
             }
+        }
+        public void SideStart()
+        {
+            if (isDeserialize == false)
+            {
+                if (AutoLoad) { Debug.Log("Auto Load."); LoadTargetScene(); }
+            }
+        }
+        bool isDeserialize = false;
+        public void Deserialize(ByteBuffer buffer)
+        {
+            isDeserialize = true;
+            loaded = true; Debug.Log("MSS Processed:" + TargetSceneID);
+            DataBuffer dataBuffer = DataBuffer.FromByteBuffer(buffer);
+            if (dataBuffer.ReadBool() == true)
+            {
+                loaded = true; Debug.Log("Load by MSS");
+                LoadTargetScene();
+            }
+        }
+
+        public ByteBuffer Serialize()
+        {
+            DataBuffer dataBuffer = new DataBuffer();
+            dataBuffer.WriteBool(loaded);
+            return dataBuffer.ObtainByteArray();
         }
     }
 

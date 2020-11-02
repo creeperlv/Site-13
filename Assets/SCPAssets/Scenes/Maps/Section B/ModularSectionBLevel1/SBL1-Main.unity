@@ -169,9 +169,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SaveSystemID: SBL1
+  sceneDetectors:
+  - {fileID: 1693920208}
+  - {fileID: 1350449500}
+  - {fileID: 1616270285}
   MainController: {fileID: 1143921754}
   GeneralInfoPath: 
   FPSControllerInfoPath: 
+  SubScenePath: 
 --- !u!1 &82935145
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +446,12 @@ MonoBehaviour:
   EssentialEFIs:
   - {fileID: 547456579}
   - {fileID: 1042341555}
+--- !u!82 &331032627 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7736607144931957686, guid: 18cd7642c1a69af468eac9513ee775c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1253788441}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &525814734
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1061,6 +1072,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9165177124451826794, guid: 18cd7642c1a69af468eac9513ee775c5,
+        type: 3}
+      propertyPath: audioSource1
+      value: 
+      objectReference: {fileID: 331032627}
     - target: {fileID: 9165177125046837258, guid: 18cd7642c1a69af468eac9513ee775c5,
         type: 3}
       propertyPath: m_IsActive

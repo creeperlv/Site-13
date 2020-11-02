@@ -15,6 +15,7 @@ namespace Site13Kernel.IO
         /// </summary>
         public string SavePath { get; private set; }
         public string OriginalSavePath { get; private set; }
+        public List<SceneDetector> sceneDetectors = new List<SceneDetector>();
         public SCPFirstController MainController;
         public Dictionary<string, ModularSaveSystemModule> Modules = new Dictionary<string, ModularSaveSystemModule>();
         public void Load()
@@ -38,10 +39,19 @@ namespace Site13Kernel.IO
                 DataBuffer dataBuffer = DataBuffer.FromByteArray(File.ReadAllBytes(FPSControllerInfoPath));
                 MainController.gameObject.SetActive(dataBuffer.ReadBool());
                 ByteBuffer byteBuffer = dataBuffer.ObtainByteArray();
-                var FPSTransform=Utilities.FromBytes(byteBuffer.GetGroup());
+                var FPSTransform = Utilities.FromBytes(byteBuffer.GetGroup());
                 MainController.transform.position = FPSTransform.Item1;
                 MainController.transform.rotation = FPSTransform.Item2;
                 MainController.transform.localScale = FPSTransform.Item3;
+            }
+            {
+                //Load Scenes.
+                ByteBuffer vs = ByteBuffer.FromByteArray(File.ReadAllBytes(SubScenePath));
+                for (int i = 0; i < sceneDetectors.Count; i++)
+                {
+                    sceneDetectors[i].Deserialize(vs.GetGroup());
+
+                }
             }
         }
         public void SaveGI()
@@ -53,6 +63,16 @@ namespace Site13Kernel.IO
                 ByteBuffer byteBuffer = dataBuffer.ObtainByteArray();
                 byteBuffer.AppendGroup(Utilities.FromTransform(PrimarySceneController.CurrentPrimaryScene.MainCharacter.transform));
                 File.WriteAllBytes(FPSControllerInfoPath, byteBuffer);
+            }
+            {
+                //Save Scenes;
+                ByteBuffer vs = new ByteBuffer();
+                for (int i = 0; i < sceneDetectors.Count; i++)
+                {
+                    vs.AppendGroup(sceneDetectors[i].Serialize());
+
+                }
+                File.WriteAllBytes(SubScenePath, vs);
             }
             {
 
@@ -74,6 +94,7 @@ namespace Site13Kernel.IO
         }
         public string GeneralInfoPath;
         public string FPSControllerInfoPath;
+        public string SubScenePath;
         void Start()
         {
             if (Application.platform == RuntimePlatform.WindowsPlayer)
@@ -94,6 +115,7 @@ namespace Site13Kernel.IO
             GameInfo.CurrentGame.CurrentSceneSaveSystem = this;
             GeneralInfoPath = Path.Combine(OriginalSavePath, "GenInfo.bin");
             FPSControllerInfoPath = Path.Combine(SavePath, "FPSController.bin");
+            SubScenePath = Path.Combine(SavePath, "SubScene.bin");
             bool isLoadGI = false;
             if (!File.Exists(GeneralInfoPath))
             {
@@ -108,7 +130,16 @@ namespace Site13Kernel.IO
                 isLoadGI = false;
                 File.Create(FPSControllerInfoPath).Close();
             }
+            if (!File.Exists(SubScenePath))
+            {
+                isLoadGI = false;
+                File.Create(SubScenePath).Close();
+            }
             if (isLoadGI == true) LoadGI();
+            foreach (var item in sceneDetectors)
+            {
+                item.SideStart();
+            }
         }
         bool FirstLoad = false;
         void Update()
