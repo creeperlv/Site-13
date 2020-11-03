@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using CLUNL.Data.Layer0.Buffers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Site13Kernel
 {
-    public class SCPStoryNodeBaseCode : SCPBaseScript
+    public class SCPStoryNodeBaseCode : SCPBaseScript,IByteBufferable
     {
         [HideInInspector]
         public bool isStoryRequiresPlayer = false;
@@ -91,6 +92,20 @@ namespace Site13Kernel
             catch (System.Exception)
             {
             }
+        }
+
+        public void Deserialize(ByteBuffer buffer)
+        {
+            DataBuffer db=DataBuffer.FromByteBuffer(buffer);
+            isStarted = db.ReadBool();
+
+        }
+
+        public ByteBuffer Serialize()
+        {
+            DataBuffer dataBuffer = new DataBuffer();
+            dataBuffer.WriteBool(isStarted);
+            return dataBuffer.ObtainByteArray();
         }
     }
 }

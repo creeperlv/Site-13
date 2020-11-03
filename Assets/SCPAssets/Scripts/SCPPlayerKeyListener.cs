@@ -15,7 +15,7 @@ namespace Site13Kernel
         public Button ContinueGame;
         public Button MainMenuButton;
         public Button SaveButtonToRegister;
-        public SaveSystem CurrentSaveSystem;
+        public Savable CurrentSaveSystem;
         public PostProcessVolume layer;
         public PostProcessProfile Normal;
         public PostProcessProfile NightVision;

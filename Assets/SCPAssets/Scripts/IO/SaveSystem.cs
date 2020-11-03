@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace Site13Kernel
 {
-    public class SaveSystem : MonoBehaviour, ISave
+    public class SaveSystem : Savable
     {
         public static int DoorSaveMethod = 1;
         public GameObject Player;
@@ -286,7 +286,7 @@ namespace Site13Kernel
                 Player.GetComponent<SCPEntity>().Immortal = false;
             }
         }
-        public void Save()
+        public override void Save()
         {
 
             Dictionary<string, string> TotalData = new Dictionary<string, string>();
@@ -378,7 +378,7 @@ namespace Site13Kernel
 
         }
 
-        public void Load()
+        public override void Load()
         {
         }
     }

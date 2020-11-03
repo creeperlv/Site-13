@@ -29,10 +29,9 @@ namespace Site13Kernel.DynamicScene
                     {
                         FinalLoadedSceneIdentifier = TargetSceneName;
                         LoadedScene = SceneManager.GetSceneByName(TargetSceneName);
-                        var async = SceneManager.LoadSceneAsync(TargetSceneName, new LoadSceneParameters(LoadSceneMode.Additive));
-                        async.allowSceneActivation = false;
+                        //var async = SceneManager.LoadSceneAsync(TargetSceneName, new LoadSceneParameters(LoadSceneMode.Additive));
                         //async.allowSceneActivation = false;
-                        async.completed += Async_completed;
+                        StartCoroutine(StartCompleted());
                     }
                 }
                 catch (System.Exception ee)
@@ -45,10 +44,9 @@ namespace Site13Kernel.DynamicScene
                             FinalLoadedSceneIdentifier = TargetSceneID;
                             LoadedScene = SceneManager.GetSceneByBuildIndex(TargetSceneID);
 
-                            var async = SceneManager.LoadSceneAsync(TargetSceneID, new LoadSceneParameters(LoadSceneMode.Additive));
-                            async.allowSceneActivation = false;
+                            //var async = SceneManager.LoadSceneAsync(TargetSceneID, new LoadSceneParameters(LoadSceneMode.Additive));
                             //async.allowSceneActivation = false;
-                            async.completed += Async_completed;
+                            StartCoroutine(StartCompleted());
                         }
                     }
                     catch (Exception e)
@@ -67,10 +65,9 @@ namespace Site13Kernel.DynamicScene
                         FinalLoadedSceneIdentifier = TargetSceneID;
                         Debug.Log(FinalLoadedSceneIdentifier);
                         LoadedScene = SceneManager.GetSceneByBuildIndex(TargetSceneID);
-                        var async = SceneManager.LoadSceneAsync(TargetSceneID, new LoadSceneParameters(LoadSceneMode.Additive));
-                        async.allowSceneActivation = false;
+                        //var async = SceneManager.LoadSceneAsync(TargetSceneID, new LoadSceneParameters(LoadSceneMode.Additive));
                         //async.allowSceneActivation = false;
-                        async.completed += Async_completed;
+                        StartCoroutine(StartCompleted());
                     }
                 }
                 catch (Exception e)
@@ -79,42 +76,50 @@ namespace Site13Kernel.DynamicScene
                 }
             }
         }
-        IEnumerator StartCompleted(AsyncOperation obj)
+        //IEnumerator StartCompleted(AsyncOperation obj)
+        IEnumerator StartCompleted()
         {
-            while (LoadedScene.IsValid() == false)
-            {
-                for (int i = 0; i < SceneManager.sceneCount; i++)
-                {
-                    var scene = SceneManager.GetSceneAt(i);
-                    Debug.Log("S:" + scene.buildIndex);
-                    if (FinalLoadedSceneIdentifier is int)
-                    {
-                        if (scene.buildIndex == (int)FinalLoadedSceneIdentifier)
-                        {
-                            LoadedScene = scene;
-                            Debug.Log("S-V:" + scene.IsValid());
-                            Debug.Log("S-V2:" + LoadedScene.IsValid());
-                        }
+            //while (LoadedScene.IsValid() == false)
+            //{
+            //        Debug.Log("SC:" + SceneManager.sceneCount);
+            //    for (int i = 0; i < SceneManager.sceneCount; i++)
+            //    {
+            //        var scene = SceneManager.GetSceneAt(i);
+            //        Debug.Log("S:" + scene.buildIndex);
+            //        if (FinalLoadedSceneIdentifier is int)
+            //        {
+            //            if (scene.buildIndex == (int)FinalLoadedSceneIdentifier)
+            //            {
+            //                LoadedScene = scene;
+            //                Debug.Log("S-V:" + scene.IsValid());
+            //                Debug.Log("S-V2:" + LoadedScene.IsValid());
+            //            }
 
-                    }
-                    else
-                    {
-                        if (scene.name == (string)FinalLoadedSceneIdentifier) LoadedScene = scene;
-                    }
-                }
-                //if (FinalLoadedSceneIdentifier is int)
-                //{
-                //    LoadedScene = SceneManager.GetSceneByBuildIndex((int)FinalLoadedSceneIdentifier);
-                //}
-                //else
-                //{
-                //    LoadedScene = SceneManager.GetSceneByName((string)FinalLoadedSceneIdentifier);
-                //}
-                yield return null;
-            }
-            Debug.Log(FinalLoadedSceneIdentifier + ":" + LoadedScene.name);
-            obj.allowSceneActivation = true;
+            //        }
+            //        else
+            //        {
+            //            if (scene.name == (string)FinalLoadedSceneIdentifier) LoadedScene = scene;
+            //        }
+            //    }
+            //    //if (FinalLoadedSceneIdentifier is int)
+            //    //{
+            //    //    LoadedScene = SceneManager.GetSceneByBuildIndex((int)FinalLoadedSceneIdentifier);
+            //    //}
+            //    //else
+            //    //{
+            //    //    LoadedScene = SceneManager.GetSceneByName((string)FinalLoadedSceneIdentifier);
+            //    //}
+            //    yield return null;
+            //}
+            //Debug.Log(FinalLoadedSceneIdentifier + ":" + LoadedScene.name);
+            //obj.allowSceneActivation = true;
+            if (FinalLoadedSceneIdentifier is int)
+                LoadedScene = SceneManager.LoadScene((int)FinalLoadedSceneIdentifier, new LoadSceneParameters() { loadSceneMode = LoadSceneMode.Additive });
+            else
+                LoadedScene = SceneManager.LoadScene((string)FinalLoadedSceneIdentifier, new LoadSceneParameters() { loadSceneMode = LoadSceneMode.Additive });
+            yield return null;
             var gos = LoadedScene.GetRootGameObjects();
+            Debug.Log("GOS:" + gos.Length);
             foreach (var item in gos)
             {
                 if (item.name == "ModularScenePrefab")
@@ -126,6 +131,7 @@ namespace Site13Kernel.DynamicScene
                         {
                             Component.Init();
                         }
+                        Debug.Log("Register SFWR.");
                         Objects.SaveModule.Register();
                         Objects.SaveModule.Load();
 
@@ -140,44 +146,47 @@ namespace Site13Kernel.DynamicScene
         private void Async_completed(AsyncOperation obj)
         {
 
-            StartCoroutine(StartCompleted(obj));
         }
+        IEnumerator RealUnload()
+        {
+            ((ModularSaveSystem)GameInfo.CurrentGame.CurrentSceneSaveSystem).SaveGI();
+            var gos = LoadedScene.GetRootGameObjects();
+            foreach (var item in gos)
+            {
+                if (item.name == "ModularScenePrefab")
+                {
+                    //try
+                    //{
+                    var Objects = item.GetComponent<ModularSceneObjects>();
+                    foreach (var Component in Objects.Components)
+                    {
+                        Component.OnDispose();
+                    }
+                    Objects.SaveModule.Save();
+                    Objects.SaveModule.Unregister();
 
+                    //}
+                    //catch (Exception e)
+                    //{
+                    //    if (Application.isEditor) Debug.LogError(e);
+                    //}
+                }
+            }
+            yield return null;
+            SceneManager.UnloadSceneAsync(LoadedScene);
+            //}
+            //catch (Exception)
+            //{
+            //}
+            FinalLoadedSceneIdentifier = null;//Reset Identifier to allow reload of the scene.
+
+        }
         void UnloadScene()
         {
             loaded = false;
-            try
-            {
-                ((ModularSaveSystem)GameInfo.CurrentGame.CurrentSceneSaveSystem).SaveGI();
-                var gos = LoadedScene.GetRootGameObjects();
-                foreach (var item in gos)
-                {
-                    if (item.name == "ModularScenePrefab")
-                    {
-                        try
-                        {
-                            var Objects = item.GetComponent<ModularSceneObjects>();
-                            foreach (var Component in Objects.Components)
-                            {
-                                Component.OnDispose();
-                            }
-                            Objects.SaveModule.Save();
-                            Objects.SaveModule.Unregister();
-
-                        }
-                        catch (Exception e)
-                        {
-                            if (Application.isEditor) Debug.LogError(e);
-                        }
-                    }
-                }
-
-                SceneManager.UnloadSceneAsync(LoadedScene);
-            }
-            catch (Exception)
-            {
-            }
-            FinalLoadedSceneIdentifier = null;//Reset Identifier to allow reload of the scene.
+            StartCoroutine(RealUnload());
+            //try
+            //{
         }
         private void OnTriggerEnter(Collider other)
         {

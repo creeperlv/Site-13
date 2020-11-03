@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Site13Kernel.IO
 {
 
-    public class ModularSaveSystem : MonoBehaviour, ISave
+    public class ModularSaveSystem : Savable
     {
         public string SaveSystemID;
         /// <summary>
@@ -18,7 +18,7 @@ namespace Site13Kernel.IO
         public List<SceneDetector> sceneDetectors = new List<SceneDetector>();
         public SCPFirstController MainController;
         public Dictionary<string, ModularSaveSystemModule> Modules = new Dictionary<string, ModularSaveSystemModule>();
-        public void Load()
+        public override void Load()
         {
             foreach (var item in Modules)
             {
@@ -26,7 +26,7 @@ namespace Site13Kernel.IO
             }
         }
 
-        public void Save()
+        public override void Save()
         {
             foreach (var item in Modules)
             {
