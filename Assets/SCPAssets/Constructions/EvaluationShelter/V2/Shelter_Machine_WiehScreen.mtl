@@ -1,0 +1,18 @@
+newmtl Metal_pattern_30-Smaller
+map_Kd -o 0 0 -s 0.5 0.5 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+Kd 1 1 1
+d 1
+
+newmtl Metal_pattern_20-Lighter
+map_Kd -o 0 0 -s 3 3 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+map_d -o 0 0 -s 1 1 normal.tga
+Kd 1 1 1
+d 1
+
+newmtl ShelterPanel-00
+map_Ke -o 0 0 -s 1 1 Shelter-Panel-00.png
+Kd 0 0 0
+d 1
+

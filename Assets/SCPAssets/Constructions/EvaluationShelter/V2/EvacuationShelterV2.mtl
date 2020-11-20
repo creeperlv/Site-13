@@ -1,0 +1,41 @@
+newmtl Metal_pattern_30
+map_Kd -o 0 0 -s 3 3 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+Kd 1 1 1
+d 1
+
+newmtl Metal_pattern_20-Lighter
+map_Kd -o 0 0 -s 3 3 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+map_d -o 0 0 -s 1 1 normal.tga
+Kd 1 1 1
+d 1
+
+newmtl Metal_pattern_19
+map_Kd -o 0 0 -s 3 3 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+disp -o 0 0 -s 1 1 normal.tga
+map_d -o 0 0 -s 1 1 diffuse 1.tga
+Kd 1 1 1
+d 1
+
+newmtl Metal_pattern_13-Smaller
+map_Kd -o 0 0 -s 1 1 diffuse.tga
+bump -o 0 0 -s 2 2 normal.tga
+Kd 1 1 1
+d 1
+
+newmtl Metal_pattern_24-Smaller
+map_Kd -o 0 0 -s 1 1 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+Kd 1 1 1
+d 1
+
+newmtl Metal_pattern_01-Opaque_3
+map_Kd -o 0 0 -s 1 1 diffuse.tga
+map_Pm -o 0 0 -s 1 1 normal.tga
+bump -o 0 0 -s 3 3 normal.tga
+map_d -o 0 0 -s 1 1 normal.tga
+Kd 1 1 1
+d 1
+
