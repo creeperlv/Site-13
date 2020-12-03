@@ -1,0 +1,53 @@
+newmtl ProBuilderDefault
+map_Kd -o 0 0 -s 1 1 GridBox_Default.png
+Kd 1 1 1
+d 1
+
+newmtl OfficeWallTexture
+map_Kd -o 0 0 -s 1 1 OfficeWallTexture-2.png
+bump -o 0 0 -s 1 1 OfficeWallTexture-2-Normal.png
+Kd 0.8018868 0.8018868 0.8018868
+d 1
+
+newmtl Pillar-0
+map_Kd -o 0 0 -s 1 1 Pillar-0.png
+bump -o 0 0 -s 1 1 Pillar-0-Normal.png
+map_d -o 0 0 -s 1 1 Pillar-0-Normal.png
+Kd 1 1 1
+d 1
+
+newmtl OfficeWallTexture-Pure
+map_Kd -o 0 0 -s 1 1 OfficeWallTexture-2-Pure.png
+bump -o 0 0 -s 1 1 OfficeWallTexture-2-Pure 1.png
+Kd 0.8018868 0.8018868 0.8018868
+d 1
+
+newmtl SCP-M-Lamp-Light_2
+Kd 1 0.1617647 0
+d 1
+
+newmtl SCP-OZ-Floor
+map_Kd -o 0 0 -s 0.5 0.5 ceiling-Backup.jpg
+bump -o 0 0 -s 1 1 ceiling-Map.jpg
+disp -o 0 0 -s 1 1 ceiling-Map.jpg
+map_d -o 0 0 -s 1 1 glassNormal_quarter.png
+Kd 1 1 1
+d 1
+
+newmtl Plastic
+map_Kd -o 0 0 -s 1 1 Plastic-0.png
+bump -o 0 0 -s 1 1 Plastic-0-Normal.png
+Kd 0.08388218 0.3485449 0.6132076
+d 1
+
+newmtl Metal_pattern_20-Lighter_2
+map_Kd -o 0 0 -s 3 3 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+map_d -o 0 0 -s 1 1 normal.tga
+Kd 1 1 1
+d 1
+
+newmtl SCP-M-Lamp-Light_2_1
+Kd 1 1 1
+d 1
+

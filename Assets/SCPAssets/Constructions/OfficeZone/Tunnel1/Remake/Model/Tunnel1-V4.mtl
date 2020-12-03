@@ -1,0 +1,18 @@
+newmtl OfficeWallTexture-Pure
+map_Kd -o 0 0 -s 1 1 OfficeWallTexture-2-Pure.png
+bump -o 0 0 -s 1 1 OfficeWallTexture-2-Pure 1.png
+Kd 0.8018868 0.8018868 0.8018868
+d 1
+
+newmtl Metal_pattern_06
+map_Kd -o 0 0 -s 3 3 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+Kd 1 1 1
+d 1
+
+newmtl OfficeWallTexture
+map_Kd -o 0 0 -s 1 1 OfficeWallTexture-2.png
+bump -o 0 0 -s 1 1 OfficeWallTexture-2-Normal.png
+Kd 0.8018868 0.8018868 0.8018868
+d 1
+
