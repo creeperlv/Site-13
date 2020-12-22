@@ -1,0 +1,31 @@
+newmtl Texts_1
+map_Kd -o 0 0 -s 1 1 UI_FFFFFF.png
+bump -o 0 0 -s 1 1 Texts 1.png
+Kd 0.5283019 0.5283019 0.5283019
+d 1
+
+newmtl Metal_pattern_30-Para2
+map_Kd -o 0 0 -s 3 3 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+Kd 1 1 1
+d 1
+
+newmtl Metal_pattern_30-Para3
+map_Kd -o 0 0 -s 3 3 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+Kd 1 1 1
+d 1
+
+newmtl Metal_pattern_22
+map_Kd -o 0 0 -s 3 3 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+disp -o 0 0 -s 1 1 diffuse 3.png
+Kd 1 1 1
+d 1
+
+newmtl Screen
+map_Kd -o 0 0 -s 1 1 Screen.png
+map_Ke -o 0 0 -s 1 1 Screen.png
+Kd 1 1 1
+d 1
+
