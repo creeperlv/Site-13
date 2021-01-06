@@ -122,12 +122,12 @@ namespace Site13Kernel.Experimentals.OoD.V1
                     {
 
                         Player = GameInfo.CurrentGame.FirstPerson.transform.position;
+                        ApplyOoD();
                     }
                     catch (System.Exception)
                     {
 
                     }
-                    ApplyOoD();
                 }
                 deltaTime = 0.0f;
             }

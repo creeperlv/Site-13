@@ -1,0 +1,25 @@
+newmtl HoloScreen
+map_Kd -o 0 0 -s 1 1 TypeA.png
+map_Ke -o 0 0 -s 1 1 TypeA.png
+Kd 0.1333333 0.5333333 0.9333333
+d 1
+
+newmtl LiftPlane-Material_65_1
+map_Kd -o 0 0 -s 1 1 LargeEvalutor 1.png
+map_Ke -o 0 0 -s 1 1 LargeEvalutor.png
+Kd 1 1 1
+d 1
+
+newmtl Metal_pattern_30-Para4
+map_Kd -o 0 0 -s 1 1 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+Kd 1 1 1
+d 1
+
+newmtl Metal_pattern_20-Lighter
+map_Kd -o 0 0 -s 3 3 diffuse.tga
+bump -o 0 0 -s 3 3 normal.tga
+map_d -o 0 0 -s 1 1 normal.tga
+Kd 1 1 1
+d 1
+

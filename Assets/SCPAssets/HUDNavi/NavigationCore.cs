@@ -36,6 +36,7 @@ namespace HUDNavi
         }
         public void UpdateDistance(NavigationTarget target, NavigationPoint point)
         {
+            if (point.Distance == null) return;
             if (point.Distance.text == null) return;
             float l = (target.transform.position - TargetCamera.transform.position).magnitude * DistanceIntensity;
             point.Distance.text = $"{l.ToString($"f{DistancePrecision}")} {DistanceSI}";
