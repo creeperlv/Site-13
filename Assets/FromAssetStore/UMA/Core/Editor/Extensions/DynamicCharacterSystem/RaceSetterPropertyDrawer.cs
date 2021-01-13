@@ -10,7 +10,7 @@ namespace UMA.CharacterSystem.Editors
 	{
 
 		public DynamicCharacterAvatar thisDCA;
-		public DynamicRaceLibrary thisDynamicRaceLibrary;
+		//public DynamicRaceLibrary thisDynamicRaceLibrary;
 		//In the Editor when the app is NOT running this shows all the races you COULD choose- including those AssetBundles.
 		//When the app IS running it shows the reaces you CAN choose- i.e. the ones that are either in the build or have been downloaded.
 		public List<RaceData> foundRaces = new List<RaceData>();
@@ -18,14 +18,14 @@ namespace UMA.CharacterSystem.Editors
 
 		public void SetRaceLists(RaceData[] raceDataArray = null)
 		{
-			if (raceDataArray == null)
-			{
-				raceDataArray = thisDynamicRaceLibrary.GetAllRaces();
-			}
 			foundRaces.Clear();
 			foundRaceNames.Clear();
 			foundRaces.Add(null);
 			foundRaceNames.Add("None Set");
+			if (raceDataArray == null)
+            {
+				return;
+            }
 			foreach (RaceData race in raceDataArray)
 			{
 				if (race != null && race.raceName != "RaceDataPlaceholder")
@@ -37,23 +37,25 @@ namespace UMA.CharacterSystem.Editors
 		}
 		private void CheckRaceDataLists()
 		{
+			if (UMAContext.Instance == null)
+            {
+				var raceDatas = UMAAssetIndexer.Instance.GetAllAssets<RaceData>();
+				SetRaceLists(raceDatas.ToArray());
+				return;
+            }
 			if (Application.isPlaying)
 			{
 				//Start will have cleared any EditorAdded Assets and we only *need* the ones in the library
-				var raceDatas = thisDynamicRaceLibrary.GetAllRacesBase();
+				var raceDatas = UMAContext.Instance.GetAllRacesBase();
 				SetRaceLists(raceDatas);
 			}
 			else
 			{
-				//In this case we *need* all the races this setting *could* be so everything from the library, resources and asset bundles because the developer need to be able to set the race to be any of these
-				if (thisDynamicRaceLibrary != null)
-				{
-					var raceDatas = thisDynamicRaceLibrary.GetAllRaces();
+					var raceDatas = UMAContext.Instance.GetAllRaces();
 					if ((raceDatas.Length + 1) != (foundRaces.Count))
 					{
 						SetRaceLists(raceDatas);
 					}
-				}
 			}
 		}
 
@@ -94,5 +96,5 @@ namespace UMA.CharacterSystem.Editors
 			EditorGUI.EndProperty();
 		}
 	}
-	#endif
 }
+#endif

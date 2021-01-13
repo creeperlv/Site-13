@@ -83,7 +83,7 @@
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\Scripts\UMASlotVerifyWizard.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\Scripts\CursorLock.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\Scripts\UMARecipeMixer.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\Scripts\MouseOrbitImproved.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\ExampleScripts\UMAMouseOrbitImproved.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\Scene1\SlotHandler.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\Scripts\UMACrowd.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\Scripts\HUDFPS.cs" />
@@ -101,7 +101,7 @@
     <Compile Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\Scene1\SampleCode.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\Scripts\ClothHelper.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Scripts\DNAEditor.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\Scripts\CameraTrack.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\ExampleScripts\CameraTrack.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Scripts\Scene2and3\WardrobeCollectionDemoUI.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\Scripts\UMALODDemoScript.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\Scripts\UMAGlobalForceApplier.cs" />
@@ -121,12 +121,31 @@
     <Compile Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Scripts\Scene2and3\WardrobeCollectionLibrary.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\Scripts\BRDFLookupTexture.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\Scripts\LODDisplay.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\UMA_JiggleMaster\UMA_JiggleBoneDiagnostic.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\UMA_JiggleMaster\JiggleBreasts\UMA_JiggleBreasts.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\HowTo Examples\Scripts\SaveAndLoadSample.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\ExampleScripts\SpeedCheck.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\Scripts\SwayBone\SwayRootBone.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\MountingObjects Example\Scripts\UMAMountedItemSample.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\HowTo Examples\Scripts\ConstructDCAFromScratch.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Scripts\Preloader.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\UMA_JiggleMaster\JiggleBelly\UMA_JiggleBelly.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\Scripts\SwayBone\SwayBone.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\UMA_JiggleMaster\JiggleButt\UMA_JiggleButt.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\Scene1\MobileAddressablesSampleCode.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\Scripts\transformdeepchildextension.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\HowTo Examples\Scripts\SliderController.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\HowTo Examples\Scripts\ConstructDCAFromAPrefab.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\Scripts\UMADynamicBoneJiggle.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\UMA_JiggleMaster\UMA_JiggleElement.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\Scripts\UMABoneCleaner.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\CharacterRecipes\HumanMaleChallenger.txt" />
      <None Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\CharacterRecipes\HumanFemalePixi.txt" />
      <None Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\CharacterRecipes\ToonBigAndFat.txt" />
      <None Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\Assets\Textures\Skyboxes\NoEmotion\NoEmotionHDRs.txt" />
+     <None Include="Assets\FromAssetStore\UMA\Examples\Physics Examples\UMA_JiggleMaster\UpdatingJiggleBonesAtRuntime.txt" />
      <None Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\CharacterRecipes\Troll1c.txt" />
      <None Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\Assets\Shaders\Debug_Tangents.shader" />
      <None Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\CharacterRecipes\Fram.txt" />
@@ -141,8 +160,8 @@
      <None Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\CharacterRecipes\ToonFemaleStarDancer1c.txt" />
      <None Include="Assets\FromAssetStore\UMA\Examples\Expressions Examples\Editing Expression Clips.txt" />
      <None Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\PhotoBooth\PhotoboothREADME.txt" />
-     <None Include="Assets\FromAssetStore\UMA\Examples\UMA_Examples.asmdef" />
      <None Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\CharacterRecipes\HumanMale2.txt" />
+     <None Include="Assets\FromAssetStore\UMA\Examples\UMA_Examples.asmdef" />
      <None Include="Assets\FromAssetStore\UMA\Examples\Legacy Examples\ReadMe - Networking Demo.txt" />
      <None Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\CharacterRecipes\Bob.txt" />
      <None Include="Assets\FromAssetStore\UMA\Examples\DynamicCharacterSystem Examples\Assets\Resources\CharacterRecipes\HumanMaleRoyalChallenger.txt" />
@@ -774,6 +793,12 @@
     </Reference>
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Addressables">
+      <HintPath>Library\ScriptAssemblies\Unity.Addressables.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ResourceManager">
+      <HintPath>Library\ScriptAssemblies\Unity.ResourceManager.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>

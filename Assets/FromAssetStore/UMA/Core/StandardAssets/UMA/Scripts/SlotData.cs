@@ -19,11 +19,65 @@ namespace UMA
 		/// Adjusts the resolution of slot overlays.
 		/// </summary>
 		public float overlayScale = 1.0f;
+
+		/// <summary>
+		/// This instance specific tags. Loaded from the recipe, or from the asset at assignment time.
+		/// </summary>
+		public string[] tags;
+
+		public string[] Races;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool useAtlasOverlay
+		{
+			get
+			{
+				if (asset != null)
+					return	asset.useAtlasOverlay;
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// The Maximum LOD that this is displayed on.
+		/// </summary>
+		public int MaxLod
+		{
+			get
+			{
+				return asset.maxLOD;
+			}
+		}
+
+		public UMAMaterial altMaterial;
+		public UMAMaterial material
+        {
+			get
+            {
+				if (altMaterial != null)
+					return altMaterial;
+
+				return asset.material;
+	        }
+        }
+
+		public bool Suppressed; 
+
 		/// <summary>
 		/// When serializing this recipe should this slot be skipped, useful for scene specific "additional slots"
 		/// </summary>
 		public bool dontSerialize;
-		public string slotName { get { return asset.slotName; } }
+		public string slotName 
+		{ 
+			get 
+			{ 
+				if (asset != null)
+					return asset.slotName;
+				return "";
+			} 
+		}
 		/// <summary>
 		/// list of overlays used to texture the slot.
 		/// </summary>
@@ -32,6 +86,9 @@ namespace UMA
 		//For MeshHide system, this can get added at runtime and is the filtered HideMask that the combiner uses.
 		public BitArray[] meshHideMask;
 
+		//Mutable version pulled off the immutable asset.  This is so we can modify it at runtime if needed.
+		public UMARendererAsset rendererAsset;
+
 		/// <summary>
 		/// Constructor for slot using the given asset.
 		/// </summary>
@@ -39,19 +96,101 @@ namespace UMA
 		public SlotData(SlotDataAsset asset)
 		{
 			this.asset = asset;
-			overlayScale = asset.overlayScale;
+			if (asset)
+			{
+				tags = asset.tags;
+				Races = asset.Races;
+				overlayScale = asset.overlayScale;
+				rendererAsset = asset.RendererAsset;
+			}
+			else
+			{
+				tags = new string[0];
+				overlayScale = 1.0f;
+			}
+			if (Races == null)
+				Races = new string[0];
 		}
 
-        /// <summary>
-        /// Property to return overlay hash so it is visible in debugger.
-        /// </summary>
-        public int OverlayHash
+		public SlotData()
+		{
+			overlayScale = 1.0f;
+			rendererAsset = null;
+		}
+
+		public bool HasTag(List<string> tagList)
+		{
+			if (tagList == null || tags == null)
+				return false;
+			// this feels like it would be better in a dictionary or hashtable
+			// but I doubt there will be more than 1 tag, so we will go with this
+			foreach (string s in tags)
+			{
+				if (tagList.Contains(s)) return true;
+			}
+			return false;
+		}
+
+		public bool HasTag(string[] tagList)
+		{
+			if (tagList == null || tags == null)
+				return false;
+			// this feels like it would be better in a dictionary or hashtable
+			// but I doubt there will be more than 1 tag, so we will go with this
+			foreach (string s in tags)
+			{
+				for(int i=0;i<tagList.Length;i++)
+                {
+					
+					if (tagList[i] == s) return true;
+				}
+			}
+			return false;
+		}
+
+
+		public bool HasTag(string tag)
+		{
+			if (tags == null)
+				return false;
+			// this feels like it would be better in a dictionary or hashtable
+			// but I doubt there will be more than 1 tag, so we will go with this
+			foreach(string s in tags)
+			{
+				if (s == tag) return true;
+			}
+			return false;
+		}
+
+		/*
+				private Int64 overlayHash;
+
+				public void CalculateOverlayHash()
+				{
+					overlayHash = 0;
+
+					foreach(OverlayData od in overlayList)
+					{
+						var toverlayHash = od.asset.GetHashCode();
+						var trecthash = od.rect.GetHashCode();
+						var tcolorhash = od.colorData.GetHashCode();
+
+						return ((overlay1.asset == overlay2.asset) &&
+								(overlay1.rect == overlay2.rect) &&
+								(overlay1.colorData == overlay2.colorData));
+					}
+				} 
+
+		/// <summary>
+		/// Property to return overlay hash so it is visible in debugger.
+		/// </summary>
+		public int OverlayHash
         {
             get
             {
-                return GetOverlayList().GetHashCode();
+				return (int) overlayHash;//GetOverlayList().GetHashCode();
             }
-        }
+        }*/
 
 		/// <summary>
 		/// Deep copy of the SlotData.
@@ -71,13 +210,11 @@ namespace UMA
 				}
 			}
 
+			res.Races = Races;
+			res.tags = tags;
 			return res;
 		}
 
-		public int GetTextureChannelCount(UMAGeneratorBase generator)
-		{
-			return asset.GetTextureChannelCount(generator);
-		}
 
 		public bool RemoveOverlay(params string[] names)
 		{
@@ -226,6 +363,15 @@ namespace UMA
 				overlayList.Add(overlayData);
 		}
 
+		public void AddOverlayList(List<OverlayData> newOverlays)
+		{
+			if (overlayList == null)
+            {
+				overlayList = new List<OverlayData>();
+            }
+			if (newOverlays != null)
+				overlayList.AddRange(newOverlays);
+		}
 		/// <summary>
 		/// Gets the complete list of overlays.
 		/// </summary>
@@ -238,9 +384,23 @@ namespace UMA
 		internal bool Validate()
 		{
 			bool valid = true;
+
+			if (tags == null)
+            {
+				tags = new string[0];
+            }
+
+			if (asset == null)
+				return true;
+
 			if (asset.meshData != null)
 			{
 				if (asset.material == null)
+                {
+					asset.material = UMAAssetIndexer.Instance.GetAsset<UMAMaterial>(asset.materialName);
+                }
+
+				if (material == null)
 				{
 					if (Debug.isDebugBuild)
 						Debug.LogError(string.Format("Slot '{0}' has a mesh but no material.", asset.slotName), asset);
@@ -248,7 +408,7 @@ namespace UMA
 				}
 				else
 				{
-					if (asset.material.material == null)
+					if (material.material == null)
 					{
 						if (Debug.isDebugBuild)
 							Debug.LogError(string.Format("Slot '{0}' has an umaMaterial without a material assigned.", asset.slotName), asset);
@@ -256,10 +416,10 @@ namespace UMA
 					}
 					else
 					{
-						for (int i = 0; i < asset.material.channels.Length; i++)
+						for (int i = 0; i < material.channels.Length; i++)
 						{
-							var channel = asset.material.channels[i];
-							if (!asset.material.material.HasProperty(channel.materialPropertyName))
+							var channel = material.channels[i];
+							if (!channel.NonShaderTexture && !material.material.HasProperty(channel.materialPropertyName))
 							{
 								if (Debug.isDebugBuild)
 									Debug.LogError(string.Format("Slot '{0}' Material Channel {1} refers to material property '{2}' but no such property exists.", asset.slotName, i, channel.materialPropertyName), asset);
@@ -271,25 +431,27 @@ namespace UMA
 				for (int i = 0; i < overlayList.Count; i++)
 				{
 					var overlayData = overlayList[i];
+#if false
 					if (overlayData != null)
 					{
-						if (!overlayData.Validate(asset.material, (i == 0)))
+						if (!overlayData.Validate(material, (i == 0)))
 						{
 							valid = false;
 							if (Debug.isDebugBuild)
 								Debug.LogError(string.Format("Invalid Overlay '{0}' on Slot '{1}'.", overlayData.overlayName, asset.slotName));
 						}
 					}
+#endif
 				}
 			}
 			else
 			{
-				if (asset.material != null)
+				if (material != null)
 				{
-					for (int i = 0; i < asset.material.channels.Length; i++)
+					for (int i = 0; i < material.channels.Length; i++)
 					{
-						var channel = asset.material.channels[i];
-						if (!asset.material.material.HasProperty(channel.materialPropertyName))
+						var channel = material.channels[i];
+						if (!channel.NonShaderTexture && !material.material.HasProperty(channel.materialPropertyName))
 						{
 							if (Debug.isDebugBuild)
 								Debug.LogError(string.Format("Slot '{0}' Material Channel {1} refers to material property '{2}' but no such property exists.", asset.slotName, i, channel.materialPropertyName), asset);
@@ -307,7 +469,7 @@ namespace UMA
 			return "SlotData: " + asset.slotName;
 		}
 
-		#region operator ==, != and similar HACKS, seriously.....
+#region operator ==, != and similar HACKS, seriously.....
 
 		public static implicit operator bool(SlotData obj)
 		{
@@ -351,9 +513,9 @@ namespace UMA
 		{
 			return base.GetHashCode();
 		}
-		#endregion
+#endregion
 
-		#region ISerializationCallbackReceiver Members
+#region ISerializationCallbackReceiver Members
 
 		public void OnAfterDeserialize()
 		{
@@ -365,6 +527,6 @@ namespace UMA
 		{
 		}
 
-		#endregion
+#endregion
 	}
 }

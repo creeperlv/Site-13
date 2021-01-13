@@ -10,6 +10,7 @@ namespace UMA.Examples
 	/// </summary>
 	public class PonytailSlotScript : MonoBehaviour
 	{
+		public bool UseSwayBone;
 	    // Properties to setup the Swing chain
 	    public  List<string> SwingBoneNames=new List<string>();      // The bones that will actually move. These are linked in a chain. The final bone has gravity applied to it (it's the actual Pendulum)
 	    public string AnchorBoneName;                                // The bone that the first swing bone anchors to.
@@ -21,6 +22,7 @@ namespace UMA.Examples
 	    public float AnchorMass = 0.0f;                              // Mass of Anchor Bone
 	    public bool FreezePositions = false;                         // Set constraints on the rigidbody to only allow rotations.
 	    public Vector3 AnchorOffset = new Vector3(0.06f, 0f, -0.09f);// Offset of the anchor collider
+		public int BoneLayer = 8;                                    // The layer to add to the bone.
 
 	    // The following are properties for the Pendulum.
 	    public float MinGlobalForce = 0.1f;                          // The smallest amoount of force applied during movement
@@ -43,9 +45,31 @@ namespace UMA.Examples
 	        // Find Anchor Bone
 	        AnchorBone = SetupAnchorBone(AnchorBoneName);
 
-	        // Setup Swing Bones
-	        SetupSwingBones(SwingBoneNames);
+			if (UseSwayBone)
+			{
+				SetupSwayBone(AnchorBone);
+			}
+			else
+			{
+				// Setup Swing Bones
+				SetupSwingBones(SwingBoneNames);
+			}
 	    }
+
+		private void SetupSwayBone(Transform t)
+		{
+			SwayRootBone SRB = t.gameObject.GetComponent<SwayRootBone>();
+			if (SRB == null)
+			{
+				SRB = t.gameObject.AddComponent<SwayRootBone>();
+			}
+			SRB.elasticity = 1.1f;
+			SRB.inertia = 0.75f;
+			SRB.limit = 1.2f;
+			SRB.Reorient = false;
+			SRB.OrientOnly = false;
+			SRB.enabled = true;
+		}
 
 	    private void SetupSwingBones(List<string> swingBoneNames)
 	    {
@@ -54,6 +78,7 @@ namespace UMA.Examples
 	            SoftJointLimit zeroJointLimit = new SoftJointLimit();
 	            SoftJointLimit sixtyJointLimit = new SoftJointLimit();
 	            sixtyJointLimit.limit = 60;
+//				sixtyJointLimit.bounciness = 
 
 	            SwingBones = new Transform[swingBoneNames.Count];
 
@@ -71,7 +96,7 @@ namespace UMA.Examples
 	                }
 
 	                GameObject go = t.gameObject;
-	                go.layer = 8; // our ragdoll layer
+					go.layer = 10; // our NoCollision layer
 
 	                if (go.GetComponent<Rigidbody>() != null)
 	                {
@@ -111,8 +136,12 @@ namespace UMA.Examples
 
 	                SphereCollider sc = t.gameObject.AddComponent<SphereCollider>();
 	                sc.radius = SwingRadius;
+					sc.gameObject.layer = BoneLayer;
 
 	                CharacterJoint c = t.gameObject.AddComponent<CharacterJoint>();
+
+					c.enableCollision = false;
+					c.enableProjection = true;
 
 	                c.autoConfigureConnectedAnchor = true;
 	                if (i == 0)
@@ -127,8 +156,8 @@ namespace UMA.Examples
 	                c.highTwistLimit = zeroJointLimit;
 	                c.swing1Limit = sixtyJointLimit;
 	                c.swing2Limit = sixtyJointLimit;
-	            }
-	        }
+				}
+			}
 	        catch(Exception ex)
 	        {
 	            Debug.LogException(ex);

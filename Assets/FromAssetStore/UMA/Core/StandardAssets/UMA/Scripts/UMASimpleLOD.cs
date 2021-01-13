@@ -9,7 +9,7 @@ namespace UMA.Examples
 	{
 		[Tooltip("The distance to step to another LOD")]
 		[Range(0.01f, 100f)]
-		public float lodDistance;
+		public float lodDistance = 5.0f;
 
 		[Tooltip("Look for LOD slots in the library.")]
 		public bool swapSlots;
@@ -19,9 +19,20 @@ namespace UMA.Examples
 		public int maxLOD = 5;
 		[Tooltip("The maximum scale reduction (8 means the texture can be reduced in half 8 times)")]
 		public int maxReduction = 8;
+		[Tooltip("Allow the system to drop slots based on the SlotDataAsset MaxLOD")]
+		public bool useSlotDropping;
+		[Tooltip("How much of a movement buffer before triggering an LOD change again. This is to stop thrashing at edges 4.99->5.0->4.99, etc")]
+		public float BufferZone = 0.5f;
 
-		public int CurrentLOD {  get { return _currentLOD - lodOffset; } }
+
+		public int CurrentLOD { get { return _currentLOD - lodOffset; } }
 		private int _currentLOD = -1;
+		private float lastDist = 0.0f;
+		private float NextTime = 0.0f;
+		[Tooltip("How much time must pass before this is checked again. Default = 0.5 seconds")]
+		public float MinCheck =  0.5f;
+		[Tooltip("Random Variance in time (added to MinCheck) so that everything doesn't trigger at the same time. Default = 0.25 seconds")]
+		public float CheckRange = 0.25f;
 
 		private DynamicCharacterAvatar _avatar;
 		private UMAData _umaData;
@@ -45,7 +56,7 @@ namespace UMA.Examples
 		public void Awake()
 		{
 			_currentLOD = -1;
-      }
+		}
 
 		public void OnEnable()
 		{
@@ -67,21 +78,48 @@ namespace UMA.Examples
 
 		public void CharacterCreated(UMAData umaData)
 		{
+			if (!_cameraTransform)
+			{
+				_cameraTransform = Camera.main.transform;
+				if (!_cameraTransform)
+				{
+					Debug.LogError("Unable to find main camera!!!");
+					return;
+				}
+			}
 			initialized = true;
 		}
 
 		public void CharacterBegun(UMAData umaData)
 		{
+			if (!_cameraTransform)
+			{
+				_cameraTransform = Camera.main.transform;
+				if (!_cameraTransform)
+				{
+					Debug.LogError("Unable to find main camera!!!");
+					return;
+				}
+			}
 			initialized = true;
 			PerformLodCheck();
 		}
 
 		public void Update()
 		{
-            if (!initialized)
-                return;
 
-            PerformLodCheck();
+			if (!initialized)
+				return;
+
+			if (Time.time > NextTime)
+			{
+				PerformLodCheck();
+				NextTime = Time.time + MinCheck;
+				if (CheckRange > 0.0f)
+                {
+					NextTime += UnityEngine.Random.Range(0.0f, CheckRange);
+				}
+			}
 		}
 
 		private void PerformLodCheck()
@@ -95,11 +133,19 @@ namespace UMA.Examples
 			if (_umaData.umaRecipe == null)
 				return;
 
-			if(lodDistance < 0)
-			{
-				if (Debug.isDebugBuild)
-					Debug.LogWarning("LOD Distance is less than 0!");
+			if (lodDistance < 0)
+			{ 
 				return;
+			}
+
+			if (!_cameraTransform)
+			{
+				_cameraTransform = Camera.main.transform;
+				if (!_cameraTransform)
+				{
+					Debug.LogError("Unable to find main camera!");
+					return;
+				}
 			}
 
 			float cameraDistance = (transform.position - _cameraTransform.position).magnitude;
@@ -107,22 +153,26 @@ namespace UMA.Examples
 			float atlasResolutionScale = 1f;
 
 			int currentLevel = 0;
-         float maxReductionf = 1.0f / maxReduction;
+			float maxReductionf = 1.0f / maxReduction;
 
-         while (lodDistance != 0 && cameraDistance > lodDistanceStep)
+			while (lodDistance != 0 && cameraDistance > lodDistanceStep)
 			{
 				lodDistanceStep *= 2;
 				atlasResolutionScale *= 0.5f;
 				++currentLevel;
 			}
-			_currentLOD = currentLevel;
+			if (_currentLOD != currentLevel)
+			{
+					lastDist = cameraDistance;
+					_currentLOD = currentLevel;
+			}
 
-         if (atlasResolutionScale < maxReductionf)
-         {
-            atlasResolutionScale = maxReductionf;
-         }
+			if (atlasResolutionScale < maxReductionf)
+			{
+				atlasResolutionScale = maxReductionf;
+			}
 
-         if (_umaData.atlasResolutionScale != atlasResolutionScale)
+			if (_umaData.atlasResolutionScale != atlasResolutionScale)
 			{
 				_umaData.atlasResolutionScale = atlasResolutionScale;
 				bool changedSlots = ProcessRecipe(currentLevel);
@@ -130,9 +180,12 @@ namespace UMA.Examples
 			}
 			else
 			{
-				if(_umaData.isMeshDirty)
+				if (_umaData.isMeshDirty)
 				{
-					ProcessRecipe(currentLevel);
+					if (ProcessRecipe(currentLevel))
+					{
+						_umaData.Dirty(true, true, true);
+					}
 				}
 			}
 		}
@@ -149,6 +202,30 @@ namespace UMA.Examples
 				var slot = _umaData.umaRecipe.slotDataList[i];
 				if (slot != null)
 				{
+					if (useSlotDropping)
+					{
+						// mark the slots as dirty if one is over the limit.
+						if (slot.MaxLod > -1 && _currentLOD > slot.MaxLod)
+						{
+							// Only trigger this the first time, so we only force a rebuild
+							// once (or possibly later if slots change...)
+							if (!slot.Suppressed)
+							{
+								changedSlots = true;
+							}
+							slot.Suppressed = true;
+						}
+						else
+						{
+							if (slot.Suppressed)
+							{
+								changedSlots = true;
+							}
+							slot.Suppressed = false;
+						}
+						
+					}
+
 					var slotName = slot.slotName;
 					var lodIndex = slotName.IndexOf("_LOD");
 					if (lodIndex >= 0)
@@ -163,22 +240,22 @@ namespace UMA.Examples
 					bool slotFound = false;
 					for (int k = (currentLevel - lodOffset); k >= 0; k--)
 					{
-						if (slotName != slot.slotName && UMAContext.Instance.HasSlot(slotName))
+						if (slotName != slot.slotName && UMAContextBase.Instance.HasSlot(slotName))
 						{
-							_umaData.umaRecipe.slotDataList[i] = UMAContext.Instance.InstantiateSlot(slotName, slot.GetOverlayList());
+							_umaData.umaRecipe.slotDataList[i] = UMAContextBase.Instance.InstantiateSlot(slotName, slot.GetOverlayList());
 							slotFound = true;
 							changedSlots = true;
 							break;
 						}
 					}
 					//If slot still not found when searching down lods, then let's trying searching up lods
-					if(!slotFound)
+					if (!slotFound)
 					{
-						for(int k = (currentLevel - lodOffset) + 1; k <= maxLOD; k++)
+						for (int k = (currentLevel - lodOffset) + 1; k <= maxLOD; k++)
 						{
-							if (slotName != slot.slotName && UMAContext.Instance.HasSlot(slotName))
+							if (slotName != slot.slotName && UMAContextBase.Instance.HasSlot(slotName))
 							{
-								_umaData.umaRecipe.slotDataList[i] = UMAContext.Instance.InstantiateSlot(slotName, slot.GetOverlayList());
+								_umaData.umaRecipe.slotDataList[i] = UMAContextBase.Instance.InstantiateSlot(slotName, slot.GetOverlayList());
 								slotFound = true;
 								changedSlots = true;
 								break;
@@ -187,21 +264,8 @@ namespace UMA.Examples
 					}
 				}
 			}
-
-            //Reprocess mesh hide assets
-            //Eventually, make this a function in DCA (UpdateMeshHideMasks) and replace correspond code in DCA.LoadCharacter too
-            if (_avatar != null && changedSlots)
-            {
-                foreach (SlotData sd in _umaData.umaRecipe.slotDataList)
-                {
-                    if (_avatar.MeshHideDictionary.ContainsKey(sd.asset))
-                    {   //If this slotDataAsset is found in the MeshHideDictionary then we need to supply the SlotData with the bitArray.
-                        sd.meshHideMask = MeshHideAsset.GenerateMask(_avatar.MeshHideDictionary[sd.asset]);
-                    }
-                }
-            }
 #if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(_umaData);
+			UnityEditor.EditorUtility.SetDirty(_umaData);
 #endif
 			return changedSlots;
 		}

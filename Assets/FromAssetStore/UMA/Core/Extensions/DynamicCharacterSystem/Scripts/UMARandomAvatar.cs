@@ -17,13 +17,19 @@ namespace UMA
 		public float RandomOffset = 0.0f;
 		public bool RandomRotation;
 		public string NameBase = "Pat";
+		public UMARandomAvatarEvent RandomAvatarGenerated;
 
-		private DynamicCharacterAvatar Avatar;
+		private DynamicCharacterAvatar RandomAvatar;
 		private GameObject character;
 
 		// Use this for initialization
 		void Start()
 		{
+			if (ParentObject == null)
+			{
+				ParentObject = this.gameObject;
+			}
+
 			if (!GenerateGrid)
 			{
 				if (RandomRotation)
@@ -75,10 +81,16 @@ namespace UMA
 				{
 					go.transform.parent = ParentObject.transform;
 				}
-				Avatar = go.GetComponent<DynamicCharacterAvatar>();
+				RandomAvatar = go.GetComponent<DynamicCharacterAvatar>();
 				go.name = Name;
+				// Event for possible networking here
+				if (RandomAvatarGenerated != null)
+				{
+					RandomAvatarGenerated.Invoke(gameObject, go);
+				}
 			}
-			Randomize(Avatar);
+			Randomize(RandomAvatar);
+			RandomAvatar.BuildCharacter(!RandomAvatar.BundleCheck);
 		}
 
 		public RandomWardrobeSlot GetRandomWardrobe(List<RandomWardrobeSlot> wardrobeSlots)
@@ -104,7 +116,7 @@ namespace UMA
 			return rc.ColorTable.colors[inx];
 		}
 
-		private void AddRandomSlot(RandomWardrobeSlot uwr)
+		private void AddRandomSlot(DynamicCharacterAvatar Avatar, RandomWardrobeSlot uwr)
 		{
 			Avatar.SetSlot(uwr.WardrobeSlot);
 		    if (uwr.Colors != null)
@@ -133,6 +145,9 @@ namespace UMA
 
 		public void Randomize(DynamicCharacterAvatar Avatar)
 		{
+			// Must clear that out!
+			Avatar.WardrobeRecipes.Clear();
+
 			UMARandomizer Randomizer = null;
 			if (Randomizers != null)
 			{
@@ -149,8 +164,8 @@ namespace UMA
 			if (Avatar != null && Randomizer != null)
 			{
 				RandomAvatar ra = Randomizer.GetRandomAvatar();
-				Avatar.RacePreset = ra.RaceName;
-				Avatar.BuildCharacterEnabled = true;
+				Avatar.ChangeRaceData(ra.RaceName);
+				//Avatar.BuildCharacterEnabled = true;
 				var RandomDNA = ra.GetRandomDNA();
 				Avatar.predefinedDNA = RandomDNA;
 				var RandomSlots = ra.GetRandomSlots();
@@ -169,7 +184,7 @@ namespace UMA
 				{
 					List<RandomWardrobeSlot> RandomWardrobe = RandomSlots[s];
 					RandomWardrobeSlot uwr = GetRandomWardrobe(RandomWardrobe);
-					AddRandomSlot(uwr);
+					AddRandomSlot(Avatar,uwr);
 				}
 			}
 		}

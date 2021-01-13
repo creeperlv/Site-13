@@ -290,6 +290,7 @@
     <Compile Include="Assets\SCPAssets\Scripts\Skip055InsideRoom.cs" />
     <Compile Include="Assets\Aura\Statics\FrustumCorners.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPMainUIV2.cs" />
+    <Compile Include="Assets\ShiftingTextureMaterialObject.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\Aura\Structs\VolumeData.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\PickableFirstAidKit.cs" />
@@ -478,7 +479,6 @@
     <Compile Include="Assets\SCPAssets\Scripts\SCPBagSystem.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\FiredFloor.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPInteractive.cs" />
-    <Compile Include="Assets\ShiftingTextureMaterialObject.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Table and chair\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
@@ -555,6 +555,7 @@
      <None Include="Assets\Particle Attractor by Moonflower Carnivore\Shaders\Particles Additive Intensify.shader" />
      <None Include="Assets\FromAssetStore\_MK\MKGlowFree\Shaders\VariantsLuminance\UI\UI-DefaultETC1.shader" />
      <None Include="Assets\FromAssetStore\_MK\MKGlowFree\Shaders\Effect\MKGlowSM40.shader" />
+     <None Include="Assets\FromAssetStore\UMA\InternalDataStore\InGame\Resources\Shader\NormalShader.compute" />
      <None Include="Assets\Attack Helicopter2\MI24 info.txt" />
      <None Include="Assets\Table and chair\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
      <None Include="Assets\FromAssetStore\SciFi_Door\readme.txt" />
@@ -644,7 +645,6 @@
      <None Include="Assets\Table and chair\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
      <None Include="Assets\Aura\Shaders\Includes\AuraParticlesUsage.cginc" />
      <None Include="Assets\NVJOB\Shaders\Specular\Specular (Normalmap, Reflection, Cull Off).shader" />
-     <None Include="Assets\FromAssetStore\UMA\Whats New in UMA 28.txt" />
      <None Include="Assets\SCPAssets\Shaders\ImageBlur.shader" />
      <None Include="Assets\FromAssetStore\_MK\MKGlowFree\Shaders\Effect\MKGlowSM20.shader" />
      <None Include="Assets\AdultLink\ShieldShader\Examples\Textures\Kenney\Particle samples\License.txt" />
@@ -682,7 +682,6 @@
      <None Include="Assets\FromAssetStore\Blood decal pack\readme.txt" />
      <None Include="Assets\FromAssetStore\_MK\MKGlowFree\Shaders\Effect\MKGlowSM35.shader" />
      <None Include="Assets\Table and chair\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
-     <None Include="Assets\FromAssetStore\UMA\Upgrading From Previous Versions.txt" />
      <None Include="Assets\Aura\Shaders\Shaders\Particles\AuraParticlesAdditive.shader" />
      <None Include="Assets\Table and chair\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA2.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
@@ -1528,22 +1527,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="UMA_Core_Editor.csproj">
-      <Project>{71486176-6AAD-E7E1-A513-6CCFCCED73D0}</Project>
-      <Name>UMA_Core_Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="UMA_Examples_Editor.csproj">
-      <Project>{2A69C33B-0F7A-3E15-CDB5-8434B1CD6FAA}</Project>
-      <Name>UMA_Examples_Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="UMA_Core.csproj">
-      <Project>{45867FB9-ACCC-2299-8802-E0F949789B2A}</Project>
-      <Name>UMA_Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="UMA_Examples.csproj">
-      <Project>{A95D04AA-8CC9-5139-15E4-387F4A8A107B}</Project>
-      <Name>UMA_Examples</Name>
-    </ProjectReference>
     <ProjectReference Include="MToon.csproj">
       <Project>{313AF74D-627A-BFCB-74E7-662303908931}</Project>
       <Name>MToon</Name>
@@ -1552,9 +1535,29 @@
       <Project>{2B258F46-1942-6839-A734-1FAD9A55CCCA}</Project>
       <Name>MToon.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="Addressable_Editor.csproj">
+      <Project>{24E2592E-6A72-36E6-A74C-74517D449412}</Project>
+      <Name>Addressable_Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UMA_Core_Editor.csproj">
+      <Project>{71486176-6AAD-E7E1-A513-6CCFCCED73D0}</Project>
+      <Name>UMA_Core_Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UMA_Examples.csproj">
+      <Project>{A95D04AA-8CC9-5139-15E4-387F4A8A107B}</Project>
+      <Name>UMA_Examples</Name>
+    </ProjectReference>
     <ProjectReference Include="UMA_Content.csproj">
       <Project>{9D3238AD-1EE8-33C5-7DDD-E03403D425F2}</Project>
       <Name>UMA_Content</Name>
+    </ProjectReference>
+    <ProjectReference Include="UMA_Examples_Editor.csproj">
+      <Project>{2A69C33B-0F7A-3E15-CDB5-8434B1CD6FAA}</Project>
+      <Name>UMA_Examples_Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UMA_Core.csproj">
+      <Project>{45867FB9-ACCC-2299-8802-E0F949789B2A}</Project>
+      <Name>UMA_Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

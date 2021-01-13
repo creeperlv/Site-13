@@ -24,14 +24,11 @@ namespace UMA.Editors
 			List<string> Races = new List<string>();
 			raceDatas = new List<RaceData>();
 
-			string[] guids = AssetDatabase.FindAssets("t:racedata");
-
-			foreach (string guid in guids)
+			raceDatas = UMAAssetIndexer.Instance.GetAllAssets<RaceData>();
+			foreach(RaceData race in raceDatas)
 			{
-				string path = AssetDatabase.GUIDToAssetPath(guid);
-				RaceData rc = AssetDatabase.LoadAssetAtPath<RaceData>(path);
-				raceDatas.Add(rc);
-				Races.Add(rc.raceName);
+				if (race != null)
+				Races.Add(race.name);
 			}
 			races = Races.ToArray();
 		}
@@ -98,7 +95,7 @@ namespace UMA.Editors
 			}
 		}
 
-		public void RandomColorsGUI(RandomAvatar ra, RandomWardrobeSlot rws, RandomColors rc)
+		public bool RandomColorsGUI(RandomAvatar ra, RandomWardrobeSlot rws, RandomColors rc)
 		{
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField("Shared Color", GUILayout.Width(80));
@@ -106,8 +103,11 @@ namespace UMA.Editors
 			rc.ColorName = rws.PossibleColors[rc.CurrentColor];
 			EditorGUILayout.LabelField("Color Table", GUILayout.Width(80));
 			rc.ColorTable = (SharedColorTable)EditorGUILayout.ObjectField(rc.ColorTable, typeof(SharedColorTable),false,GUILayout.ExpandWidth(true));
+			bool retval = GUILayout.Button("\u0078", EditorStyles.miniButton, GUILayout.ExpandWidth(false));
 			EditorGUILayout.EndHorizontal();
+			return retval;
 		}
+
 		public void RandomColorsGUI(RandomAvatar ra,  RandomColors rc)
 		{
 			EditorGUILayout.BeginHorizontal();
@@ -133,9 +133,17 @@ namespace UMA.Editors
 					{
 						rws.AddColorTable = true;
 					}
+					RandomColors delme = null;
 					foreach (RandomColors rc in rws.Colors)
 					{
-						RandomColorsGUI(ra, rws, rc);
+						if (RandomColorsGUI(ra, rws, rc))
+							delme = rc;
+					}
+					if (delme != null)
+					{
+						rws.Colors.Remove(delme);
+						EditorUtility.SetDirty(this.target);
+						AssetDatabase.SaveAssets();
 					}
 				}
 				else
@@ -163,6 +171,7 @@ namespace UMA.Editors
 				ra.ColorsFoldout = GUIHelper.FoldoutBar(ra.ColorsFoldout, "Colors");
 				if (ra.ColorsFoldout)
 				{
+					
 					GUIHelper.BeginVerticalPadded(10, new Color(0.75f, 0.75f, 0.75f));
 					if (ra.SharedColors != null && ra.SharedColors.Count > 0)
 					{
@@ -249,6 +258,11 @@ namespace UMA.Editors
 			{
 				RandomAvatarGUI(ra);
 			}
+			if (GUI.changed)
+			{
+				EditorUtility.SetDirty(currentTarget);
+				AssetDatabase.SaveAssets();
+			}
 		}
 
 	
@@ -293,6 +307,7 @@ namespace UMA.Editors
 					ra.DnaChanged = true;
 					ra.RandomDna.Add(new RandomDNA(ra.DNAAdd));
 					ra.DNAAdd = "";
+					ChangeCount++;
 				}
 
 				int DNAChangeCount = ra.RandomDna.RemoveAll(x => x.Delete);
@@ -310,6 +325,7 @@ namespace UMA.Editors
 					{
 						rws.Colors.Add(new RandomColors(rws));
 						rws.AddColorTable = false;
+						ChangeCount++;
 					}
 				}
 			}

@@ -47,7 +47,7 @@ namespace UMA.Editors
 		}
 
 
-		[MenuItem("UMA/Export OBJ")]
+		[MenuItem("UMA/Export OBJ", priority =1100)]
 		static void ExportSelectionToSeparate()
 		{
 			for (int i = 0; i < Selection.gameObjects.Length; i++)
@@ -66,6 +66,9 @@ namespace UMA.Editors
 					if (path.Length != 0)
 					{
 						var staticMesh = new Mesh();
+#if UMA_32BITBUFFERS
+				staticMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+#endif
 						avatar.umaData.GetRenderer(0).BakeMesh(staticMesh);
 						FileUtils.WriteAllText(path, MeshToString(staticMesh, avatar.umaData.GetRenderer(0).sharedMaterials));
 						UMAUtils.DestroySceneObject(staticMesh);
@@ -75,5 +78,5 @@ namespace UMA.Editors
 		}
 	
 	}
-	#endif
 }
+#endif

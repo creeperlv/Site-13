@@ -50,6 +50,18 @@ namespace UMA
 			return null;
 		}
 
+		public static Transform RecursiveFindBone(Transform bone, string Name)
+		{
+			if (bone.name == Name) return bone;
+			for (int i = 0; i < bone.childCount; i++)
+			{
+				var result = RecursiveFindBone(bone.GetChild(i), Name);
+				if (result != null)
+					return result;
+			}
+			return null;
+		}
+
 		private static void CompareSkeletonRecursive(Transform race, Transform slot, ref int failure)
 		{
 			if ((race.localScale - slot.localScale).sqrMagnitude > 0.0001f)
@@ -109,6 +121,9 @@ namespace UMA
 		public static ValidateResult ValidateSlot(SkinnedMeshRenderer RaceSMR, SkinnedMeshRenderer SlotSMR, out string description)
 		{
 			var slotMesh = new Mesh();
+#if UMA_32BITBUFFERS
+				slotMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+#endif
 			SlotSMR.BakeMesh(slotMesh);
 			var bounds = slotMesh.bounds;
 			if (bounds.max.y < 0.05f)

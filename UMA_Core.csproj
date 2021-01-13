@@ -60,7 +60,7 @@
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAGeneratorBase.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\UMAAssetBundleManager\IConnectionChecker.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\Timeline\UmaRace\UmaRaceClip.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\HumanShared\DNA\Legacy\TutorialDNAConverterBehaviour.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNA\Legacy\TutorialDNAConverterBehaviour.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAMaterial.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\BaseCharacterModifier.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UmaTPose.cs" />
@@ -115,21 +115,20 @@
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\DownloadingAssetItem.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\DNAConvertDelegate.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\Timeline\UmaDna\UmaDnaClip.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\HumanShared\DNA\Legacy\UMADnaTutorial_Generated.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNA\Legacy\UMADnaTutorial_Generated.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNAPlugins\SkeletonDNAConverterPlugin.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\Timeline\UmaDna\UmaDnaTrack.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMARenderTextureManager.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\Timeline\UmaWardrobe\UmaWardrobeBehaviour.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\DownloadingAssetsList.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMADefaultMeshCombiner.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\UMAAssetIndexer.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\UMAAssetIndexer.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\UMAAssetBundleManager\UMAEncryptedBundle.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNAEvaluator.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\HumanShared\DNA\Legacy\UMADna_Generated.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNA\Legacy\UMADna_Generated.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\Timeline\UmaWardrobe\UmaWardrobeClip.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\DNARangeAsset.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\DynamicOverlayLibrary.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\Extensions\DynamicCharacterSystem\Scripts\pUMAContext.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\Integrations\PowerToolsIntegration\PowerToolsIntegration.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAExpressionPlayer.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\UMAAssetBundleManager\AssetBundleManager.cs" />
@@ -140,7 +139,7 @@
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\OverlayData.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\pUMATextRecipe.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\DynamicUMADnaBase.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\AssetItem.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\AssetItem.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAMeshData.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAGeneratorCoroutine.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\DNAConverterList.cs" />
@@ -150,7 +149,7 @@
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMASkeleton.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\Timeline\UmaDna\UmaDnaBehaviour.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAAssetCollection.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\HumanShared\DNA\Legacy\UMADnaHumanoid.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNA\Legacy\UMADnaHumanoid.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\DynamicAssetLoader.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAData.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\SlotLibrary.cs" />
@@ -158,7 +157,7 @@
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAContext.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\SkinnedMeshCombiner.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\DynamicDNAConverterBehaviourBase.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\HumanShared\DNA\Legacy\UMADna.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNA\Legacy\UMADna.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAEvents.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DynamicDNAConverterController.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\Extensions\DynamicCharacterSystem\Scripts\ExtensionMethods.cs" />
@@ -179,7 +178,7 @@
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\DynamicDNAConverterBehaviour.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\Extensions\DynamicCharacterSystem\Scripts\DCSStandardTypes.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\CustomAssetUtility.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\HumanShared\DNA\Legacy\UMADnaTutorial.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNA\Legacy\UMADnaTutorial.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\FileUtils.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\SlotData.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\UMAAssetBundleManager\UMAAssetBundleManagerSettings.cs" />
@@ -190,7 +189,7 @@
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\Integrations\PowerToolsIntegration\UMALODConversionSet.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\UMAWardrobeCollection.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\RaceData.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\HumanShared\DNA\Legacy\HumanoidDNAConverterBehaviour.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNA\Legacy\HumanoidDNAConverterBehaviour.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\UMAAssetBundleManager\BuildScript.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNAPlugins\ColorDNAConverterPlugin.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\DynamicRaceLibrary.cs" />
@@ -212,14 +211,40 @@
     <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\UMAAssetBundleManager\WebServer.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\Extensions\UMAPhysics\ColliderDefinition.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\DnaConverterBehaviour.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\HumanShared\DNA\Legacy\UMADnaHumanoid_Generated.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNA\Legacy\UMADnaHumanoid_Generated.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\OverlayViewer.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAMaterialPropertyBlock.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\UMASettingsProvider.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMADynamicExpression.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\DCARendererManager.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAContextBase.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAGeneratorGLIB.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\DNASetter.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMADynamicExpressionSet.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMARendererAsset.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAGeneratorStub.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMARenderTextureMover.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMADynamicExpressionPlayer.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\UMAPreset.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\UMAMountedItem.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAFastMeshCombiner.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\UMAColorFader.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\TextureProcessPro.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\AssetBundleLoader.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Scripts\AddressableUtility.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Extensions\DynamicCharacterSystem\Scripts\AvatarDefinition.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMADynamicExpressionBonePose.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAGeneratorPro.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Scripts\UMAGlobalContext.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Atlas\AtlasNormalShader32.shader" />
      <None Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Atlas\AtlasShader.shader" />
      <None Include="Assets\FromAssetStore\UMA\Core\UMA_Core.asmdef" />
+     <None Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Atlas\AtlasDetailNormalShader.shader" />
      <None Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Atlas\NormalSwizzleShader.shader" />
      <None Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Atlas\AtlasNormalShader.shader" />
+     <None Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Atlas\AtlasDetailNormalPostShader.shader" />
      <None Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Atlas\AtlasCutoutShader.shader" />
      <None Include="Assets\FromAssetStore\UMA\Core\StandardAssets\UMA\Atlas\AtlasDiffuseShader.shader" />
     <Reference Include="UnityEngine">
@@ -852,6 +877,12 @@
     <Reference Include="Unity.Timeline">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ResourceManager">
+      <HintPath>Library\ScriptAssemblies\Unity.ResourceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Addressables">
+      <HintPath>Library\ScriptAssemblies\Unity.Addressables.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -860,6 +891,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Addressable_Editor.csproj">
+      <Project>{24E2592E-6A72-36E6-A74C-74517D449412}</Project>
+      <Name>Addressable_Editor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -127,7 +127,6 @@
     <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\UMAClothPropertiesInspector.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\UMABonePoseEditor.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Extensions\UMAAssetBundleManager\AssetBundleManagerInspector.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Extensions\DynamicCharacterSystem\UMAAssetIndexerEditor.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\DynamicDNAConverterControllerInspector.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Extensions\UMAAssetBundleManager\AssetbundlesMenuItems.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\GeometrySelectorWindow.cs" />
@@ -154,8 +153,31 @@
     <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Extensions\DynamicCharacterSystem\DynamicCharacterSystemEditor.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\UmaAboutWindow.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Integrations\PowerToolsIntegration\UMALODConversionSetEditor.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Extensions\DynamicCharacterSystem\DCARendererManagerEditor.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\UMAWebGLSetup.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\AssetIndexerWindow.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\UMAAddressablesSupport.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\UMAMaterialPropertyBlockDrawer.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\ImportProcessor.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\UMAGeneratorGlibEditor.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scenes\OverlayViewerEditor.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\TreeViewWithTreeModel.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\DisplayListWindow.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\TreeElementUtility.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\UMAAnimationTargetRenamer.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\TreeElement.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\UMAAssetTreeView.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\AddressablePlugins\SingleGroupGenerator.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\BuildPreprocessor.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\IUMAAddressablePlugin.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\UMABonePoseUtilities.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\SerializedPropertyExtensions.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\TreeModel.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\UMAMountedItemEditor.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\AssetTreeElement.cs" />
   </ItemGroup>
   <ItemGroup>
+     <None Include="Assets\FromAssetStore\UMA\Core\Editor\UMA_Core_Editor.asmdef" />
      <None Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\Templates\UmaDna_GetType_Fragment.cs.txt" />
      <None Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\Templates\UmaDna_GetNames_Fragment.cs.txt" />
      <None Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\Templates\UmaDnaChild_Byte_ToDna_Fragment.cs.txt" />
@@ -171,7 +193,6 @@
      <None Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\Templates\UmaDnaChild_SetIndex_Fragment.cs.txt" />
      <None Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\Templates\UmaDna_Load_Fragment.cs.txt" />
      <None Include="Assets\FromAssetStore\UMA\Core\Editor\Scripts\Templates\UmaDna_GetTypes_Fragment.cs.txt" />
-     <None Include="Assets\FromAssetStore\UMA\Core\Editor\UMA_Core_Editor.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -799,6 +820,15 @@
     <Reference Include="System.Xml.XPath.XDocument">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.1f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Addressables.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Addressables.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ResourceManager">
+      <HintPath>Library\ScriptAssemblies\Unity.ResourceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Addressables">
+      <HintPath>Library\ScriptAssemblies\Unity.Addressables.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -816,6 +846,10 @@
     <ProjectReference Include="UMA_Core.csproj">
       <Project>{45867FB9-ACCC-2299-8802-E0F949789B2A}</Project>
       <Name>UMA_Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="Addressable_Editor.csproj">
+      <Project>{24E2592E-6A72-36E6-A74C-74517D449412}</Project>
+      <Name>Addressable_Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

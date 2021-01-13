@@ -936,22 +936,6 @@
       <Project>{7131A9DB-D2F1-43AE-AC86-04250FAD9FB0}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="UMA_Core_Editor.csproj">
-      <Project>{71486176-6AAD-E7E1-A513-6CCFCCED73D0}</Project>
-      <Name>UMA_Core_Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="UMA_Examples_Editor.csproj">
-      <Project>{2A69C33B-0F7A-3E15-CDB5-8434B1CD6FAA}</Project>
-      <Name>UMA_Examples_Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="UMA_Core.csproj">
-      <Project>{45867FB9-ACCC-2299-8802-E0F949789B2A}</Project>
-      <Name>UMA_Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="UMA_Examples.csproj">
-      <Project>{A95D04AA-8CC9-5139-15E4-387F4A8A107B}</Project>
-      <Name>UMA_Examples</Name>
-    </ProjectReference>
     <ProjectReference Include="MToon.csproj">
       <Project>{313AF74D-627A-BFCB-74E7-662303908931}</Project>
       <Name>MToon</Name>
@@ -960,9 +944,29 @@
       <Project>{2B258F46-1942-6839-A734-1FAD9A55CCCA}</Project>
       <Name>MToon.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="Addressable_Editor.csproj">
+      <Project>{24E2592E-6A72-36E6-A74C-74517D449412}</Project>
+      <Name>Addressable_Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UMA_Core_Editor.csproj">
+      <Project>{71486176-6AAD-E7E1-A513-6CCFCCED73D0}</Project>
+      <Name>UMA_Core_Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UMA_Examples.csproj">
+      <Project>{A95D04AA-8CC9-5139-15E4-387F4A8A107B}</Project>
+      <Name>UMA_Examples</Name>
+    </ProjectReference>
     <ProjectReference Include="UMA_Content.csproj">
       <Project>{9D3238AD-1EE8-33C5-7DDD-E03403D425F2}</Project>
       <Name>UMA_Content</Name>
+    </ProjectReference>
+    <ProjectReference Include="UMA_Examples_Editor.csproj">
+      <Project>{2A69C33B-0F7A-3E15-CDB5-8434B1CD6FAA}</Project>
+      <Name>UMA_Examples_Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UMA_Core.csproj">
+      <Project>{45867FB9-ACCC-2299-8802-E0F949789B2A}</Project>
+      <Name>UMA_Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

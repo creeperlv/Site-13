@@ -74,6 +74,7 @@ namespace UMA
 			}
 		}
 
+
 		/// <summary>
 		/// Initializes a new UMASkeleton from a transform hierarchy.
 		/// </summary>
@@ -108,11 +109,15 @@ namespace UMA
 		{
 			foreach (var bd in boneHashData.Values)
 			{
-				bd.rotation = bd.boneTransform.localRotation;
-				bd.position = bd.boneTransform.localPosition;
-				bd.scale = bd.boneTransform.localScale;
+				if (bd != null && bd.boneTransform != null)
+				{
+					bd.rotation = bd.boneTransform.localRotation;
+					bd.position = bd.boneTransform.localPosition;
+					bd.scale = bd.boneTransform.localScale;
+				}
 			}
 			updating = false;
+			
 		}
 
 		public virtual void SetAnimatedBone(int nameHash)
@@ -132,6 +137,9 @@ namespace UMA
 
 		private void AddBonesRecursive(Transform transform)
 		{
+			if (transform.tag == UMAContextBase.IgnoreTag)
+				return;
+
 			var hash = UMAUtils.StringToHash(transform.name);
 			var parentHash = transform.parent != null ? UMAUtils.StringToHash(transform.parent.name) : 0;
 			BoneData data = new BoneData()
@@ -324,6 +332,10 @@ namespace UMA
 			if (boneHashData.TryGetValue(nameHash, out res))
 			{
 				res.accessedFrame = frame;
+				if (res.boneTransform == null)
+                {
+					return null;
+                }
 				return res.boneTransform.gameObject;
 			}
 			return null;
@@ -358,6 +370,9 @@ namespace UMA
 				db.boneTransform.localPosition = position;
 				db.boneTransform.localRotation = rotation;
 				db.boneTransform.localScale = scale;
+				db.umaTransform.rotation = rotation;
+				db.umaTransform.position = position;
+				db.umaTransform.scale = scale;
 			}
 			else
 			{
@@ -688,16 +703,8 @@ namespace UMA
 		/// <param name="umaTransform">UMA transform.</param>
 		public virtual void EnsureBone(UMATransform umaTransform)
 		{
-			BoneData res;
-			if (boneHashData.TryGetValue(umaTransform.hash, out res))
-			{
-				res.accessedFrame = -1;
-				//res.umaTransform.Assign(umaTransform);
-			}
-			else
-			{
+			if (boneHashData.ContainsKey(umaTransform.hash) == false)
 				AddBone(umaTransform);
-			}
 		}
 
 		/// <summary>

@@ -10,6 +10,8 @@ namespace UMA
 	/// </summary>
 	public abstract class UMAGeneratorBase : MonoBehaviour
 	{
+		public enum FitMethod {DecreaseResolution, BestFitSquare };
+
 		public bool fitAtlas;
 		[HideInInspector]
 		public TextureMerge textureMerge;
@@ -19,14 +21,34 @@ namespace UMA
 		public bool convertMipMaps;
         [Tooltip("Initial size of the texture atlas (square)")]
 		public int atlasResolution;
+		[Tooltip("In Editor Initial size of the texture atlas (square)")]
+		public int editorAtlasResolution = 1024;
+
+		[Tooltip("How the textures are fit in the atlas if they are too large to fit normally")]
+		public FitMethod AtlasOverflowFitMethod = FitMethod.DecreaseResolution;
+
+		[Tooltip("The percentage to shrink the textures if using DecreaseResolution fit method")]
+		[Range(0.1f,0.9f)]
+		public float FitPercentageDecrease = 0.5f;
+
+		[Tooltip("When true, the rescaled textures will use a higher mipmap when being downsampled. This will result in a more detailed texture.")]
+		public bool SharperFitTextures = true;
+
 		[Tooltip("The default overlay to display if a slot has meshData and no overlays assigned")]
 		public OverlayDataAsset defaultOverlayAsset;
+		[Tooltip("UMA will ignore items with this tag when rebuilding the skeleton.")]
+		public string ignoreTag = "UMAIgnore";
+
+		[NonSerialized]
+		public bool FreezeTime;
 
 		protected OverlayData _defaultOverlayData;
 		public OverlayData defaultOverlaydata
 		{
 			get { return _defaultOverlayData; }
 		}
+
+		public static HashSet<int> CreatedAvatars = new HashSet<int>();
 
         /// <summary>
         /// returns true if the UMAData is in the update queue.
@@ -89,77 +111,138 @@ namespace UMA
 		/// </summary>
 		public class AnimatorState
 		{
+			public bool wasCopied = false;
+			public bool FreezeTime;
+			private bool wasInitialized;
 			private int[] stateHashes = new int[0];
 			private float[] stateTimes = new float[0];
 			AnimatorControllerParameter[] parameters;
+			private Dictionary<int, float> layerWeights = new Dictionary<int, float>();
 
-			public void SaveAnimatorState(Animator animator)
+			public void SaveAnimatorState(Animator animator, UMAData umaData)
 			{
-				int layerCount = animator.layerCount;
+				if (animator == null)
+                {
+					wasCopied = false;
+					return;
+                }
+				umaData.FireAnimatorStateSavedEvent();
+
+				if (animator.runtimeAnimatorController == null)
+					return;
+
+				int layerCount = 0;
+				if (animator.isInitialized)
+				{
+					layerCount = animator.layerCount;
+				}
 				stateHashes = new int[layerCount];
 				stateTimes = new float[layerCount];
-				parameters = new AnimatorControllerParameter[animator.parameterCount];
+				if (animator.isInitialized)
+				{
+					parameters = new AnimatorControllerParameter[animator.parameterCount];
+					Array.Copy(animator.parameters, parameters, animator.parameterCount);
+
+					foreach (AnimatorControllerParameter param in parameters)
+					{
+						switch (param.type)
+						{
+							case AnimatorControllerParameterType.Bool:
+								param.defaultBool = animator.GetBool(param.nameHash);
+								break;
+							case AnimatorControllerParameterType.Float:
+								param.defaultFloat = animator.GetFloat(param.nameHash);
+								break;
+							case AnimatorControllerParameterType.Int:
+								param.defaultInt = animator.GetInteger(param.nameHash);
+								break;
+						}
+					}
+				}
+				layerWeights.Clear();
 
 				for (int i = 0; i < layerCount; i++)
 				{
 					var state = animator.GetCurrentAnimatorStateInfo(i);
 					stateHashes[i] = state.fullPathHash;
-					stateTimes[i] = Mathf.Max(0, state.normalizedTime + Time.deltaTime / state.length);
-				}
-
-				Array.Copy(animator.parameters, parameters, animator.parameterCount);
-
-				foreach(AnimatorControllerParameter param in parameters)
-				{
-					switch(param.type)
+#if UNITY_EDITOR
+					float time = state.normalizedTime;
+					if (!FreezeTime)
 					{
-						case AnimatorControllerParameterType.Bool:
-							param.defaultBool = animator.GetBool(param.nameHash);
-							break;
-						case AnimatorControllerParameterType.Float:
-							param.defaultFloat = animator.GetFloat(param.nameHash);
-							break;
-						case AnimatorControllerParameterType.Int:
-							param.defaultInt = animator.GetInteger(param.nameHash);
-							break;
+						time += Time.deltaTime / state.length;
+
 					}
+#else
+					float time = state.normalizedTime + Time.deltaTime / state.length;
+#endif
+					stateTimes[i] = Mathf.Max(0, time);
+					layerWeights.Add(i, animator.GetLayerWeight(i));
 				}
+
+				wasCopied = true;
 			}
 
-			public void RestoreAnimatorState(Animator animator)
+			public void RestoreAnimatorState(Animator animator, UMAData umaData)
 			{
+				if (wasCopied == false)
+					return;
+				if (animator == false)
+					return;
+
 				if (animator.layerCount == stateHashes.Length)
 				{
 					for (int i = 0; i < animator.layerCount; i++)
 					{
 						animator.Play(stateHashes[i], i, stateTimes[i]);
-					}
-				}
-
-				foreach(AnimatorControllerParameter param in parameters)
-				{
-					if (!animator.IsParameterControlledByCurve(param.nameHash))
-                	{
-						switch(param.type)
+						if (i < layerWeights.Count)
 						{
-							case AnimatorControllerParameterType.Bool:
-								animator.SetBool(param.nameHash, param.defaultBool);
-								break;
-							case AnimatorControllerParameterType.Float:
-								animator.SetFloat(param.nameHash, param.defaultFloat);
-								break;
-							case AnimatorControllerParameterType.Int:
-								animator.SetInteger(param.nameHash, param.defaultInt);
-								break;
+							animator.SetLayerWeight(i, layerWeights[i]);
 						}
 					}
 				}
+				if (parameters != null)
+				{
+					foreach (AnimatorControllerParameter param in parameters)
+					{
+						if (!animator.IsParameterControlledByCurve(param.nameHash))
+						{
+							switch (param.type)
+							{
+								case AnimatorControllerParameterType.Bool:
+									animator.SetBool(param.nameHash, param.defaultBool);
+									break;
+								case AnimatorControllerParameterType.Float:
+									animator.SetFloat(param.nameHash, param.defaultFloat);
+									break;
+								case AnimatorControllerParameterType.Int:
+									animator.SetInteger(param.nameHash, param.defaultInt);
+									break;
+							}
+						}
+					}
+				}
+ 
+					umaData.FireAnimatorStateRestoredEvent();
+				if (animator.isInitialized)
+				{
+#if UNITY_EDITOR
+					if (FreezeTime || animator.enabled == false)
+					{
+						animator.Update(0);
+					}
+					else
+					{
+						animator.Update(Time.deltaTime);
+					}
 
-                if (animator.enabled == true)
-				    animator.Update(Time.deltaTime);
-                else
-                    animator.Update(0);
-            }
+#else
+					if (animator.enabled == true)
+						animator.Update(Time.deltaTime);
+					else
+						animator.Update(0);
+#endif
+				}
+			}
 		}
 
 		/// <summary>
@@ -190,20 +273,31 @@ namespace UMA
 						SetAvatar(umaData, animator);
 						animator.runtimeAnimatorController = umaData.animationController;
 						umaData.animator = animator;
+
+						umaTransform.SetParent(oldParent, false);
+						umaTransform.localRotation = originalRot;
+						umaTransform.localPosition = originalPos;
 					}
 					else
 					{
 						AnimatorState snapshot = new AnimatorState();
-						snapshot.SaveAnimatorState(animator);
-						UMAUtils.DestroySceneObject(animator.avatar);
-						SetAvatar(umaData, animator);
-						if(animator.runtimeAnimatorController != null)
-							snapshot.RestoreAnimatorState(animator);
-					}
+#if UNITY_EDITOR
+						snapshot.FreezeTime = FreezeTime;
+#endif
+						snapshot.SaveAnimatorState(animator,umaData);
+						if (!umaData.KeepAvatar || animator.avatar == null)
+						{
+							UMAUtils.DestroyAvatar(animator.avatar);
+							SetAvatar(umaData, animator);
+						}
 
-					umaTransform.SetParent(oldParent, false);
-					umaTransform.localRotation = originalRot;
-					umaTransform.localPosition = originalPos;
+						umaTransform.SetParent(oldParent, false);
+						umaTransform.localRotation = originalRot;
+						umaTransform.localPosition = originalPos;
+
+						if (animator.runtimeAnimatorController != null)
+							snapshot.RestoreAnimatorState(animator,umaData);
+					}
 				}
 			}
 		}
@@ -272,6 +366,7 @@ namespace UMA
 			HumanDescription description = CreateHumanDescription(umaData, umaTPose);
 			//DebugLogHumanAvatar(umaData.gameObject, description);
 			Avatar res = AvatarBuilder.BuildHumanAvatar(umaData.gameObject, description);
+			CreatedAvatars.Add(res.GetInstanceID());
 			res.name = umaData.name;
 			return res;
 		}
@@ -285,6 +380,7 @@ namespace UMA
 		{
 			Avatar res = AvatarBuilder.BuildGenericAvatar(umaData.gameObject, umaData.umaRecipe.GetRace().genericRootMotionTransformName);
 			res.name = umaData.name;
+			CreatedAvatars.Add(res.GetInstanceID());
 			return res;
 		}
 

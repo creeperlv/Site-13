@@ -11,6 +11,24 @@ namespace UMA
 	[Serializable]
 	public class UMAGeneratorCoroutine : WorkerCoroutine
 	{
+		private struct PackSize
+        {
+			public int Width;
+			public int Height;
+			public bool success;
+        }
+
+		private class GeneratedMaterialLookupKey : IEquatable<GeneratedMaterialLookupKey>
+		{
+			public List<OverlayData> overlayList;
+			public UMARendererAsset rendererAsset;
+
+			public bool Equals(GeneratedMaterialLookupKey other)
+			{
+				return (overlayList == other.overlayList && rendererAsset == other.rendererAsset);
+			}
+		}
+
 		TextureProcessBaseCoroutine textureProcessCoroutine;
 
 		MaxRectsBinPack packTexture;
@@ -22,9 +40,10 @@ namespace UMA
 		int scaleFactor;
 		MaterialDefinitionComparer comparer = new MaterialDefinitionComparer();
 		List<UMAData.GeneratedMaterial> generatedMaterials;
-		int rendererCount;
+		List<UMARendererAsset> uniqueRenderers = new List<UMARendererAsset>();
 		List<UMAData.GeneratedMaterial> atlassedMaterials = new List<UMAData.GeneratedMaterial>(20);
-		Dictionary<List<OverlayData>, UMAData.GeneratedMaterial> generatedMaterialLookup;
+		Dictionary<GeneratedMaterialLookupKey, UMAData.GeneratedMaterial> generatedMaterialLookup;
+
 
 		public void Prepare(UMAGeneratorBase _umaGenerator, UMAData _umaData, TextureProcessBaseCoroutine textureProcessCoroutine, bool updateMaterialList, int InitialScaleFactor)
 		{
@@ -35,19 +54,19 @@ namespace UMA
 			scaleFactor = InitialScaleFactor;
 		}
 
-		private UMAData.GeneratedMaterial FindOrCreateGeneratedMaterial(UMAMaterial umaMaterial)
+		private UMAData.GeneratedMaterial FindOrCreateGeneratedMaterial(UMAMaterial umaMaterial, UMARendererAsset renderer = null)
 		{
 			if (umaMaterial.materialType == UMAMaterial.MaterialType.Atlas)
 			{
 				foreach (var atlassedMaterial in atlassedMaterials)
 				{
-					if (atlassedMaterial.umaMaterial == umaMaterial)
+					if (atlassedMaterial.umaMaterial == umaMaterial && atlassedMaterial.rendererAsset == renderer)
 					{
 						return atlassedMaterial;
 					}
 					else
 					{
-						if (atlassedMaterial.umaMaterial.Equals(umaMaterial))
+						if (atlassedMaterial.umaMaterial.Equals(umaMaterial) && atlassedMaterial.rendererAsset == renderer)
 						{
 							return atlassedMaterial;
 						}
@@ -56,23 +75,44 @@ namespace UMA
 			}
 
 			var res = new UMAData.GeneratedMaterial();
-			if (umaMaterial.RequireSeperateRenderer)
-			{
-				res.renderer = rendererCount++;
-			}
+			res.rendererAsset = renderer;
 			res.umaMaterial = umaMaterial;
 			res.material = UnityEngine.Object.Instantiate(umaMaterial.material) as Material;
 			res.material.name = umaMaterial.material.name;
+#if UNITY_WEBGL
+			res.material.shader = Shader.Find(res.material.shader.name);
+#endif
+			res.material.CopyPropertiesFromMaterial(umaMaterial.material);
 			atlassedMaterials.Add(res);
 			generatedMaterials.Add(res);
+
 			return res;
+		}
+
+		protected bool IsUVCoordinates(Rect r)
+		{
+			if (r.width == 0.0f || r.height == 0.0f)
+				return false;
+
+			if (r.width <= 1.0f && r.height <= 1.0f)
+				return true;
+			return false;
+		}
+
+		protected Rect ScaleToBase(Rect r, Texture BaseTexture)
+		{
+			if (!BaseTexture) return r;
+			float w = BaseTexture.width;
+			float h = BaseTexture.height;
+
+			return new Rect(r.x * w, r.y * h, r.width * w, r.height * h);
 		}
 
 		protected override void Start()
 		{
 			if (generatedMaterialLookup == null)
 			{
-				generatedMaterialLookup = new Dictionary<List<OverlayData>, UMAData.GeneratedMaterial>(20);
+				generatedMaterialLookup = new Dictionary<GeneratedMaterialLookupKey, UMAData.GeneratedMaterial>(20);
 			}
 			else
 			{
@@ -82,49 +122,45 @@ namespace UMA
 			umaData.CleanTextures();
 			generatedMaterials = new List<UMAData.GeneratedMaterial>(20);
 			atlassedMaterials.Clear();
-			rendererCount = 0;
+			uniqueRenderers.Clear();
 
 			SlotData[] slots = umaData.umaRecipe.slotDataList;
 
 			for (int i = 0; i < slots.Length; i++)
 			{
-				var slot = slots[i];
-				if (slot == null)
-					continue;
-				
-				if ((slot.asset.material != null) && (slot.GetOverlay(0) != null))
-				{
-					if (!slot.asset.material.RequireSeperateRenderer)
-					{
-						// At least one slot that doesn't require a seperate renderer, so we reserve renderer 0 for those.
-						rendererCount = 1;
-						break;
-					}
-				}
-			}
-
-			for (int i = 0; i < slots.Length; i++)
-			{
 				SlotData slot = slots[i];
 				if (slot == null)
+					continue; 
+				if (slot.Suppressed)
 					continue;
 
-				// Let's only add the default overlay if the slot has overlays and NO meshData
-                if ((slot.asset.meshData != null) && (slot.OverlayCount == 0))
+				//Keep a running list of unique RendererHashes from our slots
+				//Null rendererAsset gets added, which is good, it is the default renderer.
+				if (!uniqueRenderers.Contains(slot.rendererAsset))
+					uniqueRenderers.Add(slot.rendererAsset);
+
+				// Let's only add the default overlay if the slot has meshData and NO overlays
+				// This should be able to be removed if default overlay/textures are ever added to uma materials...
+				if ((slot.asset.meshData != null) && (slot.OverlayCount == 0))
 				{
                     if (umaGenerator.defaultOverlaydata != null)
                         slot.AddOverlay(umaGenerator.defaultOverlaydata);
 				}
 
                 OverlayData overlay0 = slot.GetOverlay(0);
-				if ((slot.asset.material != null) && (overlay0 != null))
+				if ((slot.material != null) && (overlay0 != null))
 				{
-					List<OverlayData> overlayList = slot.GetOverlayList();
-					UMAData.GeneratedMaterial generatedMaterial;
-					if (!generatedMaterialLookup.TryGetValue(overlayList, out generatedMaterial))
+					GeneratedMaterialLookupKey lookupKey = new GeneratedMaterialLookupKey
 					{
-						generatedMaterial = FindOrCreateGeneratedMaterial(slot.asset.material);
-						generatedMaterialLookup.Add(overlayList, generatedMaterial);
+						overlayList = slot.GetOverlayList(),
+						rendererAsset = slot.rendererAsset
+					};
+
+					UMAData.GeneratedMaterial generatedMaterial;
+					if (!generatedMaterialLookup.TryGetValue(lookupKey, out generatedMaterial))
+					{
+						generatedMaterial = FindOrCreateGeneratedMaterial(slot.material, slot.rendererAsset);
+						generatedMaterialLookup.Add(lookupKey, generatedMaterial);
 					}
 
 					int validOverlayCount = 0;
@@ -134,10 +170,10 @@ namespace UMA
 						if (overlay != null)
 						{
 							validOverlayCount++;
-							#if (UNITY_STANDALONE || UNITY_IOS || UNITY_ANDROID || UNITY_PS4 || UNITY_XBOXONE) && !UNITY_2017_3_OR_NEWER //supported platforms for procedural materials
+#if (UNITY_STANDALONE || UNITY_IOS || UNITY_ANDROID || UNITY_PS4 || UNITY_XBOXONE) && !UNITY_2017_3_OR_NEWER //supported platforms for procedural materials
 							if (overlay.isProcedural)
 								overlay.GenerateProceduralTextures();
-                            #endif
+#endif
 						}
 					}
 
@@ -147,19 +183,27 @@ namespace UMA
 					tempMaterialDefinition.baseOverlay.alphaTexture = overlay0.alphaMask;
 					tempMaterialDefinition.baseOverlay.overlayType = overlay0.overlayType;
 
-					tempMaterialDefinition.umaMaterial = slot.asset.material;
-					tempMaterialDefinition.baseColor = overlay0.colorData.color;
-					tempMaterialDefinition.size = overlay0.pixelCount;
+					tempMaterialDefinition.umaMaterial = slot.material;
+					if (overlay0.isEmpty)
+                    {
+						tempMaterialDefinition.isNoTextures = true;
+						tempMaterialDefinition.overlayData[0] = slot.GetOverlay(0);
+					}
+					else
+					{
+						tempMaterialDefinition.baseColor = overlay0.colorData.color;
+						tempMaterialDefinition.size = overlay0.pixelCount;
 
-					tempMaterialDefinition.overlays = new UMAData.textureData[validOverlayCount - 1];
-					tempMaterialDefinition.overlayColors = new Color32[validOverlayCount - 1];
-					tempMaterialDefinition.rects = new Rect[validOverlayCount - 1];
-					tempMaterialDefinition.overlayData = new OverlayData[validOverlayCount];
-					tempMaterialDefinition.channelMask = new Color[validOverlayCount][];
-					tempMaterialDefinition.channelAdditiveMask = new Color[validOverlayCount][];
-					tempMaterialDefinition.overlayData[0] = slot.GetOverlay(0);
-					tempMaterialDefinition.channelMask[0] = slot.GetOverlay(0).colorData.channelMask;
-					tempMaterialDefinition.channelAdditiveMask[0] = slot.GetOverlay(0).colorData.channelAdditiveMask;
+						tempMaterialDefinition.overlays = new UMAData.textureData[validOverlayCount - 1];
+						tempMaterialDefinition.overlayColors = new Color32[validOverlayCount - 1];
+						tempMaterialDefinition.rects = new Rect[validOverlayCount - 1];
+						tempMaterialDefinition.overlayData = new OverlayData[validOverlayCount];
+						tempMaterialDefinition.channelMask = new Color[validOverlayCount][];
+						tempMaterialDefinition.channelAdditiveMask = new Color[validOverlayCount][];
+						tempMaterialDefinition.overlayData[0] = slot.GetOverlay(0);
+						tempMaterialDefinition.channelMask[0] = slot.GetOverlay(0).colorData.channelMask;
+						tempMaterialDefinition.channelAdditiveMask[0] = slot.GetOverlay(0).colorData.channelAdditiveMask;
+					}
 					tempMaterialDefinition.slotData = slot;
 
 					int overlayID = 0;
@@ -169,7 +213,15 @@ namespace UMA
 						if (overlay == null)
 							continue;
 
-						tempMaterialDefinition.rects[overlayID] = overlay.rect;
+						if (IsUVCoordinates(overlay.rect))
+						{
+							tempMaterialDefinition.rects[overlayID] = ScaleToBase(overlay.rect, overlay0.textureArray[0]);
+							
+						}
+						else
+						{
+							tempMaterialDefinition.rects[overlayID] = overlay.rect; // JRRM: Convert here into base overlay coordinates?
+						}
 						tempMaterialDefinition.overlays[overlayID] = new UMAData.textureData();
 						tempMaterialDefinition.overlays[overlayID].textureList = overlay.textureArray;
 						tempMaterialDefinition.overlays[overlayID].alphaTexture = overlay.alphaMask;
@@ -182,7 +234,7 @@ namespace UMA
 						tempMaterialDefinition.channelAdditiveMask[overlayID] = overlay.colorData.channelAdditiveMask;
 					}
 
-					tempMaterialDefinition.overlayList = overlayList;
+					tempMaterialDefinition.overlayList = lookupKey.overlayList;
 					tempMaterialDefinition.isRectShared = false;
 					for (int j = 0; j < generatedMaterial.materialFragments.Count; j++)
 					{
@@ -197,6 +249,32 @@ namespace UMA
 				}
 			}
 
+			//****************************************************
+			//* Set parameters based on shader parameter mapping
+			//****************************************************
+			for (int i=0;i<generatedMaterials.Count;i++)
+			{
+				UMAData.GeneratedMaterial ugm = generatedMaterials[i];
+				if (ugm.umaMaterial.shaderParms != null)
+				{
+					for(int j=0;j<ugm.umaMaterial.shaderParms.Length;j++)
+					{
+						UMAMaterial.ShaderParms parm = ugm.umaMaterial.shaderParms[j];
+						if (ugm.material.HasProperty(parm.ParameterName))
+						{
+							foreach (OverlayColorData ocd in umaData.umaRecipe.sharedColors)
+							{
+								if (ocd.name == parm.ColorName)
+								{
+									ugm.material.SetColor(parm.ParameterName, ocd.color);
+									break;
+								}
+							}
+						}
+					}
+
+				}
+			}
 			packTexture = new MaxRectsBinPack(umaGenerator.atlasResolution, umaGenerator.atlasResolution, false);
 		}
 
@@ -210,7 +288,7 @@ namespace UMA
 
 		protected override IEnumerator workerMethod()
 		{
-			umaData.generatedMaterials.rendererCount = rendererCount;
+			umaData.generatedMaterials.rendererAssets = uniqueRenderers;
 			umaData.generatedMaterials.materials = generatedMaterials;
 
 			GenerateAtlasData();
@@ -222,24 +300,7 @@ namespace UMA
 			CleanBackUpTextures();
 			UpdateUV();
 
-			// HACK - is this the right place?
-			SlotData[] slots = umaData.umaRecipe.slotDataList;
-			for (int i = 0; i < slots.Length; i++)
-			{
-				var slot = slots[i];
-				if (slot == null)
-					continue;
-
-#if (UNITY_STANDALONE || UNITY_IOS || UNITY_ANDROID || UNITY_PS4 || UNITY_XBOXONE) && !UNITY_2017_3_OR_NEWER //supported platforms for procedural materials
-				for (int j = 1; j < slot.OverlayCount; j++)
-				{
-					OverlayData overlay = slot.GetOverlay(j);
-					if ((overlay != null) && (overlay.isProcedural))
-						overlay.ReleaseProceduralTextures();
-				}
-#endif
-			}
-
+			// Procedural textures were done here 
 			if (updateMaterialList)
 			{
 				for (int j = 0; j < umaData.rendererCount; j++)
@@ -251,10 +312,12 @@ namespace UMA
 					int materialIndex = 0;
 					for (int i = 0; i < atlasses.Count; i++)
 					{
-						if (atlasses[i].renderer == j)
+						if (atlasses[i].rendererAsset == umaData.GetRendererAsset(j))
 						{
 							UMAUtils.DestroySceneObject(mats[materialIndex]);
 							newMats[materialIndex] = atlasses[i].material;
+							atlasses[i].skinnedMeshRenderer = renderer;
+							atlasses[i].materialIndex = materialIndex;
 							materialIndex++;
 						}
 					}
@@ -291,20 +354,89 @@ namespace UMA
 			}
 		}
 
+
+		/// <summary>
+		/// JRRM - this is where we calculate the atlas rectangles.
+		/// </summary>
 		private void GenerateAtlasData()
 		{
-			float StartScale = 1.0f / (float)scaleFactor;
+			PackSize area = new PackSize();
+			float atlasRes = umaGenerator.atlasResolution;
+			Vector2 StartScale = Vector2.one / (float)scaleFactor;
+			Vector2 Scale = Vector2.one;
+			bool scaled = false;
+
 			for (int i = 0; i < atlassedMaterials.Count; i++)
 			{
+				area.Width = umaGenerator.atlasResolution;
+				area.Height = umaGenerator.atlasResolution;
+
 				var generatedMaterial = atlassedMaterials[i];
 				generatedMaterial.materialFragments.Sort(comparer);
 				generatedMaterial.resolutionScale = StartScale;
-				generatedMaterial.cropResolution = new Vector2(umaGenerator.atlasResolution, umaGenerator.atlasResolution);
-				while (!CalculateRects(generatedMaterial))
+				generatedMaterial.cropResolution = new Vector2(atlasRes, atlasRes);
+
+				// We need a better method than this.
+				// if "BestFitSquare"
+				switch (umaGenerator.AtlasOverflowFitMethod)
 				{
-					generatedMaterial.resolutionScale = generatedMaterial.resolutionScale * 0.5f;
+					case UMAGeneratorBase.FitMethod.BestFitSquare:
+						while (true)
+						{
+							PackSize lastRect = CalculateRects(generatedMaterial, area);
+							if (lastRect.success)
+							{
+								if (area.Width != umaGenerator.atlasResolution || area.Height != umaGenerator.atlasResolution)
+								{
+									float neww = area.Width;
+									float newh = area.Height;
+
+									Scale.x = atlasRes / neww;
+									Scale.y = atlasRes / newh;
+									scaled = true;
+								}
+								break; // Everything fit, let's leave.
+							}
+
+							// do the smallest increase possible and try again.
+							if ((area.Width+lastRect.Width) <  (area.Height+lastRect.Height))
+							{
+								area.Width += lastRect.Width;
+							}
+							else
+                            {
+								area.Height += lastRect.Height;
+                            }
+						}
+						break;
+					default: // Shrink Textures
+						while (!CalculateRects(generatedMaterial, area).success)
+						{
+							generatedMaterial.resolutionScale = generatedMaterial.resolutionScale * umaGenerator.FitPercentageDecrease;
+						}
+						break;
 				}
+
 				UpdateSharedRect(generatedMaterial);
+				if (scaled)
+                {
+					UpdateAtlasRects(generatedMaterial, Scale);
+                }
+			}
+		}
+
+		private void UpdateAtlasRects(UMAData.GeneratedMaterial generatedMaterial, Vector2 Scale)
+		{
+			for (int i = 0; i < generatedMaterial.materialFragments.Count; i++)
+			{
+				var fragment = generatedMaterial.materialFragments[i];
+				Vector2 pos = fragment.atlasRegion.position * Scale; //ceil ?
+				Vector2 size = fragment.atlasRegion.size *= Scale; // floor ?
+				pos.x = Mathf.Ceil(pos.x);
+				pos.y = Mathf.Ceil(pos.y);
+				size.x = Mathf.Floor(size.x);
+				size.y = Mathf.Floor(size.y);
+				fragment.atlasRegion.Set(pos.x, pos.y, size.x, size.y);
 			}
 		}
 
@@ -320,10 +452,12 @@ namespace UMA
 			}
 		}
 
-		private bool CalculateRects(UMAData.GeneratedMaterial material)
+		private PackSize CalculateRects(UMAData.GeneratedMaterial material, PackSize area)
 		{
 			Rect nullRect = new Rect(0, 0, 0, 0);
-			packTexture.Init(umaGenerator.atlasResolution, umaGenerator.atlasResolution, false);
+			PackSize lastPackSize = new PackSize();
+
+			packTexture.Init(area.Width, area.Height, false);
 
 			for (int atlasElementIndex = 0; atlasElementIndex < material.materialFragments.Count; atlasElementIndex++)
 			{
@@ -331,8 +465,8 @@ namespace UMA
 				if (tempMaterialDef.isRectShared)
 					continue;
 				
-				int width = Mathf.FloorToInt(tempMaterialDef.baseOverlay.textureList[0].width * material.resolutionScale * tempMaterialDef.slotData.overlayScale);
-				int height = Mathf.FloorToInt(tempMaterialDef.baseOverlay.textureList[0].height * material.resolutionScale * tempMaterialDef.slotData.overlayScale);
+				int width = Mathf.FloorToInt(tempMaterialDef.baseOverlay.textureList[0].width * material.resolutionScale.x * tempMaterialDef.slotData.overlayScale);
+				int height = Mathf.FloorToInt(tempMaterialDef.baseOverlay.textureList[0].height * material.resolutionScale.y * tempMaterialDef.slotData.overlayScale);
 				
 				// If either width or height are 0 we will end up with nullRect and potentially loop forever
 				if (width == 0 || height == 0) 
@@ -342,14 +476,17 @@ namespace UMA
 				}
 				
 				tempMaterialDef.atlasRegion = packTexture.Insert(width, height, MaxRectsBinPack.FreeRectChoiceHeuristic.RectBestLongSideFit);
+				lastPackSize.Width = width;
+				lastPackSize.Height = height;
 
 				if (tempMaterialDef.atlasRegion == nullRect)
 				{
 					if (umaGenerator.fitAtlas)
 					{
-						if (Debug.isDebugBuild)
-							Debug.LogWarning("Atlas resolution is too small, Textures will be reduced.", umaData.gameObject);
-						return false;
+						//if (Debug.isDebugBuild) // JRRM : re-enable this
+						//	Debug.LogWarning("Atlas resolution is too small, Textures will be reduced.", umaData.gameObject);
+						lastPackSize.success = false;
+						return lastPackSize;
 					}
 					else
 					{
@@ -358,7 +495,8 @@ namespace UMA
 					}
 				}
 			}
-			return true;
+			lastPackSize.success = true;
+			return lastPackSize;
 		}
 
 		private void OptimizeAtlas()
@@ -427,7 +565,7 @@ namespace UMA
 			for (int atlasIndex = 0; atlasIndex < umaAtlasList.materials.Count; atlasIndex++)
 			{
 				var material = umaAtlasList.materials[atlasIndex];
-				if (material.umaMaterial.materialType == UMAMaterial.MaterialType.NoAtlas)
+				if (material.umaMaterial.materialType != UMAMaterial.MaterialType.Atlas)
 					continue;
 
 				Vector2 finalAtlasAspect = new Vector2(umaGenerator.atlasResolution / material.cropResolution.x, umaGenerator.atlasResolution / material.cropResolution.y);

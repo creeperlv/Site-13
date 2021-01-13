@@ -8,8 +8,10 @@ namespace UMA
 	/// </summary>
 	public abstract class UMAAvatarBase : MonoBehaviour
 	{
-		public UMAContext context;
+		public UMAContextBase context;
 		public UMAData umaData;
+		public UMARendererAsset defaultRendererAsset; // this can be null if no default renderers need to be applied.
+
 		/// <summary>
 		/// The serialized basic UMA recipe.
 		/// </summary>
@@ -44,6 +46,9 @@ namespace UMA
 		/// </summary>
 		public UMADataEvent CharacterDnaUpdated;
 
+		public UMADataEvent AnimatorStateSaved;
+		public UMADataEvent AnimatorStateRestored;
+
 		public virtual void Start()
 		{
 			Initialize();
@@ -52,7 +57,7 @@ namespace UMA
 		{
 			if (context == null)
 			{
-				context = UMAContext.FindInstance();
+				context = UMAContextBase.Instance;
 			}
 
 			if (umaData == null)
@@ -61,6 +66,7 @@ namespace UMA
 				if (umaData == null)
 				{
 					umaData = gameObject.AddComponent<UMAData>();
+					umaData.umaRecipe = new UMAData.UMARecipe(); // TEST JRRM
 					if (umaGenerator != null && !umaGenerator.gameObject.activeInHierarchy)
 					{
 						if (Debug.isDebugBuild)
@@ -81,6 +87,8 @@ namespace UMA
 			if (CharacterDestroyed != null) umaData.CharacterDestroyed = CharacterDestroyed;
 			if (CharacterUpdated != null) umaData.CharacterUpdated = CharacterUpdated;
 			if (CharacterDnaUpdated != null) umaData.CharacterDnaUpdated = CharacterDnaUpdated;
+			if (AnimatorStateSaved != null) umaData.AnimatorStateSaved = AnimatorStateSaved;
+			if (AnimatorStateRestored != null) umaData.AnimatorStateRestored = AnimatorStateRestored;
 		}
 
 		/// <summary>
@@ -123,17 +131,28 @@ namespace UMA
 
 		public void UpdateSameRace()
 		{
+#if SUPER_LOGGING
+			Debug.Log("UpdateSameRace on DynamicCharacterAvatar: " + gameObject.name);
+#endif
+			if (animationController != null)
+			{
+				umaData.animationController = animationController;
+			}
 			umaData.Dirty(true, true, true);
 		}
 
 		public void UpdateNewRace()
 		{
+#if SUPER_LOGGING
+			Debug.Log("UpdateNewRace on DynamicCharacterAvatar: " + gameObject.name);
+#endif
+
 			umaRace = umaData.umaRecipe.raceData;
 			if (animationController != null)
 			{
 				umaData.animationController = animationController;
-	//				umaData.animator.runtimeAnimatorController = animationController;
 			}
+
 			umaData.umaGenerator = umaGenerator;
 
 			umaData.Dirty(true, true, true);
@@ -142,19 +161,22 @@ namespace UMA
 		/// <summary>
 		/// Hide the avatar and clean up its components.
 		/// </summary>
-		public virtual void Hide()
+		public virtual void Hide(bool DestroyRoot = true)
 		{
 			if (umaData != null)
 			{
 				umaData.CleanTextures();
 				umaData.CleanMesh(true);
 				umaData.CleanAvatar();
+				if (DestroyRoot)
+				{
 				UMAUtils.DestroySceneObject(umaData.umaRoot);
 				umaData.umaRoot = null;
+					umaData.skeleton = null;
+				}
 				umaData.SetRenderers(null);
 				umaData.animator = null;
 				umaData.firstBake = true;
-				umaData.skeleton = null;
 			}
 			umaRace = null;
 		}

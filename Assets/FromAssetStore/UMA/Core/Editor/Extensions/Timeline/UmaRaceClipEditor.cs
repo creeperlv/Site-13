@@ -1,9 +1,9 @@
 ﻿#if UNITY_2017_1_OR_NEWER
 using UnityEditor;
-using UMA.Timeline;   
+using UMA.Timeline;
 
 namespace UMA.Editors
-{ 
+{
     [CustomEditor(typeof(UmaRaceClip))]
     public class UmaRaceClipEditor : Editor
     {
@@ -14,7 +14,7 @@ namespace UMA.Editors
 
         void OnEnable()
         {
-            UMAContext context = UMAContext.FindInstance();
+            UMAContextBase context = UMAContextBase.Instance;
             RaceData[] races = context.GetAllRaces();
 
             raceToChangeTo = serializedObject.FindProperty("raceToChangeTo");

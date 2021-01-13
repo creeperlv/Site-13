@@ -17,14 +17,18 @@ namespace UMA
 		private LinkedList<UMAData> cleanUmas = new LinkedList<UMAData>();
 		private LinkedList<UMAData> dirtyUmas = new LinkedList<UMAData>();
 		private UMAGeneratorCoroutine activeGeneratorCoroutine;
-		public Transform textureMergePrefab;
 		public UMAMeshCombiner meshCombiner;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [Tooltip("Increase scale factor to decrease texture usage. A value of 1 means the textures will not be downsampled. Values greater than 1 will result in texture savings. The size of the texture is divided by this value.")]
+		/// <summary>
+		/// 
+		/// </summary>
+		[Range(1.0f, 16.0f)]
+		[Tooltip("Increase scale factor to decrease texture usage. A value of 1 means the textures will not be downsampled. Values greater than 1 will result in texture savings. The size of the texture is divided by this value.")]
         public int InitialScaleFactor = 1;
+
+		[Range(1.0f,16.0f)]
+		[Tooltip("Scale factor for edit-time builds. Increase scale factor to decrease texture usage. A value of 1 means the textures will not be downsampled. Values greater than 1 will result in texture savings. The size of the texture is divided by this value.")]
+		public int editorInitialScaleFactor = 4;
 
 		[Tooltip("Number of iterations to process each frame")]
 		public int IterationCount = 1;
@@ -34,13 +38,23 @@ namespace UMA
 		/// </summary>
         [Tooltip("Set Fast Generation to true to have the UMA Avatar generated in a single update. Otherwise, generation can span multiple frames.")]
 		public bool fastGeneration = true;
+
+		[Tooltip("Enable Process All Pending to force the generate to process all pending UMA during the next frame")]
+		public bool processAllPending = false;
+
 		private int forceGarbageCollect;
         /// <summary>
         /// Number of character updates before triggering System garbage collect.
         /// </summary>
         [Tooltip("Number of character updates before triggering garbage collection.")]
-        public int garbageCollectionRate = 8;
+		[Range(0.0f, 128.0f)]
+		public int garbageCollectionRate = 8;
+
+		public bool collectGarbage = true;
 		private System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+
+		[Tooltip("Generates a single UMA immediately with no coroutines. This is the fastest possible path.")]
+		public bool NoCoroutines=true;
 
 		[NonSerialized]
 		public long ElapsedTicks;
@@ -68,10 +82,8 @@ namespace UMA
 
 			if (!textureMerge)
 			{
-				Transform tempTextureMerger = Instantiate(textureMergePrefab, Vector3.zero, Quaternion.identity) as Transform;
-				textureMerge = tempTextureMerger.GetComponent("TextureMerge") as TextureMerge;
-				textureMerge.transform.parent = transform;
-				textureMerge.gameObject.SetActive(false);
+				if (Debug.isDebugBuild)
+					Debug.LogError("No TextureMerge set!");
 			}
 
 			//Garbage Collection hack
@@ -84,12 +96,12 @@ namespace UMA
 			}
 		}
 
-		void Update()
+		public virtual void Update()
 		{
 			if (CheckRenderTextures())
 				return; // if render textures needs rebuild we'll not do anything else
 
-			if (forceGarbageCollect > garbageCollectionRate)
+			if (collectGarbage && (forceGarbageCollect > garbageCollectionRate))
 			{
 				GC.Collect();
 				forceGarbageCollect = 0;
@@ -128,11 +140,22 @@ namespace UMA
 
 		public override void Work()
 		{
+			UMAContextBase.IgnoreTag = ignoreTag;
 			if (!IsIdle())
 			{
 				stopWatch.Reset();
 				stopWatch.Start();
-				for (int i = 0; i < IterationCount; i++)
+				int count = IterationCount;
+
+				// If processAllPending is set, process as many are in the queue right now.
+				// We get the count (and multiply by two for slow gen) in case bad events add more items to the queue.
+				if (processAllPending)
+				{
+					count = umaDirtyList.Count;
+					if (!fastGeneration) count *= 2;
+				}
+
+				for (int i = 0; i < count; i++)
 				{
 					OnDirtyUpdate();
 					if (IsIdle())
@@ -170,23 +193,109 @@ namespace UMA
 			var rt = data.GetFirstRenderTexture();
 			if (rt != null && !rt.IsCreated())
 			{
-				umaData = data;
-				TextureProcessBaseCoroutine textureProcessCoroutine;
-				textureProcessCoroutine = new TextureProcessPROCoroutine();
-				textureProcessCoroutine.Prepare(data, this);
+				if (NoCoroutines)
+				{
+					UMAGeneratorPro ugp = new UMAGeneratorPro();
+					ugp.ProcessTexture(this, umaData, true, InitialScaleFactor);
+					TextureChanged++;
+                }
+                else
+				{
+					umaData = data;
+					TextureProcessBaseCoroutine textureProcessCoroutine;
+					textureProcessCoroutine = new TextureProcessPROCoroutine();
+					textureProcessCoroutine.Prepare(data, this);
 
-				activeGeneratorCoroutine = new UMAGeneratorCoroutine();
-				activeGeneratorCoroutine.Prepare(this, umaData, textureProcessCoroutine, true, InitialScaleFactor);
+					activeGeneratorCoroutine = new UMAGeneratorCoroutine();
+					activeGeneratorCoroutine.Prepare(this, umaData, textureProcessCoroutine, true, InitialScaleFactor);
 
-				while (!activeGeneratorCoroutine.Work()) ;
+					while (!activeGeneratorCoroutine.Work()) ;
 
-				activeGeneratorCoroutine = null;
+					activeGeneratorCoroutine = null;
+				}
+
 				TextureChanged++;
 			}
 		}
 
+
+		public bool GenerateSingleUMA(UMAData data, bool fireEvents)
+		{
+			UMAContextBase.IgnoreTag = ignoreTag;
+			if (data == null)
+				return true;
+
+			data.umaGenerator = this;
+			FreezeTime = true;
+			umaData = data;
+
+			if (umaData.RebuildSkeleton)
+			{
+				DestroyImmediate(umaData.umaRoot, false);
+				umaData.umaRoot = null;
+				umaData.RebuildSkeleton = false;
+				umaData.isShapeDirty = true;
+			}
+
+			if (!umaData.Validate())
+				return true;
+
+			if (meshCombiner != null)
+			{
+				meshCombiner.Preprocess(umaData);
+			}
+			umaData.FireCharacterBegunEvents();
+			PreApply(umaData);
+
+			if (umaData.isTextureDirty)
+			{
+				UMAGeneratorPro ugp = new UMAGeneratorPro();
+				ugp.ProcessTexture(this, umaData, !umaData.isMeshDirty, InitialScaleFactor);
+				umaData.isTextureDirty = false;
+				umaData.isAtlasDirty |= umaData.isMeshDirty;
+				TextureChanged++;
+			}
+
+			if (umaData.isMeshDirty)
+			{
+				UpdateUMAMesh(umaData.isAtlasDirty);
+				umaData.isAtlasDirty = false;
+				umaData.isMeshDirty = false;
+				SlotsChanged++;
+				forceGarbageCollect++;
+			}
+
+			if (umaData.isShapeDirty)
+			{
+				if (!umaData.skeleton.isUpdating)
+				{
+					umaData.skeleton.BeginSkeletonUpdate();
+				}
+				UpdateUMABody(umaData);
+				umaData.isShapeDirty = false;
+				DnaChanged++;
+			}
+			else if (umaData.skeleton.isUpdating)
+			{
+				umaData.skeleton.EndSkeletonUpdate();
+			}
+
+			umaData.dirty = false;
+			if (fireEvents)
+            {
+				UMAReady();
+			}
+			else
+            {
+				umaData.Show();
+            }
+			FreezeTime = false;
+			return true;
+		}
+
 		public virtual bool HandleDirtyUpdate(UMAData data)
 		{
+			UMAContextBase.IgnoreTag = ignoreTag;
 			if (data == null)
 				return true;
 
@@ -202,9 +311,16 @@ namespace UMA
 					meshCombiner.Preprocess(umaData);
 				}
 				umaData.FireCharacterBegunEvents();
+				PreApply(umaData);
+			}
+			if (umaData.RebuildSkeleton)
+			{
+				DestroyImmediate(umaData.umaRoot, false);
+				umaData.umaRoot = null;
+				umaData.RebuildSkeleton = false;
+				umaData.isShapeDirty = true;
 			}
 
-			PreApply(umaData);
 
 			if (umaData.isTextureDirty)
 			{
@@ -236,6 +352,7 @@ namespace UMA
 				}
 			}
 
+
 			if (umaData.isMeshDirty)
 			{
 				UpdateUMAMesh(umaData.isAtlasDirty);
@@ -248,7 +365,7 @@ namespace UMA
 					return false;
 			}
 
-			if (umaData.isShapeDirty) 
+			if (umaData.isShapeDirty)
 			{
 				if (!umaData.skeleton.isUpdating)
 				{
@@ -257,7 +374,7 @@ namespace UMA
 				UpdateUMABody(umaData);
 				umaData.isShapeDirty = false;
 				DnaChanged++;
-			} 
+			}
 			else if (umaData.skeleton.isUpdating)
 			{
 				umaData.skeleton.EndSkeletonUpdate();
@@ -269,14 +386,24 @@ namespace UMA
 
 		public virtual void OnDirtyUpdate()
 		{
-			//var DirtyStopwatch = new System.Diagnostics.Stopwatch();
-			//DirtyStopwatch.Start();
-			//var charName = "";
-			//if (umaDirtyList[0] != null)
-			//	charName = umaDirtyList[0].gameObject.name;
-
 			try
 			{
+				if (NoCoroutines)
+                {
+					UMAData umaData = umaDirtyList[0];
+					if (umaData.RebuildSkeleton)
+                    {
+						DestroyImmediate(umaData.umaRoot, false);
+						umaData.umaRoot = null;
+						umaData.RebuildSkeleton = false;
+						umaData.isShapeDirty = true;
+					}
+					GenerateSingleUMA(umaDirtyList[0],true);
+					umaDirtyList.RemoveAt(0);
+					umaData.MoveToList(cleanUmas);
+					umaData = null;
+					return;
+                }
 				if (HandleDirtyUpdate(umaDirtyList[0]))
 				{
 					umaDirtyList.RemoveAt(0);
@@ -293,14 +420,8 @@ namespace UMA
 			catch (Exception ex)
 			{
 				if (Debug.isDebugBuild)
-					UnityEngine.Debug.LogWarning("Exception in UMAGeneratorBuiltin.OnDirtyUpdate: " + ex);
+					UnityEngine.Debug.LogException(ex);
 			}
-			//anything more than 166,000 is too long (166,000 is 1 frame @ 60fps)
-			//the demo alien is about 65,000 on average- this is a big chunk of the available time though and my machine is fast
-			//Human Male DCS using pre plugins dna is about 45,000 on average but then its only doing 'skeletonModifiers' and 1 bonepose
-			//where as elfOrAlien demo is doing SkeletonModifiers + 3 BonePoses + 2 Blendshapes + 7 ColorDNAs
-			//if(charName != "")
-			//Debug.Log(charName + " DirtyUpdate took " + DirtyStopwatch.ElapsedTicks);
 		}
 
 		private void UpdateUMAMesh(bool updatedAtlas)
@@ -361,6 +482,11 @@ namespace UMA
 			}
 		}
 
+		public void Clear()
+        {
+			umaDirtyList.Clear();
+        }
+
 		/// <inheritdoc/>
 		public override bool IsIdle()
 		{
@@ -380,7 +506,7 @@ namespace UMA
 				umaData.Show();
 				umaData.FireUpdatedEvent(false);
 				umaData.FireCharacterCompletedEvents();
-				if (umaData.skeleton.boneCount > 300)
+				if (umaData.skeleton.boneCount > 500)
 				{
 					if (Debug.isDebugBuild)
 						Debug.LogWarning("Skeleton has " + umaData.skeleton.boneCount + " bones, may be an error with slots!");
@@ -398,7 +524,8 @@ namespace UMA
 		{
 			if (umaData)
 			{
-				umaData.skeleton.ResetAll();
+				umaData.FirePreUpdateUMABody();
+				// umaData.skeleton.ResetAll();    // I don't think this needs to be called, because we overwrite all that in the next call.
 				// Put the skeleton into TPose so rotations will be valid for generating avatar
 				umaData.GotoTPose();
 				umaData.ApplyDNA();

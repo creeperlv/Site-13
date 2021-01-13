@@ -4,6 +4,7 @@ using UnityEditor.SceneManagement;
 #endif
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 namespace UMA
 {
@@ -49,6 +50,7 @@ namespace UMA
 		private MeshCollider _meshCollider;
 		//Use 0 for unselected and 1 for selected
 		private Material[] _Materials;
+		private Shader _Shader;
 
 #if UNITY_EDITOR
 		public struct SceneInfo
@@ -57,6 +59,9 @@ namespace UMA
             public string name;
             public OpenSceneMode mode;
         }
+
+        public UnityEditor.SceneView currentSceneView;
+        public bool SceneviewLightingState;
 
         public List<SceneInfo> restoreScenes;
 #endif
@@ -74,16 +79,29 @@ namespace UMA
 
             if (meshAsset != null)
             {
-                if (meshAsset.asset.meshData.rootBoneHash == UMAUtils.StringToHash("Global"))
+                UMAMeshData meshData = meshAsset.asset.meshData;
+
+                /* Todo: figure out how to get the races root bone orientation
+                Transform root = meshData.rootBone;
+                if (root == null)
+                {
+                    SkeletonTools.RecursiveFindBone(meshData.bones[0],"Global");
+                }
+                */
+                if (meshData.rootBoneHash == UMAUtils.StringToHash("Global"))
+                {
                     gameObject.transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
+                }
             }
 
             gameObject.transform.hideFlags = HideFlags.NotEditable | HideFlags.HideInInspector;
 
             if (selectedTriangles == null)
-                selectedTriangles = new BitArray(_sharedMesh.triangles.Length / 3);
-                
-            if( !gameObject.GetComponent<MeshFilter>())
+            {
+                 selectedTriangles = new BitArray(_sharedMesh.triangles.Length / 3);
+            }
+
+            if ( !gameObject.GetComponent<MeshFilter>())
             {
                 MeshFilter meshFilter = gameObject.AddComponent<MeshFilter>();
                 meshFilter.mesh = _sharedMesh;
@@ -106,17 +124,27 @@ namespace UMA
                 _meshCollider.hideFlags = HideFlags.HideInInspector;
             }
 
-            if (_Materials == null)
+            if( GraphicsSettings.renderPipelineAsset == null )
+            {
+                _Shader = Shader.Find("Standard");
+            }
+            else
+            {
+                //Expand this to find shaders that work with other SRPs in the future.
+                _Shader = Shader.Find("Unlit/Color");
+            }
+
+            if (_Materials == null && _Shader != null)
             {
                 _Materials = new Material[2];
 
                 //Selected
-                _Materials[1] = new Material(Shader.Find("Standard"));
+                _Materials[1] = new Material(_Shader);
                 _Materials[1].name = "Selected";
                 _Materials[1].color = Color.red;
 
                 //UnSelected
-                _Materials[0] = new Material(Shader.Find("Standard"));
+                _Materials[0] = new Material(_Shader);
                 _Materials[0].name = "UnSelected";
                 _Materials[0].color = Color.gray;
 
@@ -139,7 +167,10 @@ namespace UMA
             }
 
             _sharedMesh = new Mesh();
-            _sharedMesh.subMeshCount = meshData.subMeshCount;
+#if UMA_32BITBUFFERS
+				_sharedMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+#endif
+            _sharedMesh.subMeshCount = 1; // we're only copying the current submesh
             _sharedMesh.vertices = meshData.vertices;
             _sharedMesh.normals = meshData.normals;
             _sharedMesh.tangents = meshData.tangents;
@@ -149,9 +180,8 @@ namespace UMA
             _sharedMesh.uv4 = meshData.uv4;
             _sharedMesh.colors32 = meshData.colors32;
 
-            for (int i = 0; i < meshData.subMeshCount; i++)
-                _sharedMesh.SetTriangles(meshData.submeshes[i].triangles, i);
-
+            _sharedMesh.SetTriangles(meshData.submeshes[meshAsset.asset.subMeshIndex].triangles, 0);
+            _sharedMesh.RecalculateBounds();
             Initialize();
         }
 
@@ -269,7 +299,7 @@ namespace UMA
             CreateOcclusionMesh(meshHide.asset.meshData);
 
             int[] triangles = _occlusionMesh.GetTriangles(0);
-            BitArray bitArray = meshHide.triangleFlags[0];
+            BitArray bitArray = meshHide.triangleFlags[meshHide.asset.subMeshIndex];
             List<int> newTriangles = new List<int>();
 
             if((bitArray.Length * 3) != triangles.Length)
@@ -300,7 +330,12 @@ namespace UMA
                 return;;
 
             if (_occlusionMesh == null)
+            {
                 _occlusionMesh = new Mesh();
+#if UMA_32BITBUFFERS
+				_occlusionMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+#endif
+            }
             else
                 _occlusionMesh.Clear();
             

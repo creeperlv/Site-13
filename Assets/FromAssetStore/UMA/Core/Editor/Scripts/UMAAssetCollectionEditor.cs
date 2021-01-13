@@ -1,5 +1,5 @@
-﻿#if UNITY_EDITOR
-using UnityEngine;
+﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
 
 namespace UMA.Editors
@@ -9,7 +9,7 @@ namespace UMA.Editors
 	{
 		public override void OnInspectorGUI()
 		{
-			var context = UMAContext.FindInstance();
+			var context = UMAContextBase.Instance;
 			EditorGUI.BeginDisabledGroup(context == null);
 			if (GUILayout.Button("Add to Scene Context"))
 			{
@@ -27,5 +27,5 @@ namespace UMA.Editors
 			UMA.CustomAssetUtility.CreateAsset<UMAAssetCollection>();
 		}
 	}
-	#endif
 }
+#endif
