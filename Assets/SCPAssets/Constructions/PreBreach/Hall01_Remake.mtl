@@ -1,0 +1,19 @@
+newmtl SCP-OZ-Floor
+map_Kd -o 0 0 -s 0.5 0.5 ceiling-Backup.jpg
+bump -o 0 0 -s 1 1 ceiling-Map.jpg
+map_d -o 0 0 -s 1 1 ceiling-Map.jpg
+Kd 0.7547169 0.7547169 0.7547169
+d 1
+
+newmtl OfficeWallTexture
+map_Kd -o 0 0 -s 1 1 OfficeWallTexture-2.png
+bump -o 0 0 -s 1 1 OfficeWallTexture-2-Normal.png
+Kd 0.6415094 0.6415094 0.6415094
+d 1
+
+newmtl OfficeWallTexture-Pure
+map_Kd -o 0 0 -s 1 1 OfficeWallTexture-2-Pure.png
+bump -o 0 0 -s 1 1 OfficeWallTexture-2-Pure 1.png
+Kd 0.6415094 0.6415094 0.6415094
+d 1
+
