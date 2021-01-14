@@ -22,6 +22,7 @@ namespace Site13Kernel
             ani.Play("GoUp");
             yield return new WaitForSeconds(LastTime);
             ani.Stop();
+            AS.Stop();
             yield break;
         }
     }
