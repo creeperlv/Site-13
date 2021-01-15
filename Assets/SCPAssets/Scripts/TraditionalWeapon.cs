@@ -254,7 +254,7 @@ namespace Site13Kernel.Weapon
                 {
                     var rig = hit.collider.gameObject.GetComponent<Rigidbody>();
                     if (rig != null)
-                        rig.AddForce((hit.point-GameInfo.CurrentGame.FirstPerson.transform.position).normalized * BaseDamage/25);
+                        rig.AddForce((hit.point - GameInfo.CurrentGame.FirstPerson.transform.position).normalized * BaseDamage / 25);
                     bool aa = true;
                     if (hit.collider.gameObject.GetComponent<SCPEntity>() != null)
                     {
@@ -268,7 +268,7 @@ namespace Site13Kernel.Weapon
                             {
                             }
                             var entity = hit.collider.gameObject.GetComponent<SCPEntity>();
-                            
+
                             try
                             {
 
@@ -322,7 +322,9 @@ namespace Site13Kernel.Weapon
         {
             {
                 GameInfo.CurrentGame.isAiming = true;
-                GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen / 10;
+                if (GameInfo.CurrentGame.isAimedEntity == false)
+                    GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen / 10;
+                else GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen * 0.1f * GameInfo.CurrentGame.AssistAim;
                 if (Camera.main.fieldOfView > AimingModeFOV)
                 {
                     Camera.main.fieldOfView -= Time.deltaTime * (100f / 40f) * (60f - AimingModeFOV);
@@ -398,8 +400,9 @@ namespace Site13Kernel.Weapon
                             if (GameInfo.CurrentGame.isAiming == true && GameInfo.CurrentGame.isRunning == true)
                             {
                                 GameInfo.CurrentGame.isAimingEnded = false;
-                                if (GameInfo.CurrentMouseSen != GameInfo.TargetMouseSen)
+                                if (GameInfo.CurrentGame.isAimedEntity == false)
                                     GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen;
+                                else GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen* GameInfo.CurrentGame.AssistAim;
                                 if (Camera.main.fieldOfView < GameInfo.CurrentGame.UsingFOV)
                                 {
                                     Camera.main.fieldOfView += Time.deltaTime * 100;
@@ -413,10 +416,10 @@ namespace Site13Kernel.Weapon
                             if (GameInfo.CurrentGame.isAiming == false && GameInfo.CurrentGame.isRunning == false && GameInfo.CurrentGame.isAimingEnded == false)
                             {
 
-                                if (
-                                GameInfo.CurrentMouseSen != GameInfo.TargetMouseSen)
-                                    GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen;
 
+                                if (GameInfo.CurrentGame.isAimedEntity == false)
+                                    GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen;
+                                else GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen * GameInfo.CurrentGame.AssistAim;
                                 if (Camera.main.fieldOfView < GameInfo.CurrentGame.UsingFOV)
                                 {
                                     Camera.main.fieldOfView += Time.deltaTime * 100;

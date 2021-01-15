@@ -22,6 +22,7 @@ namespace Site13Kernel
         public bool isPaused = false;
         public bool isPauseAllowed = true;
         public bool isUltraState= false;
+        public bool isAimedEntity = false;
         public bool isHealthSpeedDisabled= false;
         public bool isWatching = false;
         public bool isAiming= false;
@@ -34,6 +35,7 @@ namespace Site13Kernel
         public SCPEntity PlayerHealth;
         public string SaveName = "DEBUG";
         public int PlayerScene = 0;
+        public float AssistAim = 0.1f;
         public int[] Ammos = { 100 };
         public static float TargetMouseSen = 10f;
         public static float CurrentMouseSen = 10f;

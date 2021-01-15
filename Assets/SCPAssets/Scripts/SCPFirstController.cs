@@ -170,16 +170,16 @@ namespace Site13Kernel
                     controller.height = 1.8f;
                 }
             }
-            if(DisableJump==false)
-            if (Input.GetButtonDown("Jump"))
-            {
-                if (prevGrounded)
+            if (DisableJump == false)
+                if (Input.GetButtonDown("Jump"))
                 {
+                    if (prevGrounded)
+                    {
 
-                    jump = true;
+                        jump = true;
 
+                    }
                 }
-            }
             if (Crouch == true)
             {
                 //if (baseHeadHeight > (OriginHeadHeight / 20) * 1)
@@ -191,7 +191,7 @@ namespace Site13Kernel
                 //    }
                 //}
                 float NF = -(OriginHeadHeight / 5f);
-                if (baseHeadHeight >NF)
+                if (baseHeadHeight > NF)
                 {
                     baseHeadHeight -= Time.deltaTime * 1.2f;
                     if (baseHeadHeight <= NF)
@@ -312,9 +312,11 @@ namespace Site13Kernel
 
             if (Physics.Raycast(ray, out hit, 100f, 1 << 0 | 1 << 13, QueryTriggerInteraction.Ignore))
             {
+
                 var e = hit.collider.gameObject.GetComponent<SCPEntity>();
                 if (e != null)
                 {
+                    GameInfo.CurrentGame.isAimedEntity = true;
                     switch (e.EntiryGroup)
                     {
                         case EntiryGroup.SCP:
@@ -333,6 +335,14 @@ namespace Site13Kernel
                             break;
                     }
                 }
+                else
+                {
+                    GameInfo.CurrentGame.isAimedEntity = false;
+                }
+            }
+            else
+            {
+                GameInfo.CurrentGame.isAimedEntity = false;
             }
             Crosshair.color = c;
         }

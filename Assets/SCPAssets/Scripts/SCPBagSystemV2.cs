@@ -151,8 +151,7 @@ namespace Site13Kernel
 
             if (Input.GetButton("Watch"))
             {
-                if (
-                   GameInfo.CurrentGame.isWatching == false)
+                if (GameInfo.CurrentGame.isWatching == false)
                 {
                     if (Camera.main.fieldOfView > WatchModeFov)
                     {
@@ -175,7 +174,9 @@ namespace Site13Kernel
                         }
                         CurrentCrosshairSprite=GameInfo.CurrentGame.FirstPerson.Crosshair.sprite;
                         GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = GameInfo.CurrentGame.FirstPerson.DefaultCrosshair;
+                        if(GameInfo.CurrentGame.isAimedEntity==false)
                         GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen / 20;
+                        else GameInfo.CurrentMouseSen = (GameInfo.TargetMouseSen / 20)* GameInfo.CurrentGame.AssistAim;
                         GameInfo.CurrentGame.isWatching = true;
                     }
                 }
@@ -196,7 +197,9 @@ namespace Site13Kernel
                             ObserveModeOverlay.alpha = 0;
                         GameInfo.CurrentGame.isWatching = false;
                         WatchMode00 = false;
+                        if(GameInfo.CurrentGame.isAimedEntity==false)
                         GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen;
+                        else GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen* GameInfo.CurrentGame.AssistAim;
                         GameInfo.CurrentGame.isAiming = false; SetItem();
                         if(CurrentCrosshairSprite!=null)
                         GameInfo.CurrentGame.FirstPerson.Crosshair.sprite = CurrentCrosshairSprite;
