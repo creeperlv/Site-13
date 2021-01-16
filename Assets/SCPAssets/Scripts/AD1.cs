@@ -66,7 +66,7 @@ namespace Site13Kernel
                     {
                         float dot = Vector3.Dot(-ShootPont.transform.up, a.normalized);
                         float dot1 = Vector3.Dot(ShootPont.transform.right, a.normalized);
-                        Debug.Log($"{dot},{dot1}");
+                        //Debug.Log($"{dot},{dot1}");
                         //var h = Vector3.SignedAngle(Vector3.up, a , Vector3.forward);
                         //Quaternion rotation00 = Quaternion.Euler(0, h, 0);
                         //Part1.transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation00, Time.deltaTime * 50);
@@ -92,7 +92,7 @@ namespace Site13Kernel
                 }
                 catch (System.Exception)
                 {
-                    Debug.Log("Error");
+                    //Debug.Log("Error");
                 }
 
 

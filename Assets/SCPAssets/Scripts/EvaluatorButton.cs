@@ -12,7 +12,7 @@ namespace Site13Kernel
         float DeltaY = 0;
         float DeltaX = 0;
         float DeltaZ = 0;
-        public GameObject Player;
+//        public GameObject Player;
         public AudioSource MOV;
         public bool isInSiteEvaluator = false;
         public int TargetScene;

@@ -271,15 +271,10 @@ namespace Site13Kernel.Weapon
 
                             try
                             {
-
-                                try
+                                Quaternion quaternion = Quaternion.FromToRotation(Vector3.up, hit.normal);
+                                if (entity.DamageEffect != null)
                                 {
-                                    Quaternion quaternion = Quaternion.FromToRotation(Vector3.up, hit.normal);
                                     var a = GameObject.Instantiate(entity.DamageEffect, hit.point, quaternion, hit.transform.parent);
-                                }
-                                catch (Exception e)
-                                {
-                                    Debug.Log(e);
                                 }
                             }
                             catch (Exception)
@@ -402,7 +397,7 @@ namespace Site13Kernel.Weapon
                                 GameInfo.CurrentGame.isAimingEnded = false;
                                 if (GameInfo.CurrentGame.isAimedEntity == false)
                                     GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen;
-                                else GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen* GameInfo.CurrentGame.AssistAim;
+                                else GameInfo.CurrentMouseSen = GameInfo.TargetMouseSen * GameInfo.CurrentGame.AssistAim;
                                 if (Camera.main.fieldOfView < GameInfo.CurrentGame.UsingFOV)
                                 {
                                     Camera.main.fieldOfView += Time.deltaTime * 100;

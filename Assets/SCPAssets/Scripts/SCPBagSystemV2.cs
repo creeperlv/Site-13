@@ -450,7 +450,8 @@ namespace Site13Kernel
             }
             if (isFetch == false)
             {
-                GameInfo.CurrentGame.HandingItem = new HandableItem() { SecurityClearance = 0, ItemID = "EMPTY" };
+                GameInfo.CurrentGame.HandingItem =null;
+//                GameInfo.CurrentGame.HandingItem = new HandableItem() { SecurityClearance = 0, ItemID = "EMPTY" };
             }
         }
         public void ApplyItem(GameObject item)
