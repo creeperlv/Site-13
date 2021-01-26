@@ -43,9 +43,11 @@ namespace Site13Kernel.UI
         #region User Controls
         [UnityEngine.Header("User Controls", order = 1)]
         public Button NewGameOK;
+        public Button FirstButton;
         public InputField SaveName;
         public Button LoadGameTemplate;
         public Button ExitButton;
+        public Button SettingsButtonV2;
         public Dropdown Resolutions;
         public Dropdown Languages;
         public Dropdown Qualities;
@@ -53,8 +55,10 @@ namespace Site13Kernel.UI
         public GameObject SavesPresenter;
         public GameObject AchievementsPresenter;
         public GameObject AchievementButton;
+        public GameObject ControlPresenter;
         public Slider FullscreenSwitch;
         public Animator CentralAnimator;
+        public CanvasGroup AllMainMenuControlsControl;
         #endregion
 
         void SetLanguage()
@@ -106,6 +110,7 @@ namespace Site13Kernel.UI
         }
         void Start()
         {
+            FirstButton.Select();
             ExitButton.onClick.AddListener(delegate ()
             {
                 CentralAnimator.SetTrigger("Exit");
@@ -372,6 +377,11 @@ namespace Site13Kernel.UI
             catch (System.Exception)
             {
             }
+            SettingsButtonV2.onClick.AddListener(delegate () {
+                ControlPresenter.SetActive(false);
+                AllMainMenuControlsControl.interactable = false;
+                SceneManager.LoadScene("SettingsUI", LoadSceneMode.Additive);
+            });
         }
 
         void SerializeSettingsAndSave()
