@@ -69,7 +69,7 @@ namespace Site13Kernel.Stories
                         isAllDone = false;
                     }
                 }
-                foreach (var item in ToActive)
+                foreach (var item in ToDeactive)
                 {
                     if (_time >= item.Time)
                     {
