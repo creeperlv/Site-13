@@ -11,6 +11,7 @@ namespace Site13Kernel.DynamicScene
     {
         public static GlobalSceneExecutor CurrentExecutor;
         public GameObject Player;
+        public GameObject BlackCover;
         public LightingSettings lightingSettings;
         void Start()
         {

@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.003188998, g: 0.0065052803, b: 0.014501665, a: 1}
+  m_IndirectSpecularColor: {r: 0.0030723147, g: 0.006309593, b: 0.0144216735, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2395,6 +2395,7 @@ GameObject:
   - component: {fileID: 516018140}
   - component: {fileID: 516018143}
   - component: {fileID: 516018144}
+  - component: {fileID: 516018145}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -2485,7 +2486,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516018138}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9685891b0d1343344be0f82567e3adf1, type: 3}
   m_Name: 
@@ -2581,6 +2582,25 @@ MonoBehaviour:
     obj: {fileID: 0}
   SystemObjects: []
   MethodPath: Site_13_Behavior.Stories.L1SB.SecondaryEvacuation
+--- !u!114 &516018145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516018138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf5780efbb1138a4f95b736478ff4bee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isStarted: 0
+  isStoryRequiresPlayer: 0
+  outDoor: {fileID: 2145997623}
+  TipText: {fileID: 1417280193}
+  Warhead1: {fileID: 1197185699}
+  WarheadThenThresher: {fileID: 128049712}
+  BlackCover: {fileID: 0}
 --- !u!1001 &516727190
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8180,6 +8200,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 5505648965870178508, guid: 84eed3a7a3610d04fa55405e9afff6c2,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5510509677727954767, guid: 84eed3a7a3610d04fa55405e9afff6c2,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -11322,6 +11347,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2145997620}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2145997623 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6547713319467397880, guid: 1de08be7a845af54faf924bdcebffa58,
+    type: 3}
+  m_PrefabInstance: {fileID: 2145997620}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb628dab23d786a4c9825a78a1f8235c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2146595051
 PrefabInstance:
   m_ObjectHideFlags: 0
