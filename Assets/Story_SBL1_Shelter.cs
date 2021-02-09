@@ -4,6 +4,8 @@ using Site13Kernel.Globalization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 namespace Site13Kernel.Stories
 {
 
@@ -95,6 +97,17 @@ namespace Site13Kernel.Stories
                 TipText.SetText("Text (1)", "Screen.SBL1.ES.4");
                 yield return new WaitForSeconds(4f);
                 TipText.SetText("Text (1)", "Screen.SBL1.ES.5");
+
+                {
+
+                    var c = BlackCover.GetComponent<Image>().color;
+                    c.a = 1;
+                    BlackCover.GetComponent<Image>().color = c;
+                }
+                BlackCover.SetActive(true);
+                entity.gameObject.GetComponent<SCPFirstController>().enabled = false;
+                yield return new WaitForSeconds(3f);
+                BlackCover.SetActive(false);
             }
             yield return null;
         }
