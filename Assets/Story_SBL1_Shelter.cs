@@ -17,6 +17,15 @@ namespace Site13Kernel.Stories
         public AudioSource WarheadThenThresher;
         GameObject BlackCover;
         SCPEntity entity;
+        #region CharlieYukon
+
+        public GameObject Cam;
+        public GameObject Cam2;
+        public GameObject MovingObjs;
+        public List<AudioSource> CombatSounds;
+        public AudioSource CYTeam01;
+        public List<GameObject> Splashes;
+        #endregion
         // Start is called before the first frame update
         void Start()
         {
