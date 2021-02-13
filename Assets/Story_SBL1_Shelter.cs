@@ -18,10 +18,7 @@ namespace Site13Kernel.Stories
         GameObject BlackCover;
         SCPEntity entity;
         #region CharlieYukon
-
-        public GameObject Cam;
-        public GameObject Cam2;
-        public GameObject MovingObjs;
+        public Animator CharlieYukonStory;
         public List<AudioSource> CombatSounds;
         public AudioSource CYTeam01;
         public List<GameObject> Splashes;
@@ -117,6 +114,25 @@ namespace Site13Kernel.Stories
                 entity.gameObject.GetComponent<SCPFirstController>().enabled = false;
                 yield return new WaitForSeconds(3f);
                 BlackCover.SetActive(false);
+
+                foreach (var item in CombatSounds)
+                {
+                    item.Play();
+                    yield return new WaitForSeconds(0.1f);
+                }
+                CharlieYukonStory.gameObject.SetActive(true);
+                yield return new WaitForSeconds(11f);
+                CharlieYukonStory.gameObject.SetActive(false);
+                foreach (var item in CombatSounds)
+                {
+                    item.Stop();
+                }
+                BlackCover.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                BlackCover.SetActive(false);
+                entity.gameObject.GetComponent<SCPFirstController>().enabled = true;
+                GameInfo.CurrentGame.secondaryNotification.ShowNotification("1 Day After Thresher Protocol");
+                outDoor.IsLocked = false;
             }
             yield return null;
         }
