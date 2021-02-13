@@ -23,19 +23,22 @@ namespace Site13Kernel
                     willdo = true;
                     break;
                 case SecurityCredential.Level3:
-                    if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 3)
-                    {
-                        willdo = true;
-                    }
+                    if (GameInfo.CurrentGame.HandingItem != null)
+                        if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 3)
+                        {
+                            willdo = true;
+                        }
                     break;
                 case SecurityCredential.Level4:
-                    if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 4)
+                    if (GameInfo.CurrentGame.HandingItem != null)
+                        if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 4)
                     {
                         willdo = true;
                     }
                     break;
                 case SecurityCredential.Level5:
-                    if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 5)
+                    if (GameInfo.CurrentGame.HandingItem != null)
+                        if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 5)
                     {
                         willdo = true;
                     }
@@ -66,7 +69,7 @@ namespace Site13Kernel
                     }
                 }
                 if (WillSFX != null)
-                WillSFX.Play();
+                    WillSFX.Play();
                 try
                 {
                     GameInfo.CurrentGame.FlagsGroup[key] = value;
@@ -84,8 +87,8 @@ namespace Site13Kernel
             }
             else
             {
-                if(RefuseSFX!=null)
-                RefuseSFX.Play();
+                if (RefuseSFX != null)
+                    RefuseSFX.Play();
                 GameInfo.CurrentGame.PublicSubtitle.ShowSubtitle("You need a higher security credential.");
                 yield return new WaitForSeconds(1f);
                 isOperating = false;

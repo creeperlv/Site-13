@@ -57,7 +57,7 @@ namespace Site13Kernel
         public float SpeedFactor = 1.0f;
         public float[] PlayerLocation = { 0, 0, 0 };
         public float[] PlayerRotation = { 0, 0, 0 };
-        public HandableItem HandingItem;
+        public HandableItem HandingItem=null;
         public string DeathText = "Your dead body was found by <color=#A0A0A0>Team Charlie Yukon</color> later and they drag your body to the body pit.";
         public SCPOoDV1Manager CurrentOoDManager;
         public SCPOoDV2Manager CurrentOoDManagerV2;

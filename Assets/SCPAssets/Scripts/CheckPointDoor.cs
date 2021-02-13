@@ -56,22 +56,25 @@ namespace Site13Kernel
                         willRun = true;
                         break;
                     case SecurityCredential.Level3:
-                        if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 3)
-                        {
-                            willRun = true;
-                        }
+                        if (GameInfo.CurrentGame.HandingItem != null)
+                            if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 3)
+                            {
+                                willRun = true;
+                            }
                         break;
                     case SecurityCredential.Level4:
-                        if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 4)
-                        {
-                            willRun = true;
-                        }
+                        if (GameInfo.CurrentGame.HandingItem != null)
+                            if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 4)
+                            {
+                                willRun = true;
+                            }
                         break;
                     case SecurityCredential.Level5:
-                        if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 5)
-                        {
-                            willRun = true;
-                        }
+                        if (GameInfo.CurrentGame.HandingItem != null)
+                            if (GameInfo.CurrentGame.HandingItem.SecurityClearance >= 5)
+                            {
+                                willRun = true;
+                            }
                         break;
                     default:
                         break;

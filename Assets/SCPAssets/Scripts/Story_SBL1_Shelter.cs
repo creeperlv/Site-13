@@ -12,13 +12,15 @@ namespace Site13Kernel.Stories
     public class Story_SBL1_Shelter : SCPStoryNodeBaseCode
     {
         public SCPDoor outDoor;
+        public SCPDoor outDoor2;
         public SCPLangScreen TipText;
         public AudioSource Warhead1;
         public AudioSource WarheadThenThresher;
         GameObject BlackCover;
         SCPEntity entity;
         #region CharlieYukon
-        public Animator CharlieYukonStory;
+        public GameObject CharlieYukonStory;
+        public GameObject Barrier;
         public List<AudioSource> CombatSounds;
         public AudioSource CYTeam01;
         public List<GameObject> Splashes;
@@ -26,6 +28,7 @@ namespace Site13Kernel.Stories
         // Start is called before the first frame update
         void Start()
         {
+            isStoryRequiresPlayer = true;
             BlackCover = GlobalSceneExecutor.CurrentExecutor.BlackCover;
         }
 
@@ -114,7 +117,7 @@ namespace Site13Kernel.Stories
                 entity.gameObject.GetComponent<SCPFirstController>().enabled = false;
                 yield return new WaitForSeconds(3f);
                 BlackCover.SetActive(false);
-
+                entity.gameObject.SetActive(false);
                 foreach (var item in CombatSounds)
                 {
                     item.Play();
@@ -123,6 +126,7 @@ namespace Site13Kernel.Stories
                 CharlieYukonStory.gameObject.SetActive(true);
                 yield return new WaitForSeconds(11f);
                 CharlieYukonStory.gameObject.SetActive(false);
+                entity.gameObject.SetActive(true);
                 foreach (var item in CombatSounds)
                 {
                     item.Stop();
@@ -133,6 +137,7 @@ namespace Site13Kernel.Stories
                 entity.gameObject.GetComponent<SCPFirstController>().enabled = true;
                 GameInfo.CurrentGame.secondaryNotification.ShowNotification("1 Day After Thresher Protocol");
                 outDoor.IsLocked = false;
+                outDoor2.IsLocked = false;
             }
             yield return null;
         }
@@ -152,6 +157,7 @@ namespace Site13Kernel.Stories
             yield return new WaitForSeconds(99f);
             BlackCover.SetActive(true);
             entity.ChangeHealth(-200f);
+            entity.Die();
 
         }
     }

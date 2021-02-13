@@ -12,7 +12,7 @@ namespace Site13Kernel
         float DeltaY = 0;
         float DeltaX = 0;
         float DeltaZ = 0;
-//        public GameObject Player;
+        //        public GameObject Player;
         public AudioSource MOV;
         public bool isInSiteEvaluator = false;
         public int TargetScene;
@@ -28,6 +28,7 @@ namespace Site13Kernel
         public string StateOverFlag;
         [Tooltip("Toogle entities to prevent some problems")]
         public GameObject EntityGroup;
+        public bool isInsideDoor = false;
         public IEnumerator ShowHighLight()
         {
             HighlightIcon.gameObject.SetActive(true);
@@ -37,7 +38,6 @@ namespace Site13Kernel
         }
         public override IEnumerator Move()
         {
-            Debug.Log("Evaluator Activated.");
             try
             {
 
@@ -55,13 +55,13 @@ namespace Site13Kernel
                     StartCoroutine(Close());
                     yield return new WaitForSeconds(DurationTime);
                     MOV.Play();
-                    yield return new WaitForSeconds(10f);
-                    //Find All Entities;
                     var detector = transform.parent.Find("EvaluatorEntityDetector").GetComponent<SCPEvaluatorDetector>();
                     DeltaX = detector.DeltaX;
                     DeltaY = detector.DeltaY;
                     DeltaZ = detector.DeltaZ;
                     List<int> ids = new List<int>();
+                    List<GameObject> ToTransfer = new List<GameObject>();
+                    //Find All Entities;
                     foreach (var item in detector.TargetEntities)
                     {
                         if (ids.IndexOf(item.GetInstanceID()) >= 0)
@@ -70,29 +70,53 @@ namespace Site13Kernel
                         }
                         else
                         {
-                            var lp = item.transform.position;
-                            lp.x += DeltaX;
-                            lp.y += DeltaY;
-                            lp.z += DeltaZ;
-                            item.transform.position = lp;
                             ids.Add(item.GetInstanceID());
+                            ToTransfer.Add(item.gameObject);
                         }
                     }
+                    yield return new WaitForSeconds(10f);
+                    foreach (var item in ToTransfer)
+                    {
+                        Debug.Log("Transfer:" + item.name);
+                        var lp = item.transform.position;
+                        lp.x += DeltaX;
+                        lp.y += DeltaY;
+                        lp.z += DeltaZ;
+                        item.transform.position = lp;
+
+                    }
                     StartCoroutine(TargetDoor.Open());
+                    Debug.Log(">>Tried to open target door.");
                 }
                 else
                 {
+                    if (isInsideDoor)
+                    {
+                        if (JudgeWhetherOpen() == false)
+                            StartCoroutine(Open());
 
-                    StartCoroutine(TargetDoor.Close());
+                        try
+                        {
+
+                            transform.parent.GetChild(0).GetComponent<SCPDoor>().isOperating = false;
+                            transform.parent.GetChild(1).GetComponent<SCPDoor>().isOperating = false;
+                        }
+                        catch (System.Exception)
+                        {
+                        }
+                        yield break;
+                    }
+                    else
+                        StartCoroutine(TargetDoor.Close());
                     yield return new WaitForSeconds(DurationTime);
                     MOV.Play();
-                    yield return new WaitForSeconds(10f);
-                    //Find All Entities;
                     var detector = transform.parent.Find("EvaluatorEntityDetector").GetComponent<SCPEvaluatorDetector>();
                     DeltaX = detector.DeltaX;
                     DeltaY = detector.DeltaY;
                     DeltaZ = detector.DeltaZ;
                     List<int> ids = new List<int>();
+                    List<GameObject> ToTransfer = new List<GameObject>();
+                    //Find All Entities;
                     foreach (var item in detector.TargetEntities)
                     {
                         if (ids.IndexOf(item.GetInstanceID()) >= 0)
@@ -101,15 +125,32 @@ namespace Site13Kernel
                         }
                         else
                         {
-                            var lp = item.transform.position;
-                            lp.x += DeltaX;
-                            lp.y += DeltaY;
-                            lp.z += DeltaZ;
-                            item.transform.position = lp;
+                            Debug.Log("Transfer:" + item.name);
                             ids.Add(item.GetInstanceID());
+                            ToTransfer.Add(item.gameObject);
                         }
                     }
-                    StartCoroutine(Open());
+                    yield return new WaitForSeconds(10f);
+                    foreach (var item in ToTransfer)
+                    {
+                        var lp = item.transform.position;
+                        lp.x += DeltaX;
+                        lp.y += DeltaY;
+                        lp.z += DeltaZ;
+                        item.transform.position = lp;
+
+                    }
+                    if (isInsideDoor)
+                    {
+                        if (TargetDoor.JudgeWhetherOpen() == false)
+                            StartCoroutine(TargetDoor.Open());
+
+                    }
+                    else
+                    {
+                            StartCoroutine(Open());
+                    }
+                    Debug.Log(">>Tried to open target door.");
                 }
             }
             else
