@@ -17,6 +17,7 @@ namespace Site13Kernel.Stories
         public AudioSource Warhead1;
         public AudioSource WarheadThenThresher;
         GameObject BlackCover;
+        public GameObject AirBarrier;
         SCPEntity entity;
         #region CharlieYukon
         public GameObject CharlieYukonStory;
@@ -46,6 +47,7 @@ namespace Site13Kernel.Stories
             catch (System.Exception)
             {
             }
+            AirBarrier.SetActive(true);
             if (WarHeadTip != "Disabled")
             {
                 StartCoroutine(WarheadAndDetonate());
@@ -139,6 +141,7 @@ namespace Site13Kernel.Stories
                 GameInfo.CurrentGame.secondaryNotification.ShowNotification("1 Day After Thresher Protocol");
                 outDoor.IsLocked = false;
                 outDoor2.IsLocked = false;
+                AirBarrier.SetActive(false);
             }
             yield return null;
         }
