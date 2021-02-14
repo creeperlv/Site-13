@@ -12,6 +12,7 @@ namespace Site13Kernel
         public GameObject DebugPanel;
         public GameObject PausePanel;
         public GameObject ItemsTip;
+        public GameObject NaviHUD;
         public Button ContinueGame;
         public Button MainMenuButton;
         public Button SaveButtonToRegister;
@@ -53,13 +54,19 @@ namespace Site13Kernel
                 if (Input.GetButton("Bag"))
                 {
                     if (ItemsTip.activeInHierarchy == false)
+                    {
                         ItemsTip.SetActive(true);
+                        NaviHUD.SetActive(false);
+                    }
 
                 }
                 else
                 {
                     if (ItemsTip.activeInHierarchy == true)
+                    {
                         ItemsTip.SetActive(false);
+                        NaviHUD.SetActive(true);
+                    }
                 }
                 if (Input.GetKey( KeyCode.F5))
                 {

@@ -134,6 +134,7 @@ namespace Site13Kernel.Stories
                 BlackCover.SetActive(true);
                 yield return new WaitForSeconds(3f);
                 BlackCover.SetActive(false);
+                Barrier.SetActive(true);
                 entity.gameObject.GetComponent<SCPFirstController>().enabled = true;
                 GameInfo.CurrentGame.secondaryNotification.ShowNotification("1 Day After Thresher Protocol");
                 outDoor.IsLocked = false;
