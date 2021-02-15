@@ -97,6 +97,17 @@ namespace Site13Kernel.FPSSystem
                 }
             }
         }
+        public string GetKey(string Name, DeviceType deviceType)
+        {
+            if(deviceType== DeviceType.Keyboard)
+            {
+                foreach (var item in KeyMap[Name])
+                {
+                    if (item.DeviceType == deviceType) return item.PositiveKey.ToString();
+                }
+            }
+            return "";
+        }
         public void SetKey(string InputName, DeviceType deviceType, KeyCode key, bool isNegative)
         {
 
