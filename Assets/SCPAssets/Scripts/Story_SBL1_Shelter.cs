@@ -126,7 +126,7 @@ namespace Site13Kernel.Stories
                     yield return new WaitForSeconds(0.1f);
                 }
                 CharlieYukonStory.gameObject.SetActive(true);
-                yield return new WaitForSeconds(11f);
+                yield return new WaitForSeconds(15f);
                 CharlieYukonStory.gameObject.SetActive(false);
                 entity.gameObject.SetActive(true);
                 foreach (var item in CombatSounds)
