@@ -446,9 +446,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugPanel: {fileID: 5478445421948783880}
+  HintPanel: {fileID: 0}
   PausePanel: {fileID: 6016239835033510259}
   ItemsTip: {fileID: 375592842996502453}
   NaviHUD: {fileID: 0}
+  HintText: {fileID: 0}
   ContinueGame: {fileID: 1114240133109922610}
   MainMenuButton: {fileID: 3277241264974640797}
   SaveButtonToRegister: {fileID: 4087840804665130298}
@@ -8986,12 +8988,12 @@ GameObject:
   - component: {fileID: 4766972100683792554}
   - component: {fileID: 7842938714380039493}
   m_Layer: 0
-  m_Name: Panel
+  m_Name: HintPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3213147348040151768
 RectTransform:
   m_ObjectHideFlags: 0

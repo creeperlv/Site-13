@@ -1,4 +1,5 @@
-﻿using Site_13ToolLib.Globalization;
+﻿using HUDNavi;
+using Site_13ToolLib.Globalization;
 using Site13Kernel.FPSSystem;
 using Site13Kernel.IO;
 using System.Collections;
@@ -122,7 +123,7 @@ namespace Site13Kernel
                     if (ItemsTip.activeInHierarchy == false)
                     {
                         ItemsTip.SetActive(true);
-                        NaviHUD.SetActive(false);
+                        NavigationCore.CurrentCore.UncullNaviPoint("InfoPoint");
                     }
 
                 }
@@ -131,7 +132,7 @@ namespace Site13Kernel
                     if (ItemsTip.activeInHierarchy == true)
                     {
                         ItemsTip.SetActive(false);
-                        NaviHUD.SetActive(true);
+                        NavigationCore.CurrentCore.CullNaviPoint("InfoPoint");
                     }
                 }
                 if (Input.GetKey(KeyCode.F5))

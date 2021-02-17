@@ -15,6 +15,8 @@ namespace HUDNavi
         public bool ShowDistance;
         public string TargetNavigationPointType;
         public bool WillShowOffScreenPoint = false;
+        [Header("This will override MaxPointDistance, -2 means always show, -1 means no modify.")]
+        public float OverrideMaxShowDistance = -1;
         // Update is called once per frame
         void Update()
         {
