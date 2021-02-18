@@ -118,6 +118,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1989072554255241900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,10 +153,20 @@ MonoBehaviour:
   OnScreenPresets:
   - ID: DEFAULT
     Point: {fileID: 7514191344116635637, guid: 0695d71ee2682424ab21558df214f6ed, type: 3}
+  - ID: Info
+    Point: {fileID: 7514191344116635637, guid: 0d8e02d051e9ede4296925a2d47ee8a8, type: 3}
   OffScreenPresets:
   - ID: DEFAULT
     Point: {fileID: 899475155181690218, guid: 4e22f3a59da1c3d4b94e761d1464a17e, type: 3}
   HUDPointsHolder: {fileID: 7258127985499306875}
   DistancePrecision: 1
+  MaxPointDistance: -1
   DistanceIntensity: 1
   DistanceSI: M
+  ArrowAreaPadding:
+    Up: 100
+    Down: 100
+    Left: 100
+    Right: 100
+  ShowPoints: 1
+  ShowArrows: 1

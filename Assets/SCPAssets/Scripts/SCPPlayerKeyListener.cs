@@ -100,6 +100,7 @@ namespace Site13Kernel
                 GameInfo.CurrentGame.FirstPerson.enabled = true;
                 AudioListener.pause = false;
             });
+            NavigationCore.CurrentCore.CullNaviPoint("Info");
             SaveButtonToRegister.onClick.AddListener(delegate
             {
                 try
@@ -123,7 +124,7 @@ namespace Site13Kernel
                     if (ItemsTip.activeInHierarchy == false)
                     {
                         ItemsTip.SetActive(true);
-                        NavigationCore.CurrentCore.UncullNaviPoint("InfoPoint");
+                        NavigationCore.CurrentCore.UncullNaviPoint("Info");
                     }
 
                 }
@@ -132,7 +133,7 @@ namespace Site13Kernel
                     if (ItemsTip.activeInHierarchy == true)
                     {
                         ItemsTip.SetActive(false);
-                        NavigationCore.CurrentCore.CullNaviPoint("InfoPoint");
+                        NavigationCore.CurrentCore.CullNaviPoint("Info");
                     }
                 }
                 if (Input.GetKey(KeyCode.F5))
