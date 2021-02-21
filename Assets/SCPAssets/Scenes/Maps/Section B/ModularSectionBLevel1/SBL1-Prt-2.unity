@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.003188998, g: 0.0065052803, b: 0.014501665, a: 1}
+  m_IndirectSpecularColor: {r: 0.0030723147, g: 0.006309593, b: 0.0144216735, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1428,6 +1428,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &146965833
 Canvas:
   m_ObjectHideFlags: 0
@@ -3199,6 +3200,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: -7.5, y: 6, z: 1.3e-44, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1001 &435258485
@@ -3735,6 +3737,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 523909957}
+  - component: {fileID: 523909958}
+  - component: {fileID: 523909959}
   m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: Untagged
@@ -3758,6 +3762,40 @@ Transform:
   m_Father: {fileID: 120315069}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: -71.162, z: 0}
+--- !u!114 &523909958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523909956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b0bb2420992b345ac569e51fa09784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MappedHUDPoint: {fileID: 0}
+  MappedHUDArrow: {fileID: 0}
+  Show: 1
+  label: Documentation of punishment on Dr.Bright
+  ShowDistance: 0
+  TargetNavigationPointType: Info
+  WillShowOffScreenPoint: 0
+  OverrideMaxShowDistance: 2
+--- !u!114 &523909959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523909956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16b7e647fb906c4478f4a312545bdfb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DocumentID: DR_BRIGHT_PUNISHMENT
+  Fallback: '[Debug Mode Replacement]'
 --- !u!1001 &530059340
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6386,7 +6424,7 @@ PrefabInstance:
     - target: {fileID: 62725083508656077, guid: 218ba470385541e47ad007fd6d4b79f2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4609460646303715961, guid: 218ba470385541e47ad007fd6d4b79f2,
         type: 3}
@@ -6466,7 +6504,7 @@ PrefabInstance:
     - target: {fileID: 6889180791080833744, guid: 218ba470385541e47ad007fd6d4b79f2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 218ba470385541e47ad007fd6d4b79f2, type: 3}
@@ -7826,6 +7864,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1001 &1021961165
@@ -10400,6 +10439,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 3.697e-42, y: 3.678e-42, z: 3.708e-42, w: 3.708e-42}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1001 &1289253482
@@ -10958,6 +10998,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1001 &1328643414
@@ -11421,6 +11462,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1370919526
 Canvas:
   m_ObjectHideFlags: 0
@@ -16081,6 +16123,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1885878641
 Canvas:
   m_ObjectHideFlags: 0
@@ -16506,6 +16549,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1001 &1950630462
