@@ -16,6 +16,7 @@ namespace Site13Kernel.Stories
         public SCPLangScreen TipText;
         public AudioSource Warhead1;
         public AudioSource WarheadThenThresher;
+        public GameObject BeforeThresherExplode;
         GameObject BlackCover;
         public GameObject AirBarrier;
         SCPEntity entity;
@@ -142,6 +143,7 @@ namespace Site13Kernel.Stories
                 outDoor.IsLocked = false;
                 outDoor2.IsLocked = false;
                 AirBarrier.SetActive(false);
+                BeforeThresherExplode.SetActive(false);
             }
             yield return null;
         }
