@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-namespace Site13Kernel
+namespace Site13Kernel.Audio
 {
 
     public class SCPBGMManager : MonoBehaviour
