@@ -38,11 +38,45 @@ namespace Site13Kernel.IO
             {
                 DataBuffer dataBuffer = DataBuffer.FromByteArray(File.ReadAllBytes(FPSControllerInfoPath));
                 MainController.gameObject.SetActive(dataBuffer.ReadBool());
+
                 ByteBuffer byteBuffer = dataBuffer.ObtainByteArray();
+                
+
                 var FPSTransform = Utilities.FromBytes(byteBuffer.GetGroup());
                 MainController.transform.position = FPSTransform.Item1;
                 MainController.transform.rotation = FPSTransform.Item2;
                 MainController.transform.localScale = FPSTransform.Item3;
+                {
+                    //Other Flags, etc.
+                    DataBuffer dataBuffer1 = DataBuffer.FromByteArray(byteBuffer.GetGroup());
+                    while (dataBuffer1.Length!=0)
+                    {
+                        switch (dataBuffer1.ReadInt())
+                        {
+                            case 0x01:
+                                {
+
+                                    {
+                                        //Deserialize Dictionary;
+                                        int Size = dataBuffer1.ReadInt();
+                                        for (int i = 0; i < Size; i++)
+                                        {
+                                            var key = dataBuffer1.ReadString();
+                                            var Value = dataBuffer1.ReadBool();
+                                            if (SceneLightManager.LightStates.ContainsKey(key))
+                                                SceneLightManager.LightStates[key] = Value;
+                                            else
+                                                SceneLightManager.LightStates.Add(key, Value);
+                                        }
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                }
             }
             {
                 //Load Scenes.
@@ -62,6 +96,20 @@ namespace Site13Kernel.IO
                 dataBuffer.WriteBool(PrimarySceneController.CurrentPrimaryScene.MainCharacter.gameObject.activeSelf);
                 ByteBuffer byteBuffer = dataBuffer.ObtainByteArray();
                 byteBuffer.AppendGroup(Utilities.FromTransform(PrimarySceneController.CurrentPrimaryScene.MainCharacter.transform));
+
+                {
+                    //Serialize Flags, etc.
+                    DataBuffer dataBuffer1 = new DataBuffer();
+                    dataBuffer1.WriteInt(GlobalSavesCode.LightStates);
+                    {
+                        dataBuffer1.WriteInt(SceneLightManager.LightStates.Count);
+                        foreach (var item in SceneLightManager.LightStates)
+                        {
+                            dataBuffer1.WriteString(item.Key);
+                            dataBuffer1.WriteBool(item.Value);
+                        }
+                    }
+                }
                 File.WriteAllBytes(FPSControllerInfoPath, byteBuffer);
             }
             {
@@ -146,5 +194,8 @@ namespace Site13Kernel.IO
         {
         }
     }
-
+    public static class GlobalSavesCode
+    {
+        public readonly static int LightStates = 0x01;
+    }
 }
