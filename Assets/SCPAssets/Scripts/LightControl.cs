@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Site13Kernel.DynamicScene;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Site13Kernel
     public class LightControl : SCPInteractive
     {
         public GameObject LightsCollection;
+        public bool isNewLightControl = false;
         public int AchievementID = -1;
         public AudioSource SFX;
         public Text Tip;
@@ -17,31 +19,47 @@ namespace Site13Kernel
         {
             isOperating = true;
             SFX.Play();
-            if (LightsCollection.activeInHierarchy == true)
+            if (isNewLightControl == false)
             {
-                Tip.text = "LIGHTS OFF";
-                LightsCollection.SetActive(false);
+
+                if (LightsCollection.activeInHierarchy == true)
+                {
+                    Tip.text = "LIGHTS OFF";
+                    LightsCollection.SetActive(false);
+                }
+                else
+                {
+                    if (AchievementID != -1)
+                    {
+
+                        if (GameInfo.Achievements.Count == 0)
+                        {
+                            GameInfo.CurrentGame.achievement.ShowAchievement(AchievementID);
+                        }
+                        else
+                        if (AchievementID != -1)
+                            if (GameInfo.Achievements[AchievementID - 1] == false)
+                            {
+                                GameInfo.Achievements[AchievementID - 1] = true;
+                                GameInfo.SaveAchievements();
+                                GameInfo.CurrentGame.achievement.ShowAchievement(AchievementID);
+                            }
+                    }
+                    Tip.text = "LIGHTS ON";
+                    LightsCollection.SetActive(true);
+                }
             }
             else
             {
-                if (AchievementID != -1)
+                SceneLightManager.CurrentManager.SetLightState(!SceneLightManager.CurrentManager.GetCurrentLightState());
+                if (SceneLightManager.CurrentManager.GetCurrentLightState())
                 {
-
-                    if (GameInfo.Achievements.Count == 0)
-                    {
-                        GameInfo.CurrentGame.achievement.ShowAchievement(AchievementID);
-                    }
-                    else
-                    if (AchievementID != -1)
-                        if (GameInfo.Achievements[AchievementID - 1] == false)
-                        {
-                            GameInfo.Achievements[AchievementID - 1] = true;
-                            GameInfo.SaveAchievements();
-                            GameInfo.CurrentGame.achievement.ShowAchievement(AchievementID);
-                        }
+                    Tip.text = "LIGHTS ON";
                 }
-                Tip.text = "LIGHTS ON";
-                LightsCollection.SetActive(true);
+                else
+                {
+                    Tip.text = "LIGHTS OFF";
+                }
             }
             yield return new WaitForSeconds(0.5f);
             isOperating = false;
