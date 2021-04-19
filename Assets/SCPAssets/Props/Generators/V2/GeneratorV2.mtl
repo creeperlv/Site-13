@@ -1,0 +1,20 @@
+newmtl diffuse
+map_Kd -o 0 0 -s 0.5 0.5 diffuse.tga
+bump -o 0 0 -s 1 1 normal.tga
+Kd 0.6132076 0.6132076 0.6132076
+d 1
+
+newmtl diffuse_1
+map_Kd -o 0 0 -s 1 1 diffuse.tga
+bump -o 0 0 -s 1 1 Carvings.png
+map_Ke -o 0 0 -s 1 1 Emission.png
+Kd 0.6132076 0.6132076 0.6132076
+d 1
+
+newmtl SCP-M-Black_2
+map_Kd -o 0 0 -s 1 1 Bottom.png
+bump -o 0 0 -s 1 1 Darkmetal_Map.png
+disp -o 0 0 -s 1 1 Darkmetal_Map.png
+Kd 0 0 0
+d 1
+
