@@ -74,7 +74,7 @@ namespace HUDNavi
         }
         public void UpdateDistance(NavigationTarget target, NavigationPoint point)
         {
-            if (point.Distance.text == null) return;
+            if (point.Distance == null) return;
             float l = (target.transform.position - TargetCamera.transform.position).magnitude * DistanceIntensity;
             point.Distance.text = $"{l.ToString($"f{DistancePrecision}")} {DistanceSI}";
         }
@@ -112,8 +112,10 @@ namespace HUDNavi
                             }
                         }
                         item.MappedHUDArrow = GameObject.Instantiate(Preferred, HUDPointsHolder.transform).GetComponent<NavigationPoint>();
-                        if (item.MappedHUDPoint.Label != null)
-                            item.MappedHUDArrow.Label.text = item.label;
+                        if (item != null)
+                        if (item.MappedHUDPoint != null)
+                            if (item.MappedHUDPoint.Label != null)
+                                item.MappedHUDArrow.Label.text = item.label;
                     }
                     bool willShow = true;
                     if (MaxPointDistance != -1)
@@ -137,7 +139,21 @@ namespace HUDNavi
                         }
                         else willShow = true;
                     }
-                    if(willShow == true)
+                    else
+                    {
+                        if (item.OverrideMaxShowDistance != -2)
+                        {
+                            if (item.OverrideMaxShowDistance != -1)
+                            {
+                                if ((item.transform.position - TargetCamera.transform.position).magnitude > item.OverrideMaxShowDistance)
+                                {
+                                    willShow = false;
+                                }
+                            }
+                        }
+                        else willShow = true;
+                    }
+                    if (willShow == true)
                     {
                         foreach (var CulledID in CullingIDs)
                         {
