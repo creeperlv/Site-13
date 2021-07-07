@@ -29,39 +29,39 @@ public class DoorDetectionLite : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Reach, 1 << 0, QueryTriggerInteraction.Ignore))
                 {
-                    if (hit.collider.tag == "Interactive")
+                    //if (hit.collider.tag == "Interactive")
                     {
                         InReach = true;
 
                         GameObject Prop = hit.transform.gameObject;
 
                         SCPInteractive PropCode = Prop.GetComponent<SCPInteractive>();
-
-                        if (PropCode.isOperating == false)
-                        {
-                            var code = hit.collider.GetComponent<SCPInteractive>();
-                            if (code.isRequireLockCamera == true)
+                        if (PropCode != null)
+                            if (PropCode.isOperating == false)
                             {
-                                ReadingPanel.SetActive(true);
-                                RealReading.SetActive(true);
-                                aIO.enabled = false;
-                                Cursor.lockState = CursorLockMode.None;
-                                Cursor.visible = true;
-                                var c = RealReading.transform.childCount;
-                                for (int i = 0; i < c; i++)
+                                var code = hit.collider.GetComponent<SCPInteractive>();
+                                if (code.isRequireLockCamera == true)
                                 {
-                                    RealReading.transform.GetChild(i).gameObject.SetActive(false);
+                                    ReadingPanel.SetActive(true);
+                                    RealReading.SetActive(true);
+                                    aIO.enabled = false;
+                                    Cursor.lockState = CursorLockMode.None;
+                                    Cursor.visible = true;
+                                    var c = RealReading.transform.childCount;
+                                    for (int i = 0; i < c; i++)
+                                    {
+                                        RealReading.transform.GetChild(i).gameObject.SetActive(false);
+                                    }
                                 }
+                                StartCoroutine(code.Move());
+                                StartCoroutine(code.Move(this.gameObject));
                             }
-                            StartCoroutine(code.Move());
-                            StartCoroutine(code.Move(this.gameObject));
-                        }
                     }
 
-                    else
-                    {
-                        InReach = false;
-                    }
+                    //else
+                    //{
+                    //    InReach = false;
+                    //}
                 }
                 else
                 {
