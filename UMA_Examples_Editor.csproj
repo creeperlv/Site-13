@@ -56,12 +56,12 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Legacy\BRDFLookupTextureInspector.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\DynamicCharacterSystem Examples\PhotoBoothInspector.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Legacy\EnvPresetChooserEd.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Jiggle\JiggleButtEditor.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Jiggle\JiggleBreastEditor.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Legacy\BRDFLookupTextureInspector.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Physics\UMABoneVisualizerEditor.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\DynamicCharacterSystem Examples\PhotoBoothInspector.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Physics\ClothHelperEditor.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -296,11 +296,11 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.10f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Site-13-Plug-in-Lib">
-      <HintPath>Assets\Plugins\Site-13-Plug-in-Lib.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Collections.LowLevel.ILSupport">
       <HintPath>Library\PackageCache\com.unity.collections@0.15.0-preview.21\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+    </Reference>
+    <Reference Include="Site-13-Plug-in-Lib">
+      <HintPath>Assets\Plugins\Site-13-Plug-in-Lib.dll</HintPath>
     </Reference>
     <Reference Include="Site13ExternalKernel">
       <HintPath>Assets\Plugins\Site13ExternalKernel.dll</HintPath>
@@ -339,7 +339,7 @@
       <HintPath>Assets\Plugins\Site-13ToolsLib.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst.Unsafe">
-      <HintPath>Library\PackageCache\com.unity.burst@1.4.3\Unity.Burst.Unsafe.dll</HintPath>
+      <HintPath>Library\PackageCache\com.unity.burst@1.4.8\Unity.Burst.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>Library\PackageCache\com.unity.analytics@3.5.3\Unity.Analytics.Tracker.dll</HintPath>

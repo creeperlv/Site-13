@@ -56,21 +56,33 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Editor\EditorHelper.cs" />
+    <Compile Include="Assets\Aura\Editor\Helpers\GuiHelpers.cs" />
+    <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Utils\TCKEditorLayout.cs" />
     <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Editor\EditorHelper.EditorUIContent.cs" />
     <Compile Include="Assets\Aura\Editor\Helpers\MeshHelpers.cs" />
     <Compile Include="Assets\FromAssetStore\Ameye\Alex&apos;s Door System Lite\Editor\DoorRotationLiteEditor.cs" />
     <Compile Include="Assets\AdultLink\ShieldShader\Editor\HoloShieldEditor.cs" />
+    <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\CustomInspectors\Controllers\Base\AxesBasedControllerEditor.cs" />
     <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\CustomInspectors\Controllers\Base\ControllerBaseEditor.cs" />
+    <Compile Include="Assets\FromAssetStore\Ameye\Alex&apos;s Door System Lite\Editor\ErrorWindow.cs" />
+    <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Windows\TCKWindow.cs" />
     <Compile Include="Assets\FromAssetStore\Ameye\Alex&apos;s Door System Lite\Editor\ConditionalHidePropertyDrawer.cs" />
     <Compile Include="Assets\Table and chair\Standard Assets\Effects\CinematicEffects(BETA)\DepthOfField\Editor\DepthOfFieldEditor.cs" />
     <Compile Include="Assets\FromAssetStore\Ameye\Alex&apos;s Door System Lite\Editor\TagHelper.cs" />
     <Compile Include="Assets\Aura\Editor\Editors\AuraVolumeEditor.cs" />
     <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Utils\TCKEditorChangeCheck.cs" />
+    <Compile Include="Assets\Table and chair\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Editor\TonemappingColorGradingEditor.cs" />
     <Compile Include="Assets\Tutorial_Info\Scripts\Editor\ReadmeEditor.cs" />
     <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Initialize\TCKInitialize.cs" />
     <Compile Include="Assets\Aura\Editor\Extensions\Texture3DExtensions.cs" />
+    <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Editor\MinMaxRangeDrawer.cs" />
     <Compile Include="Assets\Aura\Editor\Drawers\Texture3DPreviewDrawer.cs" />
+    <Compile Include="Assets\Aura\Editor\Editors\Texture3DEditor.cs" />
+    <Compile Include="Assets\Aura\Editor\Editors\AuraLightEditor.cs" />
     <Compile Include="Assets\Aura\Editor\Helpers\PreviewRenderUtilityHelpers.cs" />
+    <Compile Include="Assets\FromAssetStore\Ameye\Alex&apos;s Door System Lite\Editor\EditorStylesHelper.cs" />
+    <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Extensions\SerializedPropertyExtensions.cs" />
     <Compile Include="Assets\FromAssetStore\Ameye\Alex&apos;s Door System Lite\Editor\ChangeLog.cs" />
     <Compile Include="Assets\FromAssetStore\Ameye\Alex&apos;s Door System Lite\Editor\SupportWindow.cs" />
     <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Utils\TCKPrefabCreator.cs" />
@@ -78,33 +90,21 @@
     <Compile Include="Assets\PyroParticles\Prefab\Editor\PyroParticlesEditor.cs" />
     <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Utils\TCKEditorHelper.cs" />
     <Compile Include="Assets\SplendidExplosionLite\Editor\PromoWindow.cs" />
+    <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Editor\MKGlowEditor.cs" />
     <Compile Include="Assets\FromAssetStore\Ameye\Alex&apos;s Door System Lite\Editor\DoorDetectionLiteEditor.cs" />
     <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Utils\TCKEditorStyle.cs" />
     <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Editor\SelectiveStandardShaderGUI.cs" />
-    <Compile Include="Assets\FromAssetStore\AssetStoreOriginals\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\PackageChecker.cs" />
-    <Compile Include="Assets\Aura\Editor\Editors\AuraEditor.cs" />
-    <Compile Include="Assets\Aura\Editor\Editors\CreateTexture3DAssetTool.cs" />
-    <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Editor\EditorHelper.cs" />
-    <Compile Include="Assets\Aura\Editor\Helpers\GuiHelpers.cs" />
-    <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Utils\TCKEditorLayout.cs" />
-    <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\CustomInspectors\Controllers\Base\AxesBasedControllerEditor.cs" />
-    <Compile Include="Assets\FromAssetStore\Ameye\Alex&apos;s Door System Lite\Editor\ErrorWindow.cs" />
-    <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Windows\TCKWindow.cs" />
-    <Compile Include="Assets\Table and chair\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Editor\TonemappingColorGradingEditor.cs" />
-    <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Editor\MinMaxRangeDrawer.cs" />
-    <Compile Include="Assets\Aura\Editor\Editors\Texture3DEditor.cs" />
-    <Compile Include="Assets\Aura\Editor\Editors\AuraLightEditor.cs" />
-    <Compile Include="Assets\FromAssetStore\Ameye\Alex&apos;s Door System Lite\Editor\EditorStylesHelper.cs" />
-    <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Extensions\SerializedPropertyExtensions.cs" />
-    <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Editor\MKGlowEditor.cs" />
     <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\Windows\Tabs\TCKAboutTab.cs" />
     <Compile Include="Assets\Table and chair\Standard Assets\Effects\CinematicEffects(BETA)\ScreenSpaceReflection\Editor\ScreenSpaceReflectionEditor.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\Utilities\Editor\TerrianToMesh.cs" />
+    <Compile Include="Assets\FromAssetStore\AssetStoreOriginals\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\PackageChecker.cs" />
     <Compile Include="Assets\Aura\Editor\Drawers\ColorCircularPickerDrawer.cs" />
     <Compile Include="Assets\Aura\Editor\Statics\GuiStyles.cs" />
+    <Compile Include="Assets\Aura\Editor\Editors\AuraEditor.cs" />
     <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\CustomInspectors\Controllers\TCKButtonEditor.cs" />
     <Compile Include="Assets\Aura\Editor\Enums\Texture3DReadingOrderEnum.cs" />
     <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Editor\CustomInspectors\Controllers\TCKTouchpadEditor.cs" />
+    <Compile Include="Assets\Aura\Editor\Editors\CreateTexture3DAssetTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Aura\Editor\Shaders\Texture3DPreviewShader.shader" />
@@ -341,11 +341,11 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.10f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Site-13-Plug-in-Lib">
-      <HintPath>Assets\Plugins\Site-13-Plug-in-Lib.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Collections.LowLevel.ILSupport">
       <HintPath>Library\PackageCache\com.unity.collections@0.15.0-preview.21\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+    </Reference>
+    <Reference Include="Site-13-Plug-in-Lib">
+      <HintPath>Assets\Plugins\Site-13-Plug-in-Lib.dll</HintPath>
     </Reference>
     <Reference Include="Site13ExternalKernel">
       <HintPath>Assets\Plugins\Site13ExternalKernel.dll</HintPath>
@@ -384,7 +384,7 @@
       <HintPath>Assets\Plugins\Site-13ToolsLib.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst.Unsafe">
-      <HintPath>Library\PackageCache\com.unity.burst@1.4.3\Unity.Burst.Unsafe.dll</HintPath>
+      <HintPath>Library\PackageCache\com.unity.burst@1.4.8\Unity.Burst.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>Library\PackageCache\com.unity.analytics@3.5.3\Unity.Analytics.Tracker.dll</HintPath>
@@ -752,6 +752,12 @@
     <Reference Include="UnityEngine.TestRunner">
       <HintPath>Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Transforms.Hybrid">
+      <HintPath>Library\ScriptAssemblies\Unity.Transforms.Hybrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Recorder.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Recorder.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Properties">
       <HintPath>Library\ScriptAssemblies\Unity.Properties.dll</HintPath>
     </Reference>
@@ -761,20 +767,44 @@
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.CacheServer">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.CacheServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Addressables">
       <HintPath>Library\ScriptAssemblies\Unity.Addressables.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.CacheServer">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.CacheServer.dll</HintPath>
+    <Reference Include="Unity.ProBuilder">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Analytics">
+      <HintPath>Library\ScriptAssemblies\Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
       <HintPath>Library\ScriptAssemblies\Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Entities.Hybrid.EndToEnd.Tests">
+      <HintPath>Library\ScriptAssemblies\Unity.Entities.Hybrid.EndToEnd.Tests.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Properties.UI.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Properties.UI.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Scenes">
+      <HintPath>Library\ScriptAssemblies\Unity.Scenes.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics.Extensions">
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Extensions.dll</HintPath>
@@ -791,14 +821,47 @@
     <Reference Include="Unity.Addressables.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Addressables.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProGrids">
+      <HintPath>Library\ScriptAssemblies\Unity.ProGrids.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Recorder">
+      <HintPath>Library\ScriptAssemblies\Unity.Recorder.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Scenes.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Scenes.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Extensions.Hybrid">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Extensions.Hybrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Tilemap.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Recorder.Base">
+      <HintPath>Library\ScriptAssemblies\Unity.Recorder.Base.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Entities.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Entities.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder.AddOns.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Entities.BuildUtils">
+      <HintPath>Library\ScriptAssemblies\Unity.Entities.BuildUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualStudio.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline">
+      <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ResourceManager">
       <HintPath>Library\ScriptAssemblies\Unity.ResourceManager.dll</HintPath>
@@ -821,98 +884,26 @@
     <Reference Include="Unity.Entities.Hybrid">
       <HintPath>Library\ScriptAssemblies\Unity.Entities.Hybrid.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Mathematics">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
-      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Properties.UI">
-      <HintPath>Library\ScriptAssemblies\Unity.Properties.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ScriptableBuildPipeline">
-      <HintPath>Library\ScriptAssemblies\Unity.ScriptableBuildPipeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Serialization.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Serialization.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Transforms.Hybrid">
-      <HintPath>Library\ScriptAssemblies\Unity.Transforms.Hybrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Recorder.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Recorder.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder">
-      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="Analytics">
-      <HintPath>Library\ScriptAssemblies\Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Entities.Hybrid.EndToEnd.Tests">
-      <HintPath>Library\ScriptAssemblies\Unity.Entities.Hybrid.EndToEnd.Tests.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Scenes">
-      <HintPath>Library\ScriptAssemblies\Unity.Scenes.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProGrids">
-      <HintPath>Library\ScriptAssemblies\Unity.ProGrids.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Recorder">
-      <HintPath>Library\ScriptAssemblies\Unity.Recorder.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Scenes.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Scenes.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics.Extensions.Hybrid">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Extensions.Hybrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Tilemap.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Recorder.Base">
-      <HintPath>Library\ScriptAssemblies\Unity.Recorder.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Entities.BuildUtils">
-      <HintPath>Library\ScriptAssemblies\Unity.Entities.BuildUtils.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VisualStudio.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline">
-      <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+    <Reference Include="Unity.Polybrush.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Polybrush.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Postprocessing.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Polybrush.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Polybrush.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Polybrush">
       <HintPath>Library\ScriptAssemblies\Unity.Polybrush.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst">
       <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Jobs">
       <HintPath>Library\ScriptAssemblies\Unity.Jobs.dll</HintPath>
@@ -922,6 +913,15 @@
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Properties.UI">
+      <HintPath>Library\ScriptAssemblies\Unity.Properties.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ScriptableBuildPipeline">
+      <HintPath>Library\ScriptAssemblies\Unity.ScriptableBuildPipeline.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Serialization.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Serialization.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ScriptableBuildPipeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
