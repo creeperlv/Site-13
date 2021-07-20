@@ -59,12 +59,12 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Legacy\BRDFLookupTextureInspector.cs" />
-    <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\DynamicCharacterSystem Examples\PhotoBoothInspector.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Legacy\EnvPresetChooserEd.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Jiggle\JiggleButtEditor.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Jiggle\JiggleBreastEditor.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Legacy\BRDFLookupTextureInspector.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Physics\UMABoneVisualizerEditor.cs" />
+    <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\DynamicCharacterSystem Examples\PhotoBoothInspector.cs" />
     <Compile Include="Assets\FromAssetStore\UMA\Examples\Editor\Physics\ClothHelperEditor.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -311,35 +311,14 @@
     <Reference Include="UnityEditor.LinuxStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.1.15f1\Editor\Data\PlaybackEngines\LinuxStandaloneSupport\UnityEditor.LinuxStandalone.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Site-13-Plug-in-Lib">
-      <HintPath>Assets\Plugins\Site-13-Plug-in-Lib.dll</HintPath>
+    <Reference Include="unityplastic">
+      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.5.7\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
     </Reference>
     <Reference Include="Site13ExternalKernel">
       <HintPath>Assets\Plugins\Site13ExternalKernel.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>Library\PackageCache\com.unity.analytics@3.5.3\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="Site-13-IL">
-      <HintPath>Assets\Plugins\Site-13-IL.dll</HintPath>
-    </Reference>
-    <Reference Include="CLUNL">
-      <HintPath>Assets\Plugins\CLUNL.dll</HintPath>
-    </Reference>
-    <Reference Include="Site-13-Behavior">
-      <HintPath>Assets\Plugins\Site-13-Behavior.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Cecil.Pdb">
-      <HintPath>Library\PackageCache\com.unity.burst@1.5.4\Unity.Burst.CodeGen\Unity.Burst.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="log4netPlastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.5.7\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
-    </Reference>
-    <Reference Include="SCPVer">
-      <HintPath>Assets\Plugins\SCPVer.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>Library\PackageCache\com.unity.analytics@3.5.3\Unity.Analytics.Editor.dll</HintPath>
@@ -353,17 +332,35 @@
     <Reference Include="Site-13ToolsLib">
       <HintPath>Assets\Plugins\Site-13ToolsLib.dll</HintPath>
     </Reference>
+    <Reference Include="Site-13-IL">
+      <HintPath>Assets\Plugins\Site-13-IL.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Burst.Unsafe">
       <HintPath>Library\PackageCache\com.unity.burst@1.5.4\Unity.Burst.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst.Cecil.Mdb">
       <HintPath>Library\PackageCache\com.unity.burst@1.5.4\Unity.Burst.CodeGen\Unity.Burst.Cecil.Mdb.dll</HintPath>
     </Reference>
+    <Reference Include="CLUNL">
+      <HintPath>Assets\Plugins\CLUNL.dll</HintPath>
+    </Reference>
+    <Reference Include="Site-13-Behavior">
+      <HintPath>Assets\Plugins\Site-13-Behavior.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Cecil.Pdb">
+      <HintPath>Library\PackageCache\com.unity.burst@1.5.4\Unity.Burst.CodeGen\Unity.Burst.Cecil.Pdb.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Burst.Cecil">
       <HintPath>Library\PackageCache\com.unity.burst@1.5.4\Unity.Burst.CodeGen\Unity.Burst.Cecil.dll</HintPath>
     </Reference>
+    <Reference Include="log4netPlastic">
+      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.5.7\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Burst.Cecil.Rocks">
       <HintPath>Library\PackageCache\com.unity.burst@1.5.4\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="SCPVer">
+      <HintPath>Assets\Plugins\SCPVer.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>Library\PackageCache\com.unity.analytics@3.5.3\Unity.Analytics.Tracker.dll</HintPath>
@@ -371,8 +368,11 @@
     <Reference Include="Site-13-IL-HLBE">
       <HintPath>Assets\Plugins\Site-13-IL-HLBE.dll</HintPath>
     </Reference>
-    <Reference Include="unityplastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.5.7\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Site-13-Plug-in-Lib">
+      <HintPath>Assets\Plugins\Site-13-Plug-in-Lib.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
@@ -731,11 +731,11 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.TestRunner">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.TestRunner.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.TestRunner">
       <HintPath>Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TestRunner">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.TestRunner.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
