@@ -12,6 +12,7 @@ namespace Site13Kernel.DynamicScene
         public int TargetSceneID = -1;
         public string TargetSceneName = "#";
         public bool AutoLoad = false;
+        public WorkMode CurrentWorkMode;
         bool loaded = false;
         object FinalLoadedSceneIdentifier;
         Scene LoadedScene;
@@ -190,30 +191,98 @@ namespace Site13Kernel.DynamicScene
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.GetComponent<SCPFirstController>() != null)
+            if (CurrentWorkMode == WorkMode.SceneLoadUnload)
             {
-                if (FinalLoadedSceneIdentifier == null)
+                if (other.gameObject.GetComponent<SCPFirstController>() != null)
                 {
-                    if (loaded == false)
+                    if (FinalLoadedSceneIdentifier == null)
                     {
-                        Debug.Log("Load from enterance:" + TargetSceneID);
-                        LoadTargetScene();
+                        if (loaded == false)
+                        {
+                            Debug.Log("Load from enterance:" + TargetSceneID);
+                            LoadTargetScene();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var gos = LoadedScene.GetRootGameObjects();
+                Debug.Log("GOS:" + gos.Length);
+                foreach (var item in gos)
+                {
+                    if (item.name == "ModularScenePrefab")
+                    {
+                        try
+                        {
+                            var Objects = item.GetComponent<ModularSceneObjects>();
+                            foreach (var Component in Objects.Components)
+                            {
+                                Component.Init();
+                            }
+                            Objects.SaveModule.Load();
+
+                        }
+                        catch (Exception e)
+                        {
+                            if (Application.isEditor) Debug.LogError(e);
+                        }
                     }
                 }
             }
         }
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.GetComponent<SCPFirstController>() != null)
+            if(CurrentWorkMode== WorkMode.SceneLoadUnload)
             {
-                UnloadScene();
+                if (other.gameObject.GetComponent<SCPFirstController>() != null)
+                {
+                    UnloadScene();
+                }
+            }
+            else
+            {
+                var gos = LoadedScene.GetRootGameObjects();
+                foreach (var item in gos)
+                {
+                    if (item.name == "ModularScenePrefab")
+                    {
+                        //try
+                        //{
+                        var Objects = item.GetComponent<ModularSceneObjects>();
+                        foreach (var Component in Objects.Components)
+                        {
+                            Component.OnDispose();
+                        }
+                        Objects.SaveModule.Save();
+                        Objects.SaveModule.Unregister();
+
+                        //}
+                        //catch (Exception e)
+                        //{
+                        //    if (Application.isEditor) Debug.LogError(e);
+                        //}
+                    }
+                }
+                foreach (var item in gos)
+                {
+                    item.SetActive(false);
+                }
+                
             }
         }
         public void SideStart()
         {
-            if (isDeserialize == false)
+            if(CurrentWorkMode== WorkMode.SceneLoadUnload)
             {
-                if (AutoLoad) { Debug.Log("Auto Load."); LoadTargetScene(); }
+                if (isDeserialize == false)
+                {
+                    if (AutoLoad) { Debug.Log("Auto Load."); LoadTargetScene(); }
+                }
+            }
+            else if (CurrentWorkMode== WorkMode.GameObjectActivation)
+            {
+                LoadTargetScene();
             }
         }
         bool isDeserialize = false;
@@ -236,5 +305,8 @@ namespace Site13Kernel.DynamicScene
             return dataBuffer.ObtainByteArray();
         }
     }
-
+    public enum WorkMode
+    {
+        SceneLoadUnload,GameObjectActivation
+    }
 }
