@@ -5,7 +5,7 @@ using Site13Kernel.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 namespace Site13Kernel
@@ -46,8 +46,11 @@ namespace Site13Kernel
             string LangString = Language.GetString(LanguageCategory.UI, "InteractiveObject", "Press [{0}] to {1} {2}");
             string Key0 = "";
             string Key1 = "";
-            if (Keyboard.current != null) Key0 = SCPInputSystem.CurrentInputSystem.GetKey("Interact", FPSSystem.DeviceType.Keyboard);
-            if (Gamepad.current != null) Key1 = SCPInputSystem.CurrentInputSystem.GetKey("Interact", FPSSystem.DeviceType.Keyboard);
+            
+            //if (Keyboard.current != null)
+                Key0 = SCPInputSystem.CurrentInputSystem.GetKey("Interact", FPSSystem.DeviceType.Keyboard);
+            //if (Gamepad.current != null) 
+                //Key1 = SCPInputSystem.CurrentInputSystem.GetKey("Interact", FPSSystem.DeviceType.Keyboard);
             string FinalKey = "";
             if(Key0 != null)
             {
