@@ -7,10 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SCP-M-Lamp-Light 4
+  m_Name: Effect2 1
   m_Shader: {fileID: 4800000, guid: 34a47d205ffc45e47949b1581df454f1, type: 3}
-  m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 2
+  m_ShaderKeywords: _EMISSION _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -37,11 +37,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 42c07f327497c354589bc8f291e525f5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MKGlowTex:
+        m_Texture: {fileID: 2800000, guid: 42c07f327497c354589bc8f291e525f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 42c07f327497c354589bc8f291e525f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -63,18 +67,23 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.61
-    - _GlossyReflections: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 0
+    - _InvFade: 3
+    - _MKGlowPower: 2.5
+    - _MKGlowTexStrength: 10
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
+    - _SpecularHighlights: 0
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.6045641, g: 0.6045641, b: 0.6045641, a: 0}
+    - _Color: {r: 1, g: 0.21176472, b: 0, a: 1}
+    - _EmissionColor: {r: 2.9960785, g: 1.0352942, b: 0, a: 1}
+    - _MKGlowColor: {r: 1, g: 0.18942153, b: 0, a: 1}
+    - _MKGlowTexColor: {r: 1, g: 0.032495555, b: 0, a: 1}
   m_BuildTextureStacks: []

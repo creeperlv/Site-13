@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -52,6 +52,9 @@
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2021.1.15f1</UnityVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\SCPAssets\Scripts\GenericWeapon.cs" />
     <Compile Include="Assets\AllSkyFree\AllSkyFree_Menu.cs" />
@@ -156,8 +159,8 @@
     <Compile Include="Assets\Table and chair\Standard Assets\Effects\ImageEffects\Scripts\ScreenOverlay.cs" />
     <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Runtime\Attributes\ApplyMethodAttribute.cs" />
     <Compile Include="Assets\SCPAssets\HUDNavi\NavigationPoint.cs" />
-    <Compile Include="Assets\SCPAssets\Scripts\SCPItems.cs" />
     <Compile Include="Assets\Table and chair\Standard Assets\Effects\ImageEffects\Scripts\BlurOptimized.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\SCPItems.cs" />
     <Compile Include="Assets\Aura\Classes\VolumetricTextureArrayComposer.cs" />
     <Compile Include="Assets\Aura\Classes\Texture2DArrayComposer.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\GameInfo.cs" />
@@ -297,8 +300,8 @@
     <Compile Include="Assets\Aura\Statics\FrustumCorners.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPMainUIV2.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\ShiftingTextureMaterialObject.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\Aura\Structs\VolumeData.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\PickableFirstAidKit.cs" />
     <Compile Include="Assets\SplendidExplosionLite\Script\ParticlePeriod.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPResBox.cs" />
@@ -343,12 +346,13 @@
     <Compile Include="Assets\SCPAssets\Scripts\IO\ModularSaveSystemModule-Part2.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\Skip001JButton.cs" />
     <Compile Include="Assets\Table and chair\Standard Assets\Effects\ImageEffects\Scripts\CameraMotionBlur.cs" />
+    <Compile Include="Assets\Aura\Attributes\Texture3DPreviewAttribute.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPOoDV2Manager.cs" />
     <Compile Include="Assets\Table and chair\Standard Assets\Effects\ImageEffects\Scripts\GlobalFog.cs" />
     <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Scripts\Settings.cs" />
-    <Compile Include="Assets\Aura\Attributes\Texture3DPreviewAttribute.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\EFIs\AchievementEFILoader.cs" />
     <Compile Include="Assets\Aura\Classes\LightsManager.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\UI\MainMenuV3.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\IO\ModularSaveSystemModule.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPDebugInfo.cs" />
     <Compile Include="Assets\Aura\Enums\VolumeTypeEnum.cs" />
@@ -392,8 +396,9 @@
     <Compile Include="Assets\FromAssetStore\OBJImport\OBJLoaderHelper.cs" />
     <Compile Include="Assets\FromAssetStore\OBJImport\OBJLoader.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\Bootloader.cs" />
-    <Compile Include="Assets\AdultLink\ShieldShader\Examples\Scripts\TimeController.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\InteractHumanTalking.cs" />
+    <Compile Include="Assets\AdultLink\ShieldShader\Examples\Scripts\TimeController.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\GameLogic\AlwaysLookAt.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\Table and chair\Standard Assets\Effects\ImageEffects\Scripts\NoiseAndGrain.cs" />
     <Compile Include="Assets\FromAssetStore\OBJImport\TextureLoader\DDSLoader.cs" />
@@ -434,14 +439,15 @@
     <Compile Include="Assets\VictorsAssets\TouchControlsKit-Lite\Scripts\Runtime\Controllers\BaseData\ControllerBase.cs" />
     <Compile Include="Assets\Sci-fi-Holographic-Screens\AnimatedTextures.cs" />
     <Compile Include="Assets\Table and chair\Standard Assets\Effects\ImageEffects\Scripts\ContrastStretch.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\FPSSystem\WeaponV3.cs" />
     <Compile Include="Assets\Table and chair\Standard Assets\Effects\CinematicEffects(ALPHA)\AntiAliasing\AntiAliasing.cs" />
     <Compile Include="Assets\FromAssetStore\Ameye\Alex&apos;s Door System Lite\Scripts\Helper Scripts\RotationTools.cs" />
-    <Compile Include="Assets\SCPAssets\Scripts\FPSSystem\WeaponV3.cs" />
     <Compile Include="Assets\AnimatorCOntrollableDoF.cs" />
     <Compile Include="Assets\FromAssetStore\_MK\MKGlowFree\Scripts\Common.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPTimeDelayedDestroyObject.cs" />
     <Compile Include="Assets\AdultLink\ShieldShader\Examples\Scripts\ToggleDistortion.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\IO\ModularSaveSystem.cs" />
+    <Compile Include="Assets\SCPAssets\Scripts\GameLogic\BehaviorController.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\EFIButtons\UEFI_GENERATE_LANG_LIST.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\TraditionalBullet.cs" />
     <Compile Include="Assets\FromAssetStore\OBJImport\CharWordReader.cs" />
@@ -494,7 +500,6 @@
     <Compile Include="Assets\SCPAssets\Scripts\SCPBagSystem.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\FiredFloor.cs" />
     <Compile Include="Assets\SCPAssets\Scripts\SCPInteractive.cs" />
-    <Compile Include="Assets\SCPAssets\Scripts\GameLogic\BehaviorController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Table and chair\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
@@ -1422,11 +1427,11 @@
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Rider.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProGrids.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.ProGrids.Editor.dll</HintPath>
