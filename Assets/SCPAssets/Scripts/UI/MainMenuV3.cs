@@ -14,10 +14,14 @@ namespace Site13Kernel.UI
         {
             foreach (var item in pages)
             {
-                item.Button.onClick.AddListener(() => {
-                    HideAllPages();
-                    item.Show();
-                });
+                foreach (var btn in item.Buttons)
+                {
+                    btn.onClick.AddListener(() =>
+                    {
+                        HideAllPages();
+                        item.Show();
+                    });
+                }
             }
         }
         void HideAllPages()
@@ -31,7 +35,7 @@ namespace Site13Kernel.UI
     [Serializable]
     public class ButtonedPage
     {
-        public Button Button;
+        public List<Button> Buttons;
         public GameObject Page;
         public void Hide()
         {
