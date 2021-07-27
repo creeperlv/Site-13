@@ -12,6 +12,8 @@ namespace Site13Kernel.UI
         public List<ButtonedPage> pages=new List<ButtonedPage>();
         public override void Init()
         {
+            if (!GameInfo.MainUIBGM.isPlaying)
+                GameInfo.MainUIBGM.Play();
             foreach (var item in pages)
             {
                 foreach (var btn in item.Buttons)

@@ -13,10 +13,19 @@ namespace Site13Kernel.UI
         public int MainMenuSceneID;
         Color c1;
         Color c2;
+        public AudioSource MainUIBGM;
+        public AudioSource Wooon;
         void Start()
         {
             c1 = Cover.color;
             c2 = HintText.color;
+            if (GameInfo.MainUIBGM == null)
+            {
+                GameInfo.MainUIBGM = MainUIBGM;
+                DontDestroyOnLoad(MainUIBGM);
+                GameInfo.MainUIBGM.Play();
+            }else
+                MainUIBGM.Stop();
         }
         int State0=0;
         bool State1=false;
@@ -25,6 +34,7 @@ namespace Site13Kernel.UI
             if (State0 < 2)
                 if (Input.anyKeyDown)
                 {
+                    Wooon.Play();
                     HintText.gameObject.SetActive(false);
                     State0 = 2;
                 }

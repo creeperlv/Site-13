@@ -12,6 +12,7 @@ namespace Site13Kernel
 {
     public class GameInfo
     {
+        public static AudioSource MainUIBGM=null;
         public static GameInfo CurrentGame = new GameInfo("DEBUG");
         public int BaseSeed = int.MinValue+1;
         private static List<bool> achievements = new List<bool>();
