@@ -9,11 +9,14 @@ namespace Site13Kernel.UI
 {
     public class MainMenuV3 : ControlledBehavior
     {
+        public Transform CampaignHolder;
+        public GameObject CampaignButton;
         public List<ButtonedPage> pages=new List<ButtonedPage>();
         public override void Init()
         {
-            if (!GameInfo.MainUIBGM.isPlaying)
-                GameInfo.MainUIBGM.Play();
+            if (GameInfo.MainUIBGM != null)
+                if (!GameInfo.MainUIBGM.isPlaying)
+                    GameInfo.MainUIBGM.Play();
             foreach (var item in pages)
             {
                 foreach (var btn in item.Buttons)
