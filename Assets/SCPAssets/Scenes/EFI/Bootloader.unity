@@ -5337,6 +5337,7 @@ Transform:
   - {fileID: 1987224855}
   - {fileID: 1133456693}
   - {fileID: 1700889888}
+  - {fileID: 1891619724}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5383,6 +5384,7 @@ MonoBehaviour:
   - {fileID: 1700889887}
   - {fileID: 261386598}
   - {fileID: 1987224854}
+  - {fileID: 1891619723}
 --- !u!114 &686267928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15971,6 +15973,63 @@ MonoBehaviour:
     maxValue: 10
   bloomScattering: 5.5
   bloomIntensity: 2
+--- !u!1 &1891619723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1891619724}
+  - component: {fileID: 1891619725}
+  m_Layer: 0
+  m_Name: DefinitionEFI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1891619724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891619723}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 395839532}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1891619725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891619723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a92ad9a224e716d4c9fdfce85c028d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  definitions:
+  - NameID: Mission.0.Name
+    DispFallback: Prologue
+    TargetScene: 0
+    ImageID: 0
+  - NameID: Mission.1.Name
+    DispFallback: Sub Level 1
+    TargetScene: 0
+    ImageID: 0
+  sprites:
+  - Path: Campaign_Snap/image_001_0000
+    WorkMode: 0
+    LoadedSprite: {fileID: 0}
+  textures: []
 --- !u!1 &1987224854
 GameObject:
   m_ObjectHideFlags: 0

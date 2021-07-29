@@ -9,6 +9,8 @@ using System.Collections;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
+using Site13Kernel.GameLogic;
+using Site_13ToolLib.Globalization;
 
 namespace Site13Kernel.UI.Customed
 {
@@ -16,16 +18,21 @@ namespace Site13Kernel.UI.Customed
     {
         public GameObject HintImage;
         public Image BackgroundImage;
+        public Text MissionName;
         public Action OnClick=null;
         [HideInInspector]
         public CampaignButtonGroup CampaignParent;
         protected CampaignButton()
         {
         }
-        public void Init(CampaignButtonGroup parent)
+        MissionDefinition definition;
+        public void Init(CampaignButtonGroup parent,MissionDefinition definition)
         {
             CampaignParent = parent;
-
+            parent.Children.Add(this);
+            this.definition= definition;
+            BackgroundImage.sprite = GameInfo.CurrentGameDef.Sprites[this.definition.ImageID].LoadedSprite;
+            MissionName.text = Language.GetString(LanguageCategory.UI, this.definition.NameID, this.definition.DispFallback);
         }
         public void Hint()
         {
