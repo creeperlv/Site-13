@@ -16,17 +16,20 @@ namespace Site13Kernel.UI
         public override void Init()
         {
             {
-                for (int i = CampaignHolder.childCount-1; i>=0 ; i--)
+                for (int i = CampaignHolder.childCount - 1; i >= 0; i--)
                 {
                     Destroy(CampaignHolder.GetChild(i).gameObject);
                 }
                 CampaignButtonGroup group=new CampaignButtonGroup();
-                foreach (var item in GameInfo.CurrentGameDef.MissionCollections[0].MissionDefinitions)
-                {
-                    var b=Instantiate(CampaignButton, CampaignHolder);
-                    var cb=b.GetComponent<CampaignButton>();
-                    cb.Init(group,item);
-                }
+                if (GameInfo.CurrentGameDef != null)
+                    if (GameInfo.CurrentGameDef.MissionCollections != null)
+                        if (GameInfo.CurrentGameDef.MissionCollections.Count > 0)
+                            foreach (var item in GameInfo.CurrentGameDef.MissionCollections[0].MissionDefinitions)
+                            {
+                                var b=Instantiate(CampaignButton, CampaignHolder);
+                                var cb=b.GetComponent<CampaignButton>();
+                                cb.Init(group, item);
+                            }
             }
             if (GameInfo.MainUIBGM != null)
                 if (!GameInfo.MainUIBGM.isPlaying)
