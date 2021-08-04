@@ -6,27 +6,25 @@ namespace Site13Kernel.GameLogic
 {
     public class BehaviorController : MonoBehaviour
     {
-        public List<ControlledBehavior> OnInit=new List<ControlledBehavior>();
-        public List<ControlledBehavior> OnUpdate=new List<ControlledBehavior>();
-        public List<ControlledBehavior> OnFixedUpdate=new List<ControlledBehavior>();
+        public BehaviorCollection ControlledBehavior;
         // Start is called before the first frame update
         public T GetBehavior<T>() where T:ControlledBehavior
         {
-            foreach (var item in OnInit)
+            foreach (var item in ControlledBehavior.OnInit)
             {
                 if (item is T)
                 {
                     return (T)item;
                 }
             }
-            foreach (var item in OnUpdate)
+            foreach (var item in ControlledBehavior.OnUpdate)
             {
                 if (item is T)
                 {
                     return (T)item;
                 }
             }
-            foreach (var item in OnFixedUpdate)
+            foreach (var item in ControlledBehavior.OnFixedUpdate)
             {
                 if (item is T)
                 {
@@ -37,7 +35,7 @@ namespace Site13Kernel.GameLogic
         }
         void Start()
         {
-            foreach (var item in OnInit)
+            foreach (var item in ControlledBehavior.OnInit)
             {
                 item.Init();
             }
@@ -47,7 +45,7 @@ namespace Site13Kernel.GameLogic
         void Update()
         {
             var t=Time.deltaTime;
-            foreach (var item in OnUpdate)
+            foreach (var item in ControlledBehavior.OnUpdate)
             {
                 item.Refresh(t);
             }
@@ -55,11 +53,19 @@ namespace Site13Kernel.GameLogic
         private void FixedUpdate()
         {
             var t=Time.fixedDeltaTime;
-            foreach (var item in OnFixedUpdate)
+            foreach (var item in ControlledBehavior.OnFixedUpdate)
             {
                 item.FixedRefresh(t);
             }
         }
+    }
+    [Serializable]
+    public class BehaviorCollection
+    {
+
+        public List<ControlledBehavior> OnInit=new List<ControlledBehavior>();
+        public List<ControlledBehavior> OnUpdate=new List<ControlledBehavior>();
+        public List<ControlledBehavior> OnFixedUpdate=new List<ControlledBehavior>();
     }
     [Serializable]
     public class ControlledBehavior : MonoBehaviour

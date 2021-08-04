@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TouchControlsKit;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Site13Kernel.UI
@@ -10,6 +12,8 @@ namespace Site13Kernel.UI
     public class SettingsPage : MonoBehaviour
     {
         public static SettingsPage CurrentSettingsPage;
+        public static Action OnBack=null;
+        public Button BackButton;
         public List<TabSection> TabPages;
         public RawImage Background;
         public float BackgroundAnimateTime;
@@ -22,6 +26,13 @@ namespace Site13Kernel.UI
         void Start()
         {
             CurrentSettingsPage = this;
+            BackButton.onClick.AddListener(() => {
+                if (OnBack != null)
+                {
+                    OnBack();
+                }
+                SceneManager.UnloadSceneAsync("SettingsUI");
+            });
             Dialog.SetActive(false);
             {
                 var rt = CentralContent.gameObject.transform as RectTransform;
@@ -57,7 +68,7 @@ namespace Site13Kernel.UI
                     TabIndex = index;
                     item.BGImg.gameObject.SetActive(true);
                     var t = item.button.gameObject.transform.Find("Text").GetComponent<Text>();
-                    t.color = new Color(1, 1, 1);
+                    t.color = new Color(0, 0, 0);
                     item.TargetPage.SetActive(true);
                 });
             }
@@ -79,7 +90,7 @@ namespace Site13Kernel.UI
             {
                 item.BGImg.gameObject.SetActive(false);
                 var t = item.button.gameObject.transform.Find("Text").GetComponent<Text>();
-                t.color = new Color(170f / 255f, 203f / 255f, 236f / 255f);
+                t.color = new Color(1,1,1);
                 item.TargetPage.SetActive(false);
             }
         }

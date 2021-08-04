@@ -4,12 +4,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Site13Kernel.UI
 {
     public class MainMenuV3 : ControlledBehavior
     {
+        #region 
+        public Button SettingsButton;
+        #endregion
         public Transform CampaignHolder;
         public GameObject CampaignButton;
         public List<ButtonedPage> pages=new List<ButtonedPage>();
@@ -45,6 +49,13 @@ namespace Site13Kernel.UI
                     });
                 }
             }
+            SettingsButton.onClick.AddListener(() => {
+                this.GetComponent<CanvasGroup>().interactable=false;
+                SceneManager.LoadScene("SettingsUI", LoadSceneMode.Additive);
+                SettingsPage.OnBack = () => {
+                    this.GetComponent<CanvasGroup>().interactable = true;
+                };
+            });
         }
         void HideAllPages()
         {
