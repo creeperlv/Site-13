@@ -3,6 +3,7 @@ using CLUNL.Data.Serializables.CheckpointSystem.Types;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -76,6 +77,20 @@ namespace Site13Kernel.GameLogic.CampaignActions
     public class WaitUntilLastSceneDone : CampaignAction
     {
 
+    }
+    [Serializable]
+    public class WaitForEnterAABB : CampaignAction
+    {
+        public float3 A; 
+        public float3 B; 
+    }
+    [Serializable]
+    public class WaitUntilHealth : CampaignAction
+    {
+        /// <summary>
+        /// Negative: Smaller than value. Positive: Greater than value.
+        /// </summary>
+        public float Threshold;
     }
     [Serializable]
     public class SetCheckpoint : CampaignAction

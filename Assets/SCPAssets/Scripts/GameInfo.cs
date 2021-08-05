@@ -3,6 +3,7 @@ using Site13Kernel.EFI;
 using Site13Kernel.Experimentals.OoD.V1;
 using Site13Kernel.Experimentals.OoD.V2;
 using Site13Kernel.GameLogic;
+using Site13Kernel.GameLogic.CampaignActions;
 using Site13Kernel.IO;
 using Site13Kernel.UI;
 using System.Collections;
@@ -14,6 +15,7 @@ namespace Site13Kernel
     public class GameInfo
     {
         public static GameDefinition CurrentGameDef;
+        public static List<CampaignAction> Script;
         public static AudioSource MainUIBGM=null;
         public static GameInfo CurrentGame = new GameInfo("DEBUG");
         public int BaseSeed = int.MinValue+1;
