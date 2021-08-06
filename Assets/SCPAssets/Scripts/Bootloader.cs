@@ -15,7 +15,7 @@ namespace Site13Kernel
         public TextAsset buildIndo;
         public List<Image> Logos;
         public List<float> DurationTimes;
-        public List<GameObject> GameObjectsThatHoldsEFI;
+        public List<EFIBase> GameObjectsThatHoldsEFI;
         void Start()
         {
             //Init Lib.
@@ -94,7 +94,7 @@ namespace Site13Kernel
             StartCoroutine(LogoSequence());
             foreach (var item in GameObjectsThatHoldsEFI)
             {
-                item.GetComponent<EFIBase>().Run();
+                item.Run();
             }
         }
 
