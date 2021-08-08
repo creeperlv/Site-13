@@ -84,6 +84,36 @@ namespace Site13Kernel.UI.Customed
 
             DoStateTransition(base.currentSelectionState, instant: false);
         }
+
+        public void SetProperty(string Key, object Value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetProperty(string Key, string Value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Property GetProperty(string Key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetPropertyValue(string Key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Show()
+        {
+            this.gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            this.gameObject.SetActive(false);
+        }
     }
     [Serializable]
     public class CampaignButtonGroup
