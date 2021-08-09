@@ -4,18 +4,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LanguageTool.MainWindow"
-        Title="LanguageTool">
+        Title="LanguageTool" Background="Transparent">
   <DockPanel>
     <Grid DockPanel.Dock="Top">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
         <RowDefinition/>
       </Grid.RowDefinitions>
-      <Grid Height="28" IsHitTestVisible="False" Background="#333">
+      <Grid Height="28" IsHitTestVisible="False" Background="{DynamicResource CommonHeaderBackground}">
         <TextBlock Text="Language Tool" Classes="TitleBar" VerticalAlignment="Center"/>
       </Grid>
       <Border Grid.Row="1" BorderBrush="{DynamicResource CommonBorder}" BorderThickness="0,0,0,2">
-        <Grid  Background="#333">
+        <Grid  Background="{DynamicResource CommonHeaderBackground}">
           <Grid Margin="5">
             <StackPanel Orientation="Horizontal">
               <Button Classes="CommandButton">
@@ -23,7 +23,7 @@
                   <Grid Margin="5,0" Width="24" Height="24">
                     <Viewbox Width="24" Height="24" VerticalAlignment="Center">
                       <Canvas Width="24" Height="24">
-                        <Path Fill="{DynamicResource CommonForeground}" Data="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                        <Path Fill="{DynamicResource CommonIconForeground_Plain}" Data="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
                       </Canvas>
                     </Viewbox>
                     <Viewbox Width="18" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -64,12 +64,12 @@
               <Grid Classes="Spliter"/>
 
               <!--<Grid Width="1" Margin="0,5" Background="{DynamicResource CommonBorder}"></Grid>-->
-              <Button Classes="CommandButton">
+              <Button Classes="CommandButton" Name="AboutButton">
                 <StackPanel Orientation="Horizontal">
                   <Grid Margin="5,0" Width="24" Height="24">
                     <Viewbox Width="24" Height="24" VerticalAlignment="Center">
                       <Canvas Width="24" Height="24">
-                        <Path Fill="{DynamicResource CommonForeground}" Data="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                        <Path Fill="{DynamicResource CommonIconForeground_Plain}" Data="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
                       </Canvas>
                     </Viewbox>
 
@@ -84,13 +84,13 @@
         </Grid>
       </Border>
     </Grid>
-    <Grid >
+    <Grid Background="Transparent">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="250" MinWidth="250"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition/>
       </Grid.ColumnDefinitions>
-      <Grid Background="#222">
+      <Grid Background="{DynamicResource CommonSidePanelBackground}">
         <Grid Margin="8">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -107,9 +107,9 @@
 
       </Grid>
       <GridSplitter Background="{DynamicResource CommonBorder}" Grid.Column="1"/>
-      <Grid>
+      <Grid Grid.Column="2" Background="{DynamicResource CommonEditorBackground}">
         <ScrollViewer Margin="0,0,8,8">
-          <StackPanel Name="CentralEditor"></StackPanel>
+          <StackPanel x:Name="CentralEditor"></StackPanel>
         </ScrollViewer>
       </Grid>
     </Grid>
