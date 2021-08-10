@@ -18,6 +18,14 @@ Main development activity of Site-13 is on this branch.
 
 I started this project in the year of 2018 when I was at Grade 3, senior high school. Then after I graduated from school, when I was modifying some models, it crashed. So I remade the game. It's the version 0.1.82.x. Some codes are from old versions and modified a lot.
 
+## Future Plan
+
+- Split game story into multiple campaigns.
+
+- Switch to **URP**.
+
+- Dispose some weapons with ugly models I made few years ago.
+
 ## Why not HDRP
 
 HDRP is proved to be buggy with DX12 on my computer. Also, HDRP will effect performance greatly. Upgrading such a large project to HDRP is too costly.
