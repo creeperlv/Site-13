@@ -42,6 +42,28 @@ namespace CommonTools
                 _DialogTitle.Text = value;
             }
         }
+        public bool isOKEnabled
+        {
+            get
+            {
+                return OKButton.IsVisible;
+            }
+            set
+            {
+                OKButton.IsVisible = value;
+            }
+        }
+        public bool isCancelEnabled
+        {
+            get
+            {
+                return CancelButton.IsVisible;
+            }
+            set
+            {
+                CancelButton.IsVisible = value;
+            }
+        }
         Button CancelButton;
         Button OKButton;
         Grid ContentPresenter;
@@ -54,7 +76,8 @@ namespace CommonTools
                 if (CancelAction is not null)
                     CancelAction();
             };
-            OKButton.Click += (_, _) => {
+            OKButton.Click += (_, _) =>
+            {
                 this.Close();
                 if (OKAction is not null)
                     OKAction();
@@ -65,12 +88,15 @@ namespace CommonTools
             AvaloniaXamlLoader.Load(this);
             this.ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome;
             this.ExtendClientAreaToDecorationsHint = true;
-            this.TransparencyLevelHint = WindowTransparencyLevel.Blur;
+            //this.TransparencyLevelHint = WindowTransparencyLevel.Blur;
             this.SystemDecorations = SystemDecorations.BorderOnly;
             CancelButton = this.FindControl<Button>("CancelButton");
             OKButton = this.FindControl<Button>("OKButton");
             ContentPresenter = this.FindControl<Grid>("ContentPresenter");
             _DialogTitle = this.FindControl<TextBlock>("DialogTitle");
+            this.Closing += (_,_) => {
+                ContentPresenter.Children.Clear();
+            };
             Init();
         }
     }

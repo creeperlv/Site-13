@@ -5,19 +5,24 @@
         mc:Ignorable="d" Width="500" Height="350" Background="Transparent"
         x:Class="CommonTools.Dialog" WindowStartupLocation="CenterOwner"
         Title="Dialog">
-  <DockPanel>
-    <Grid DockPanel.Dock="Bottom"
-          Background="{DynamicResource CommonHeaderBackground}">
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-        <Button Content="OK" Name="OKButton"/>
-        <Button Content="Cancel" Name="CancelButton"/>
-      </StackPanel>
-    </Grid>
-    <Grid DockPanel.Dock="Top" Height="28" IsHitTestVisible="False"
- Background="{DynamicResource CommonSidePanelBackground}">
-      <TextBlock Name="DialogTitle" Text="Title" VerticalAlignment="Center" Margin="5,0"/>
-    </Grid>
-    <Grid Name="ContentPresenter"
-          Background="{DynamicResource CommonSidePanelBackground}"/>
-  </DockPanel>
+  <Grid>
+    <DockPanel Margin="5">
+      <Grid DockPanel.Dock="Bottom"
+            Background="{DynamicResource CommonHeaderBackground}">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+          <Button Content="OK" Name="OKButton" Classes="VMini Accent"/>
+          <Button Content="Cancel" Name="CancelButton" Classes="VMini"/>
+        </StackPanel>
+      </Grid>
+      <Grid DockPanel.Dock="Top" Height="28" IsHitTestVisible="False"
+   Background="{DynamicResource CommonSidePanelBackground}">
+        <TextBlock Name="DialogTitle" Text="Title" VerticalAlignment="Center" Margin="5,0"/>
+      </Grid>
+      <Grid Name="ContentPresenter"
+            Background="{DynamicResource CommonSidePanelBackground}"/>
+    </DockPanel>
+    <Border BorderThickness="5" BorderBrush="{DynamicResource CommonBorder}" IsHitTestVisible="False"></Border>
+    <Border BorderThickness="5" BorderBrush="{DynamicResource CommonBorder}" IsHitTestVisible="False" CornerRadius="5"></Border>
+  </Grid>
+
 </Window>

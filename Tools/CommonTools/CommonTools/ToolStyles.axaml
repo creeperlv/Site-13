@@ -21,6 +21,9 @@
       <Color x:Key="ButtonBackground_Normal">#0EEE</Color>
       <Color x:Key="ButtonBackground_Highlight">#2EEE</Color>
       <Color x:Key="ButtonBackground_Pressed">#1EEE</Color>
+      <Color x:Key="ButtonBackground_Accent_Normal">#28E</Color>
+      <Color x:Key="ButtonBackground_Accent_Highlight">#39F</Color>
+      <Color x:Key="ButtonBackground_Accent_Pressed">#17D</Color>
     </Style.Resources>
   </Style>
   <Style Selector="Window">
@@ -92,6 +95,9 @@
     <Setter Property="Padding" Value="0,4,8,4"/>
     <Setter Property="Margin" Value="2,2"/>
   </Style>
+  <Style Selector="Button.VMini">
+    <Setter Property="Padding" Value="15,4"/>
+  </Style>
   <!-- PointerOverState -->
   <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource ButtonBackground_Highlight}" />
@@ -100,6 +106,20 @@
 
   <Style Selector="Button:pressed  /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource ButtonBackground_Pressed}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
+  </Style>
+
+  <Style Selector="Button.Accent">
+    <Setter Property="Background" Value="{DynamicResource ButtonBackground_Accent_Normal}" />
+  </Style>
+
+  <Style Selector="Button.Accent:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource ButtonBackground_Accent_Highlight}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+  </Style>
+
+  <Style Selector="Button.Accent:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource ButtonBackground_Accent_Pressed}" />
     <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
   </Style>
 

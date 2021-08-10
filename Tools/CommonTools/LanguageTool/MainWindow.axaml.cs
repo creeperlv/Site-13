@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using CommonTools;
+using Markdown.Avalonia;
 using System.Diagnostics;
 
 namespace LanguageTool
@@ -18,10 +19,14 @@ namespace LanguageTool
         }
         void Init()
         {
+            MarkdownScrollViewer markdownScrollViewer=new MarkdownScrollViewer();
+            markdownScrollViewer.Markdown = $"# Site-13 Tool Set\n\n## Language Tool\n\n- Version:{typeof(MainWindow).Assembly.GetName().Version}\n\n" +
+                $"## Third-Party Libs\n\n- AvaloniaUI\n\n- Markdown.Avalonia";
             AboutButton.Click += (_, _) => {
                 Dialog dialog=new Dialog();
                 dialog.DialogTitle = "About";
-                dialog.DialogContent = new TextBlock {Text="Language Tool\nSite-13 Toolset" };
+                dialog.DialogContent = markdownScrollViewer;
+                dialog.isCancelEnabled=false;
                 dialog.ShowDialog(this);
             };
             Load();

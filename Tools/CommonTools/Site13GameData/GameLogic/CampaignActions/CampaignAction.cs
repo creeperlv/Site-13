@@ -38,4 +38,12 @@ namespace Site13GameData.GameLogic.CampaignActions
     {
 
     }
+    [Serializable]
+    public class HidePlayer : CampaignAction
+    {
+    }
+    [Serializable]
+    public class ShowPlayer : CampaignAction
+    {
+    }
 }
